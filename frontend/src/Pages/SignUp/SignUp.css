@@ -1,4 +1,4 @@
-.signin-wrapper {
+.signup-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,7 +22,7 @@
     padding: 1.5vh 1vw;
     font-size: 1.2rem;
     color: #fff;
-    background-color: #28a745;
+    background-color: #007bff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -30,22 +30,21 @@
   }
 
   button:hover {
-    background-color: #218838;
+    background-color: #0056b3;
   }
 
   button:focus {
     outline: none;
-    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   }
 }
-
 @media (max-width: 768px) {
-  .signin-wrapper {
+  .signup-wrapper {
     width: 95vw;
     padding: 4vh 3vw;
   }
 
-  .signin-wrapper button {
+  .signup-wrapper button {
     font-size: 1rem;
     padding: 1.2vh 1vw;
   }
