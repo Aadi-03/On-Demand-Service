@@ -1,14 +1,47 @@
-import './App.css'
-import LandingPage from './Pages/LandingPage/LandingPage'
-import SignIn from './Pages/SignIn/SignIn'
+import "./App.css";
+import LandingPage from "./Pages/LandingPage/LandingPage.jsx";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+import SignIn from "./Pages/SignIn/SignIn.jsx";
+import SignInCustomer from "./Pages/SignIn/SignInCustomer.jsx";
+import SignInTradesman from "./Pages/SignIn/SignInTradesman.jsx";
+
+import SignUp from "./Pages/SignUp/SignUp.jsx";
+import SignUpCustomer from "./Pages/SignUp/SignUpCustomer.jsx";
+import SignUpTradesman from "./Pages/SignUp/SignUpTradesman.jsx";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <LandingPage />,
+  },
+  { path: "/signupcustomer", 
+    element: <SignUpCustomer /> 
+  },
+  {
+    path: "/signuptradesman",
+    element: <SignUpTradesman />,
+  },
+  { path: "/signup", 
+    element: <SignUp /> 
+  },
+  {
+    path: "/signin",
+    element: <SignIn />,
+  },
+  { path: "/signincustomer", 
+    element: <SignInCustomer /> 
+  },
+  {
+    path: "/signintradesman",
+    element: <SignInTradesman />,
+  },
+]);
 
 const App = () => {
   return (
-    <>
-      <LandingPage />
-    </>
-  )
-}
+    <RouterProvider router={router}/>
+  );
+};
 
-
-export default App
+export default App;
