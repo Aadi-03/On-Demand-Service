@@ -1,10 +1,11 @@
 import "./SignUpCustomer.css";
 import React, { useState, useEffect } from "react";
-
+import axios from "axios";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/Footer/Footer";
-
+import { useNavigate } from "react-router-dom";
 const SignUpCustomer = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -18,7 +19,8 @@ const SignUpCustomer = () => {
     gender: "",
     password: "",
     longitude: "",
-    latitude: ""
+    latitude: "",
+    pincode: ""
   });
 
   useEffect(() => {
@@ -49,6 +51,51 @@ const SignUpCustomer = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+    let data = JSON.stringify({
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      dob: formData.dob,
+      phoneNumber: formData.mobileNo,
+      email: formData.email,
+      houseNumber: formData.houseNumber,
+      streetName: formData.streetName,
+      state: formData.state,
+      country: formData.country,
+      password: formData.password,
+      longitude: formData.longitude,
+      latitude: formData.latitude,
+      gender: formData.gender,
+      pincode: formData.pincode
+    });
+    
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'http://localhost:3000/customer/signup',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+    };
+    
+    async function makeRequest() {
+      try {
+        const response = await axios.request(config);
+        console.log(JSON.stringify(response.data));
+        if (response.data.error) {
+          alert(response.data.error);
+        } else {
+          alert("Customer signed up successfully");
+          localStorage.setItem("customerToken", JSON.stringify(response.data.token));
+          navigate("/customer/dashboard");
+        }
+      }
+      catch (error) {
+        console.log(error);
+      }
+    }
+    
+    makeRequest();
   };
 
   return (
@@ -123,6 +170,8 @@ const SignUpCustomer = () => {
             <option value="UT">Uttarakhand</option>
             <option value="WB">West Bengal</option>
           </select>
+          <label>PinCode : </label>
+          <input type="text" name="pincode" value={formData.pincode} onChange={handleChange} />
           <label>Country: </label>
           <input type="text" name="country" value="India" readOnly />
         </div>
