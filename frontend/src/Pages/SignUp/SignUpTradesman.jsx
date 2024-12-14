@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./SignUpTradesman.css";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/Footer/Footer";
 
+import axios from 'axios';
 const SignUpTradesman = () => {
+  const naviagate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     dob: "",
-    mobileNo: "",
+    phoneNumber: "",
     email: "",
     houseNumber: "",
     streetName: "",
     state: "",
-    pinCode: "",
+    pincode: "",
     country: "India",
-    // photograph: null,
+    photoLink: null,
     gender: "",
-    aadharNo: "",
+    aadharNumber: "",
     workType: "",
     password: "",
     latitude: null,
@@ -51,6 +54,55 @@ const SignUpTradesman = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
+    let data = JSON.stringify({
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      dob: formData.dob,
+      phoneNumber: formData.phoneNumber,
+      email: formData.email,
+      houseNumber: formData.houseNumber,
+      streetName: formData.streetName,
+      state: formData.state,
+      pincode: formData.pincode,
+      country: formData.country,
+      photoLink: formData.photoLink,
+      longitude: formData.longitude,
+      latitude: formData.latitude,
+      workType: formData.workType,
+      gender: formData.gender,
+      password: formData.password,
+      aadharNumber: formData.aadharNumber
+    });
+    
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'http://localhost:3000/provider/signup',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+    };
+    
+    async function makeRequest() {
+      try {
+        const response = await axios.request(config);
+        console.log(JSON.stringify(response.data));
+        if (response.data.error) {
+          alert(response.data.error);
+        }
+        else{
+          alert("Provider signed up successfully");
+          localStorage.setItem('tradesmanToken', JSON.stringify(response.data.token));
+          naviagate('/provider/dashboard');
+        }
+      }
+      catch (error) {
+        console.log(error);
+      }
+    }
+    
+    makeRequest();
   };
 
   return (
@@ -70,7 +122,7 @@ const SignUpTradesman = () => {
           </div>
           <div className="phonenumber-wrapper">
             <label>Mobile No.: </label>
-            <input type="text" name="mobileNo" placeholder="mobile no." onChange={handleChange} />
+            <input type="text" name="phoneNumber" placeholder="mobile no." onChange={handleChange} />
           </div>
           <div className="email-wrapper">
             <label>Email: </label>
@@ -123,7 +175,7 @@ const SignUpTradesman = () => {
               <option value="WB">West Bengal</option>
             </select>
             <label>PinCode : </label>
-            <input type="text" name="pinCode" onChange={handleChange} />
+            <input type="text" name="pincode" onChange={handleChange} />
             <label>Country: </label>
             <input type="text" name="country" value="India" readOnly />
           </div>
@@ -142,7 +194,7 @@ const SignUpTradesman = () => {
           </div>
           <div className="aadhar-wrapper">
             <label>Aadhar No : </label>
-            <input type="text" name="aadharNo" onChange={handleChange} />
+            <input type="text" name="aadharNumber" onChange={handleChange} />
           </div>
           <div className="worktype-wrapper">
             <label>Work Type :</label>
