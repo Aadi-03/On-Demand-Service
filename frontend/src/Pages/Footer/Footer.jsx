@@ -1,59 +1,49 @@
 import React from "react";
-import logo from "../../../public/Company-Logo.png";
+import logo from "../../assets/LandingPageImages/Company-Logo.png";
+import facebook from "../../assets/LandingPageImages/facebook.png";
+import instagram from "../../assets/LandingPageImages/instagram.png";
+import twitter from "../../assets/LandingPageImages/twitter.png";
+import linkedin from "../../assets/LandingPageImages/linkedin.png";
+
 import "./Footer.css";
 
 const Footer = () => {
   return (
-    <div className="footer-wrapper">
-      <img src={logo} alt="" className="logo" />
-      <div className="category-wrapper">
-        <div className="company-wrapper">
-            <h3>Company</h3>
-          <div>
-            <p>About Us</p>
-          </div>
-          <div>
-            <p>Terms & Conditions</p>
-          </div>
-          <div>
-            <p>Privacy Policy</p>
+    <footer>
+      <div className="image-container">
+        <img src={logo} alt="Company Logo" />
+      </div>
+      <div className="content">
+        <div className="container">
+          <h1>Company</h1>
+          <p>About Us</p>
+          <p>Terms & Condition</p>
+          <p>Privacy Policy</p>
+        </div>
+        <div className="container">
+          <h1>For Customer</h1>
+          <p>Contact Us</p>
+          <p>On Demad Service Reviews</p>
+        </div>
+        <div className="container">
+          <h1>For Professionals</h1>
+          <p>Register as a Professional</p>
+        </div>
+        <div className="container">
+          <h1>Social Links</h1>
+          <div className="links">
+            <a href=""><img src={twitter} alt="" /></a>
+            <a href=""><img src={instagram} alt="" /></a>
+            <a href=""><img src={facebook} alt="" /></a>
+            <a href=""><img src={linkedin} alt="" /></a>
           </div>
         </div>
-        <div className="customer-wrapper">
-            <h3>For Customers</h3>
-          <div>
-            <p>Contact Us</p>
-          </div>
-          <div>
-            <p>On Demand Service Reviews</p>
-          </div>
-        </div>
-        <div className="professional-wrapper">
-            <h3>For Professionals</h3>
-          <div>
-            <p>Register as a professional</p>
-          </div>
-        </div>
-        <div className="social-link-wrapper">
-            <h3>Social Links</h3>
-          <div>
-            <img src="" alt="" />
-            <p>Twitter</p>
-          </div>
-          <div>
-            <img src="" alt="" />
-            <p>Facebook</p>
-          </div>
-          <div>
-                <img src="" alt="" />
-                <p>Instagram</p>
-            </div>
-        </div>
-        </div>
-        <div className="copyright"> 
-            <p>Copyright@2024 All Rights Reserved</p>
-        </div>
-    </div>
+      </div>
+      <div className="copyright">
+        Copyright © 2024 All Rights Reserved
+      </div>
+      
+    </footer>
   );
 };
 

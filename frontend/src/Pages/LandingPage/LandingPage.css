@@ -38,7 +38,6 @@
                 }
         }
 
-
         .icons{
                 display: flex;
                 justify-content: space-around;
@@ -56,6 +55,32 @@
                 }
         }
 
+        .signupsignin{
+                display: flex;
+                justify-content: cetner;
+                align-items: center;
+
+                height : 60px;
+                gap : 1rem;
+                .signup,
+                .signin{
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height : 5vh;
+                        width : 8vw;
+                        font-size: 1.2rem;
+                        font-weight: bolder;
+                        border-radius: 10px;
+                        color: black;
+                        border : none;
+                        &:hover{
+                                cursor: pointer;
+                                border: 1px solid black;
+                        }
+                }
+        }
+
 }
 
 .horizontal-rule{
@@ -67,67 +92,84 @@
         width : 100vw;
         height : 110vh;
         overflow-x: hidden;
+
         .info-services{
                 display: flex;
                 flex-direction: column;
-                
+                justify-content: center;
+                align-items: center;
                 background-color:whitesmoke;
-                width : 50vw;
-                height : 100%;
-
-        }
-
-        .info-services{
-                .text h1{
-                        margin-top: 8vh;
-                        margin-bottom: 2vh;
-                        margin-left: 1vh;
-                        width: 55%;
-                        font-size: 8vh;
-                        
-                }
-                .text p{
-                        margin-bottom: 2vh;
-                        font-size: 4vh;
-                        margin-left: 2vh;
-                        font-weight: bolder;
-                        
+                width : 50vw;   
+                .text {
+                        display: flex;
+                        font-family: Arial, Helvetica, sans-serif;
+                        flex-direction: column;
+                        letter-spacing: 1px;
+                        margin-bottom: 40px;
+                        width : 70%;
+                        h1{
+                                width : 100%;
+                                justify-self: center;
+                                font-size: 3rem;
+                        }
+                        p{
+                                width : 60%;
+                                font-size: 1.5rem;
+                                font-weight: bolder;
+                                
+                        }
                 }
                 .services{
-                        margin-left: 5vw;
-                        margin-top: 10vh;
-                        width: 70%;
-                        height:40%;
+                        background-color: white;
+                        width : 70%;
+                        height: 50%;
                         padding:1vw;
                         border: 1px solid gainsboro;
-                        border-radius: 15px;
+                        border-radius: 5px;
                         box-shadow: 0.25px 0.25px 0.1px 0.1px grey;
                         overflow: hidden;
+                        display : flex;
+                        flex-direction: column;
+                        justify-content: space-around;
                         p{
                                 font-size: x-large;
+                                font-weight: bolder;
                         }
                         .services-logo{
-                                margin-top: 10vh;
                                 display: flex;
-                                justify-content: space-evenly;
-                                height: 90%;
-                                div{
-                                        margin: 1vh;
-                                        text-align: center;
-                                        background-color: gainsboro;
-                                        padding: 2%;
-                                        height:18vh;
-                                        width: 25vh;
-                                        border-radius: 10px;
-                                        :hover{
+                                align-items: center;
+                                justify-content: center;
+                                flex-wrap: wrap;
+                                figure{
+                                        display: flex;
+                                        flex-direction: column;
+                                        align-items: center;
+                                        justify-content: center;
+                                        margin: 1vh 3vw;
+                                        transition: all 0.3s ease-in-out;
+                                        img{
+                                                width: 150px;
+                                                height: 150px;
+                                                border: 1px solid gainsboro;
+                                                border-radius: 50px;
+
+                                                
+
+                                        }
+                                        figcaption{
+                                                font-weight: lighter;
+                                                text-align: center;
+                                                font-size: 1.02rem;
+                                        }
+                                        &:hover{
+                                                transform: scale(1.1);
                                                 cursor: pointer;
                                         }
                                 }
-                                img{
-                                        height: 10vh;
-                                }
+                                
                         }
                 }
+                
 
         
 
@@ -139,37 +181,43 @@
                 background-color:whitesmoke;
                 justify-content: center;
                 align-items: center;
-
                 .holder{
-                        height : 98%;
-                        width : 95%;
-                        display: flex;
-                        flex-wrap: wrap;
-                        background-color:whitesmoke;
+                        margin-right: 50px;
+                        height : 70%;
+                        width : 80%;
+                        display : grid;
+                        grid-template-columns: repeat(12, 1fr);
+                        grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
+                        grid-gap: 10px;
 
                         img{
-                                width: 23vw;
-                                margin: 0.3vw;
-                                border-radius: 2px;
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                                border-radius: 10px;
                         }
+                        
                         .plumber{
-                                height: 45vh;
+                                grid-column: span 1;
+                                grid-row: span 2;
                         }
                         .electrician{
-                                height: 50vh;
+                                grid-column: span 1;
+                                grid-row: span 1;
                         }
                         .painter{
-                                height: 50vh;
+                                grid-column: span 1;
+                                grid-row: span 1;
                         }
                         .mechanic{
-                                height: 50vh;
+                                grid-column: span 1;
+                                grid-row: span ;
                         }
-
-                        /* .plumber.rowspan{
-                                height : 50%;
-                                width : 50%;
-                                background-color: yellow;
-                        } */
+                        .carpenter{
+                                grid-column: span 1;
+                                grid-row: span 1;
+                        }
+                        
                 }
 
         }

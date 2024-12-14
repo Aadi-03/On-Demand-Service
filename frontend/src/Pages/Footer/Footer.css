@@ -1,40 +1,72 @@
-.footer-wrapper{
-    background-color: gainsboro;
-    .logo{
-            height: 20vh;
-    }
-    
-}
-.category-wrapper{
+footer{
     display: flex;
-    justify-content: space-evenly;
+    font-family: Arial, Helvetica, sans-serif;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height : 400px;
 
-    .company-wrapper{
-        display: flex;
-        flex-direction: column;
-        gap: 0.5vh;
-    }
+    .image-container{
+        padding: 0px 100px;
+        width: 100vw;
 
-    .customer-wrapper{
-        display: flex;
-        flex-direction: column;
-        gap: 0.5vh;
+        img{
+            width: 200px;
+            margin-right: 10px;
+        }
     }
+    .content{
+        display: flex;
+        justify-content:space-evenly;
+        width: 100vw;
 
-    .professional-wrapper{
-        display: flex;
-        flex-direction: column;
-        gap: 0.5vh;
-    }
+        .container{
+            display: flex;
+            flex-direction: column;
+            height : 200px;
+            
+            width: 250px;
 
-    .social-link-wrapper{
-        display: flex;
-        flex-direction: column;
-        gap: 0.5vh;
+            h1{
+                font-size: 1.4rem;
+                margin-bottom: 10px;
+                font-weight: light;
+            }
+
+            p{
+                font-size: 1rem;
+                margin-bottom: 10px;
+                font-weight: lighter;
+                color : grey
+            }
+
+            .links{
+                display: flex;
+                justify-content: space-between;
+                width:200px;
+
+                a{
+                    color: black;
+                    text-decoration: none;
+                    font-size: 1rem;
+
+
+                    img{
+                        width: 30px;
+                    }
+                }
+            }
+        }
+
     }
-}
-.copyright{
-    margin-top: 0.5vh;
-    text-align: center;
-    font-weight: bold;
+    .copyright{
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+        background-color: #f5f5f5;
+        color: black;
+        font-size: 1rem;
+    }
 }
