@@ -1,4 +1,4 @@
-.signin-wrapper {
+.signin-customer-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,9 +12,35 @@
   background-color: #f9f9f9;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
-  div {
-    margin-bottom: 2vh;
+  label {
+    font-size: 1.2rem;
+    margin-bottom: 0.5vh;
+    display: block;
+    font-weight: 600;
+    color: #333;
+  }
+
+  input {
     width: 100%;
+    padding: 1vh 1vw;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 2vh;
+    background-color: #fff;
+    box-sizing: border-box;
+  }
+
+  input:focus {
+    border-color: #28a745;
+    outline: none;
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+  }
+
+  .email-wrapper,
+  .password-wrapper {
+    width: 100%;
+    margin-bottom: 2vh;
   }
 
   button {
@@ -32,20 +58,20 @@
   button:hover {
     background-color: #218838;
   }
-
-  button:focus {
+  
+   button:focus {
     outline: none;
     box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
   }
 }
 
 @media (max-width: 768px) {
-  .signin-wrapper {
+  .signin-customer-wrapper {
     width: 95vw;
     padding: 4vh 3vw;
   }
 
-  .signin-wrapper button {
+  .signin-customer-wrapper button {
     font-size: 1rem;
     padding: 1.2vh 1vw;
   }

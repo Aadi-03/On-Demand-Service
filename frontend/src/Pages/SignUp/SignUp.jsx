@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./Signup.css";
 import SignUpTradesman from "./SignUpTradesman.jsx";
 import SignUpCustomer from "./SignUpCustomer.jsx";
 

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import "./SignIn.css";
 import SignInCustomer from './SignInCustomer.jsx';
-import SignInTradesman from './SignInTradesman';
+import SignInTradesman from './SignInTradesman.jsx';
 
 
 const SignIn = () => {
