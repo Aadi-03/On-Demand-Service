@@ -1,14 +1,19 @@
-import "./SignUp.css";
+import "./SignUpCustomer.css";
 import React from "react";
 
-const SignUp = () => {
+const SignUpCustomer = () => {
   return (
     <div className="signup-customer-wrapper">
       <div className="name-wrapper">
-        <label >FirstName: </label>
-        <input type="text" placeholder="FirstName" />
-        <label >LastName: </label>
-        <input type="text" placeholder="LastName" />
+        <div>
+        <label >First Name: </label>
+        <input type="text" placeholder="First Name" />
+        </div>
+        <div>
+        <label >Last Name: </label>
+        <input type="text" placeholder="Last Name" />
+        </div>
+        
       </div>
       <div className="dob-wrapper">
       <label >Date Of Birth: </label>
@@ -100,4 +105,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignUpCustomer;

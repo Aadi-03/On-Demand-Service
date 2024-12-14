@@ -1,13 +1,14 @@
 import React from "react";
+import "./SignUpTradesman.css";
 
 const SignUpTradesman = () => {
   return (
     <div className="signup-tradesman-wrapper">
       <div className="name-wrapper">
-        <label>FirstName: </label>
-        <input type="text" placeholder="FirstName" />
-        <label>LastName: </label>
-        <input type="text" placeholder="LastName" />
+        <label>First Name: </label>
+        <input type="text" placeholder="First Name" />
+        <label>Last Name: </label>
+        <input type="text" placeholder="Last Name" />
       </div>
       <div className="dob-wrapper">
         <label>Date Of Birth: </label>
@@ -72,6 +73,8 @@ const SignUpTradesman = () => {
           <option value="UT">Uttarakhand</option>
           <option value="WB">West Bengal</option>
         </select>
+        <label >PinCode : </label>
+        <input type="text" />
         <label>Country: </label>
         <input type="text" value="India" readOnly />
       </div>
