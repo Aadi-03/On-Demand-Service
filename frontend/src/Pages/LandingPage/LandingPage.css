@@ -1,11 +1,20 @@
 .LandingPage-Navbar{
+        position: absolute;
+        top : 0;
         display: flex;
+        width : 100vw;
         justify-content: space-around;
         align-items: center;
+        background-color: white;
         height : 11.5vh;
         box-shadow: 1px 1px 10px 1px grey;
+        z-index: 3;
         .logo{
                 height : 100%;
+
+                &:hover{
+                        cursor: pointer;
+                }
         }  
         .Search-boxes{
                 display: flex;
@@ -55,32 +64,39 @@
                 }
         }
 
-        .signupsignin{
-                display: flex;
-                justify-content: cetner;
-                align-items: center;
+}
+.signupsignin{
+        display: flex;
+        flex-direction: column;
+        position : absolute;
+        justify-content: space-around;
+        right : 80px;
+        top : 100px;
 
-                height : 60px;
-                gap : 1rem;
-                .signup,
-                .signin{
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        height : 5vh;
-                        width : 8vw;
-                        font-size: 1.2rem;
-                        font-weight: bolder;
-                        border-radius: 10px;
-                        color: black;
-                        border : none;
-                        &:hover{
-                                cursor: pointer;
-                                border: 1px solid black;
-                        }
+        height : 100px;
+        
+        z-index: 1;
+
+        animation : slide-down 0.5s ease-in-out;
+
+        .signup,
+        .signin{
+                
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height : 5vh;
+                width : 8vw;
+                font-size: 1.2rem;
+                font-weight: bolder;
+                border-radius: 10px;
+                color: black;
+                border : none;
+                &:hover{
+                        cursor: pointer;
+                        border: 1px solid black;
                 }
         }
-
 }
 
 .horizontal-rule{
@@ -88,6 +104,7 @@
 }
 
 .Landing-Page{
+        z-index: -1;
         display: flex;
         width : 100vw;
         height : 110vh;
@@ -223,3 +240,29 @@
         }
 }
 
+
+.hide{
+        animation: slide-up 0.5s ease-in-out forwards;
+}
+
+.show{
+        display: flex;
+}
+
+@keyframes slide-down{
+        0%{
+                transform: translateY(-100%);
+        }
+        100%{
+                transform: translateY(0%);
+        }
+}
+
+@keyframes slide-up{
+        0%{
+                transform: translateY(0%);
+        }
+        100%{
+                transform: translateY(-100%);
+        }
+}

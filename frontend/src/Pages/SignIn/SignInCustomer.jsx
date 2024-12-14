@@ -1,8 +1,13 @@
 import "./SignIn.css";
 import "./SignInCustomer.css";
 
+
+import Navbar from "../../Components/Navbar/Navbar";
+import Footer from "../../Components/Footer/Footer";
 const SignInCustomer = () => {
   return (
+    <>
+    <Navbar />
     <div className="signin-customer-wrapper">
         <div className="email-wrapper">
             <label >Email :</label>
@@ -16,6 +21,8 @@ const SignInCustomer = () => {
             <button>Sign In</button>
         </div>
     </div>
+    <Footer />
+    </>
   );
 };
 export default SignInCustomer;

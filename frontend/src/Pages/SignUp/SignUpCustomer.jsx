@@ -1,8 +1,13 @@
 import "./SignUpCustomer.css";
 import React from "react";
 
+import Navbar from "../../Components/Navbar/Navbar";
+import Footer from "../../Components/Footer/Footer";
+
 const SignUpCustomer = () => {
   return (
+    <>
+    <Navbar />
     <div className="signup-customer-wrapper">
       <div className="name-wrapper">
         <div>
@@ -22,7 +27,7 @@ const SignUpCustomer = () => {
           placeholder="YYYY-MM-DD"
           required
           pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
-        />
+          />
       </div>
       <div className="phonenumber-wrapper">
       <label >Mobile No.: </label>
@@ -91,7 +96,7 @@ const SignUpCustomer = () => {
             <option value="">Select Gender</option>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
-            <option value="Others">Others</option>
+            <option value="Others">Prefer not to say</option>
         </select>
       </div>
       <div className="password-wrapper">
@@ -102,6 +107,8 @@ const SignUpCustomer = () => {
         <button>Sign Up</button>
       </div>
     </div>
+    <Footer />  
+    </>
   );
 };
 
