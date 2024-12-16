@@ -6,17 +6,16 @@ const SignUpCustomer = () => {
     <div className="signup-customer-wrapper">
       <div className="name-wrapper">
         <div>
-        <label >First Name: </label>
-        <input type="text" placeholder="First Name" />
+          <label>First Name: </label>
+          <input type="text" placeholder="First Name" />
         </div>
         <div>
-        <label >Last Name: </label>
-        <input type="text" placeholder="Last Name" />
+          <label>Last Name: </label>
+          <input type="text" placeholder="Last Name" />
         </div>
-        
       </div>
       <div className="dob-wrapper">
-      <label >Date Of Birth: </label>
+        <label>Date Of Birth: </label>
         <input
           type="date"
           placeholder="YYYY-MM-DD"
@@ -25,19 +24,19 @@ const SignUpCustomer = () => {
         />
       </div>
       <div className="phonenumber-wrapper">
-      <label >Mobile No.: </label>
+        <label>Mobile No.: </label>
         <input type="text" placeholder="mobile no." />
       </div>
       <div className="email-wrapper">
-      <label >Email: </label>
+        <label>Email: </label>
         <input type="text" placeholder="email" />
       </div>
       <div className="address-wrapper">
-      <label >House Number: </label>
+        <label>House Number: </label>
         <input type="text" placeholder="House number" />
-        <label >Street Name: </label>
+        <label>Street Name: </label>
         <input type="text" placeholder="Street name" />
-        <label >State: </label>
+        <label>State: </label>
         <select>
           <option value="">Select state</option>
           <option value="AN">Andaman and Nicobar Islands</option>
@@ -78,24 +77,26 @@ const SignUpCustomer = () => {
           <option value="UT">Uttarakhand</option>
           <option value="WB">West Bengal</option>
         </select>
-        <label >Country: </label>
-        <input type="text" value="India" readOnly/>
+        <label for="pincode">PinCode : </label>
+        <input  id="pincode" type="text" />
+        <label>Country: </label>
+        <input type="text" value="India" readOnly />
       </div>
       <div className="photo-wrapper">
-      <label >Photograph: </label>
+        <label>Photograph: </label>
         <input type="file" accept="image/*" />
       </div>
       <div className="gender-wrapper">
-        <label >Gender: </label>
-        <select >
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Others">Others</option>
+        <label>Gender: </label>
+        <select>
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Others">Others</option>
         </select>
       </div>
       <div className="password-wrapper">
-        <label >Password: </label>
+        <label>Password: </label>
         <input type="password" placeholder="Password" />
       </div>
       <div>
