@@ -1,0 +1,141 @@
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+import { getJwt } from "../utils/getJwt.js";
+import bcrypt from "bcrypt";
+
+export const providerSignup = async (req, res) => {
+  try {
+    // Extract provider details from the request body
+    const {
+      firstName,
+      lastName,
+      dob,
+      phoneNumber,
+      email,
+      photoLink,
+      gender,
+      password,
+      houseNumber,
+      streetName,
+      state,
+      country,
+      pincode,
+      longitude,
+      latitude,
+      workType,
+      aadharNumber,
+    } = req.body;
+
+    // Validate mandatory fields
+    if (
+      !firstName ||
+      !lastName ||
+      !dob ||
+      !phoneNumber ||
+      !email ||
+      !password ||
+      !houseNumber ||
+      !streetName ||
+      !state ||
+      !country ||
+      !pincode ||
+      !workType ||
+      !aadharNumber
+    ) {
+      console.log(req.body);
+      
+      return res
+        .status(200)
+        .json({ error: "All mandatory fields must be provided" });
+    }
+
+
+    // Check if the email is already registered
+    const existingProviderByEmail = await prisma.provider.findUnique({
+      where: {
+        email, // Check if the email is already used by another provider
+      },
+    });
+
+    if (existingProviderByEmail) {
+      return res
+        .status(200)
+        .json({ error: "Provider with this email already exists" });
+    }
+
+    // Check if the Aadhar number is already used
+    const existingProviderByAadhar = await prisma.provider.findUnique({
+      where: {
+        aadharNumber, // Correct check for the Aadhar number
+      },
+    });
+
+    if (existingProviderByAadhar) {
+      return res
+        .status(200)
+        .json({ error: "Provider with this Aadhar number already exists" });
+    }
+    
+    const existingProviderByPhone = await prisma.provider.findUnique({
+        where: {
+          phoneNumber, // Check if the phone number is already used by another provider
+        },
+      });
+      
+      if (existingProviderByPhone) {
+        return res
+          .status(200)
+          .json({ error: "Provider with this phone number already exists" });
+      }
+
+
+    // Create or fetch the address
+    const address = await prisma.address.create({
+      data: {
+        houseNumber,
+        streetName,
+        state,
+        country,
+        pincode,
+        longitude: longitude || null,
+        latitude: latitude || null,
+      },
+    });
+
+    // Create the provider
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const newProvider = await prisma.provider.create({
+      data: {
+        firstName,
+        lastName,
+        dob: new Date(dob),
+        phoneNumber,
+        email,
+        photoLink: photoLink || null,
+        gender,
+        password: hashedPassword, 
+        addressId: address.id,
+        workType,
+        aadharNumber,
+      },
+      include: {
+        address: true,
+      },
+    });
+
+    const token = getJwt(newProvider.id);
+
+    // Respond with the newly created provider
+    res
+      .status(201)
+      .json({
+        message: "Provider created successfully",
+        provider: newProvider,
+        token,
+      });
+  } catch (error) {
+    console.error("Error in providerSignup:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
