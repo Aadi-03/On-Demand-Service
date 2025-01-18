@@ -121,6 +121,8 @@ export const providerSignup = async (req, res) => {
       },
       include: {
         address: true,
+        orders:true,
+        feedbacks:true
       },
     });
 
