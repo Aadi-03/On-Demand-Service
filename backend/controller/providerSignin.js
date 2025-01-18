@@ -17,7 +17,9 @@ export const providerSignin = async (req, res) => {
         const provider = await prisma.provider.findUnique({
             where: { email },
             include: {
-                address: true, 
+                address: true,
+                orders:true,
+                feedbacks:true
             }
         });
 
