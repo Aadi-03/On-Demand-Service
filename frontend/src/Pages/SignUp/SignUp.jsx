@@ -6,10 +6,13 @@ import SignInTradesman from './SignUpTradesman.jsx';
 import customer from'../../assets/LandingPageImages/customer-logo.jpeg';
 import service_provider from'../../assets/LandingPageImages/service-provider-logo.png';
 
-import Navbar from '../../components/Navbar/Navbar';
+import Navbar from '../../Components/Navbar/Navbar.jsx';
 import Footer from '../../Components/Footer/Footer.jsx';
 
+ 
+
 const SignIn = () => {
+
   return (
     <>
     <Navbar />
