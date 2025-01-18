@@ -10,7 +10,7 @@ export const customerSignIn = async (req, res) => {
 
         // Validate input
         if (!email || !password) {
-            return res.status(400).json({ error: "Email and password are required" });
+            return res.status(200).json({ error: "Email and password are required" });
         }
 
         // Find customer by email
@@ -22,13 +22,13 @@ export const customerSignIn = async (req, res) => {
         });
 
         if (!customer) {
-            return res.status(404).json({ error: "Customer not found" });
+            return res.status(200).json({ error: "Customer not found" });
         }
 
         // Compare passwords
         const isPasswordValid = await bcrypt.compare(password, customer.password);
         if (!isPasswordValid) {
-            return res.status(401).json({ error: "Invalid credentials" });
+            return res.status(200).json({ error: "Invalid credentials" });
         }
 
         // Generate JWT token
@@ -41,6 +41,6 @@ export const customerSignIn = async (req, res) => {
         });
     } catch (error) {
         console.error("Error in customerSignIn:", error);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(200).json({ error: "Internal server error" });
     }
 };

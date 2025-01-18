@@ -10,7 +10,7 @@ export const providerSignin = async (req, res) => {
 
         // Validate mandatory fields
         if (!email || !password) {
-            return res.status(400).json({ error: "Email and password are required" });
+            return res.status(200).json({ error: "Email and password are required" });
         }
 
         // Check if the provider exists
@@ -22,14 +22,14 @@ export const providerSignin = async (req, res) => {
         });
 
         if (!provider) {
-            return res.status(400).json({ error: "Provider with this email does not exist" });
+            return res.status(200).json({ error: "Provider with this email does not exist" });
         }
 
         // Compare the provided password with the stored hashed password
         const isPasswordValid = await bcrypt.compare(password, provider.password);
 
         if (!isPasswordValid) {
-            return res.status(400).json({ error: "Invalid credentials" });
+            return res.status(200).json({ error: "Invalid credentials" });
         }
 
         // Generate JWT token for the provider
@@ -43,6 +43,6 @@ export const providerSignin = async (req, res) => {
         });
     } catch (error) {
         console.error("Error in providerSignin:", error);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(200).json({ error: "Internal server error" });
     }
 };
