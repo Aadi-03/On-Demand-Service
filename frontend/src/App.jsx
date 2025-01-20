@@ -9,8 +9,8 @@ import SignInTradesman from "./Pages/SignIn/SignInTradesman.jsx";
 import SignUp from "./Pages/SignUp/SignUp.jsx";
 import SignUpCustomer from "./Pages/SignUp/SignUpCustomer.jsx";
 import SignUpTradesman from "./Pages/SignUp/SignUpTradesman.jsx";
-import CustomerDashboard from "./Pages/LandingPage/CustomerDashboard.jsx";
-import ProviderDashboard from "./Pages/LandingPage/ProviderDashboard.jsx";
+
+import UserDashboard from "./Pages/UserDashboard/UserDashboard.jsx";
 
 const router = createBrowserRouter([
   {
@@ -40,11 +40,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/customer/dashboard",
-    element: <CustomerDashboard />,
-  },
-  {
-    path: "/provider/dashboard",
-    element: <ProviderDashboard />,
+    element: <UserDashboard />,
   },
 ]);
 

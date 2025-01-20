@@ -71,9 +71,9 @@
         position : absolute;
         justify-content: space-around;
         right : 80px;
-        top : 100px;
+        top : 90px;
 
-        height : 100px;
+        height : 90px;
         
         z-index: 1;
 
@@ -165,8 +165,8 @@
                                         margin: 1vh 3vw;
                                         transition: all 0.3s ease-in-out;
                                         img{
-                                                width: 150px;
-                                                height: 150px;
+                                                width: 120px;
+                                                height: 120px;
                                                 border: 1px solid gainsboro;
                                                 border-radius: 50px;
 
