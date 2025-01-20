@@ -80,7 +80,9 @@ export const customerSignup = async (req, res) => {
                 addressId: address.id,
             },
             include:{
-                address:true
+                address: true,
+                orders:true,
+                feedbacks:true
             }
         });
         const token = getJwt(newCustomer.id);

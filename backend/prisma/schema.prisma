@@ -43,15 +43,16 @@ model Provider {
 }
 
 model Order {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
   taskName  String
-  doneBy    Provider @relation("ProviderOrders", fields: [doneById], references: [id])
-  doneById  String   @db.ObjectId
-  askedBy   Customer @relation("CustomerOrders", fields: [askedById], references: [id])
-  askedById String   @db.ObjectId
-  completed Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  doneBy    Provider  @relation("ProviderOrders", fields: [doneById], references: [id])
+  doneById  String    @db.ObjectId
+  askedBy   Customer  @relation("CustomerOrders", fields: [askedById], references: [id])
+  askedById String    @db.ObjectId
+  completed Boolean   @default(false)
+  feedback  Feedback? @relation 
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Feedback {
@@ -62,6 +63,8 @@ model Feedback {
   givenById String   @db.ObjectId
   givenTo   Provider @relation("ProviderFeedbacks", fields: [givenToId], references: [id])
   givenToId String   @db.ObjectId
+  orderId   String   @unique @db.ObjectId
+  order     Order    @relation(fields: [orderId], references: [id]) 
   createdAt DateTime @default(now())
 }
 

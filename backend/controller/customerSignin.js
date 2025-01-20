@@ -17,7 +17,9 @@ export const customerSignIn = async (req, res) => {
         const customer = await prisma.customer.findUnique({
             where: { email },
             include:{
-                address: true
+                address: true,
+                orders:true,
+                feedbacks:true
             }
         });
 
