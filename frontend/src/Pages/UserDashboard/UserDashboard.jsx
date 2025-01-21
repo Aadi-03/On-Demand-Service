@@ -1,20 +1,40 @@
 import './UserDashboard.css';
 import * as React from 'react';
-// import Box from '@mui/material/Box';
-// import Slider from '@mui/material/Slider';
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
 import Card from '../../Components/Card/Card';
 import Navbar from '../../Components/Navbar/Navbar';
 import Footer from '../../Components/Footer/Footer';
 
 const UserDashboard = () => {
+        const marks = [
+                {
+                        value: 10,
+                        label: '1km',
+                },
+                {
+                        value: 20,
+                        label: '2km',
+                },
+                {
+                        value: 50,
+                        label: '5km',
+                },
+                {
+                        value: 100,
+                        label: '10km',
+                },
+        ];
+        function valuetext(value) {
+                return `${value}km`;
+        }
         return (
                 <>
-                        <Navbar/>
+                        <Navbar />
                         <div className="user-dashboard">
                                 <div className="left">
                                         <p>Filters</p>
                                         <form action="">
-
                                                 <div className="filtertype">
                                                         <h2>Services</h2>
                                                         <div className="option">
@@ -44,7 +64,7 @@ const UserDashboard = () => {
                                                                 <label htmlFor="5">5&#127775; or more </label>
                                                                 <input type="radio" name="rating" id="5" />
                                                         </div>
-                                                        
+
                                                         <div className="option">
                                                                 <label htmlFor="4">4&#127775; or more </label>
                                                                 <input type="radio" name="rating" id="4" />
@@ -68,12 +88,18 @@ const UserDashboard = () => {
 
                                                 <div className="filtertype">
                                                         <h2>Radius</h2>
-                                                
+                                                        <Box sx={{ width: 250 , height : 100 }}>
+                                                                <Slider
+                                                                        aria-label="Restricted values"
+                                                                        defaultValue={1}
+                                                                        getAriaValueText={valuetext}
+                                                                        step={null}
+                                                                        valueLabelDisplay="auto"
+                                                                        marks={marks}
+                                                                />
+                                                        </Box>
+
                                                 </div>
-
-
-                                                
-
 
                                                 <button type="submit">Apply Filters</button>
                                         </form>
@@ -84,27 +110,27 @@ const UserDashboard = () => {
                                         </div>
 
                                         <div className="card-container">
-                                                <Card/>
-                                                <Card/>
-                                                <Card/>
-                                                <Card/>
-                                                <Card/>
-                                                <Card/>
-                                                <Card/>
+                                                <Card />
+                                                <Card />
+                                                <Card />
+                                                <Card />
+                                                <Card />
+                                                <Card />
+                                                <Card />
                                         </div>
                                 </div>
                                 <div className="right">
                                         <div className="details">
-                                                
+
                                                 <img src="" alt="" />
                                                 <p className='Name'>John Doe</p>
-                                                
+
                                                 <div className="details-container">
                                                         <div className="detail-type">
                                                                 <h1>Contact Information</h1>
                                                                 <div className="detail">
                                                                         <p className='detail-heading'>Email : </p>
-                                                                        <a href = "mailto:abc@gmail.com">abc@gmail.com</a>
+                                                                        <a href="mailto:abc@gmail.com">abc@gmail.com</a>
                                                                 </div>
                                                                 <div className="detail">
                                                                         <p className='detail-heading'>Phone : </p>
@@ -145,12 +171,12 @@ const UserDashboard = () => {
                                                         </div>
                                                 </div>
 
-                                                
+
                                         </div>
                                 </div>
                         </div>
 
-                        <Footer/>
+                        <Footer />
                 </>
         );
 }

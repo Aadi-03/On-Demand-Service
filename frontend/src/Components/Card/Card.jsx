@@ -17,7 +17,7 @@ const Card = () => {
                         </div>
                         <div className="call">
                                 <IoIosCall />
-                                1234567890
+                                +91-1234567890
 
                         </div>
 
