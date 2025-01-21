@@ -5,6 +5,7 @@ import Slider from '@mui/material/Slider';
 import Card from '../../Components/Card/Card';
 import Navbar from '../../Components/Navbar/Navbar';
 import Footer from '../../Components/Footer/Footer';
+import Rating from '@mui/material/Rating';
 
 const UserDashboard = () => {
         const marks = [
@@ -59,36 +60,36 @@ const UserDashboard = () => {
                                                 </div>
 
                                                 <div className="filtertype">
-                                                        <h2>Rating</h2>
+                                                        <h2>Rating (atleast)</h2>
                                                         <div className="option">
-                                                                <label htmlFor="5">5&#127775; or more </label>
+                                                                <label htmlFor="5"><Rating name="half-rating-read" defaultValue={5} precision={0.1} readOnly size = "small"/></label>
                                                                 <input type="radio" name="rating" id="5" />
                                                         </div>
 
                                                         <div className="option">
-                                                                <label htmlFor="4">4&#127775; or more </label>
+                                                                <label htmlFor="4"><Rating name="half-rating-read" defaultValue={4} precision={0.1} readOnly size = "small"/></label>
                                                                 <input type="radio" name="rating" id="4" />
                                                         </div>
 
                                                         <div className="option">
-                                                                <label htmlFor="3">3&#127775; or more</label>
+                                                                <label htmlFor="3"><Rating name="half-rating-read" defaultValue={3} precision={0.1} readOnly size = "small"/></label>
                                                                 <input type="radio" name="rating" id="3" />
                                                         </div>
 
                                                         <div className="option">
-                                                                <label htmlFor="2">2&#127775; or more</label>
+                                                                <label htmlFor="2"><Rating name="half-rating-read" defaultValue={2} precision={0.1} readOnly size = "small"/></label>
                                                                 <input type="radio" name="rating" id="2" />
                                                         </div>
 
                                                         <div className="option">
-                                                                <label htmlFor="1">1&#127775; or more</label>
+                                                                <label htmlFor="1"><Rating name="half-rating-read" defaultValue={1} precision={0.1} readOnly size = "small"/></label>
                                                                 <input type="radio" name="rating" id="1" />
                                                         </div>
                                                 </div>
 
                                                 <div className="filtertype">
                                                         <h2>Radius</h2>
-                                                        <Box sx={{ width: 250 , height : 100 }}>
+                                                        {/* <Box sx={{ width: 270, padding: '40px 0' }}> */}
                                                                 <Slider
                                                                         aria-label="Restricted values"
                                                                         defaultValue={1}
@@ -97,7 +98,8 @@ const UserDashboard = () => {
                                                                         valueLabelDisplay="auto"
                                                                         marks={marks}
                                                                 />
-                                                        </Box>
+                                                        {/* </Box> */}
+
 
                                                 </div>
 

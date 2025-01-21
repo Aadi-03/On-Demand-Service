@@ -1,5 +1,7 @@
 import { IoIosCall } from "react-icons/io";
 import "./Card.css";
+import * as React from 'react';
+import Rating from '@mui/material/Rating';
 const Card = () => {
         return (
                 <div className="card">
@@ -10,9 +12,11 @@ const Card = () => {
                                 <div className="type">
                                         electrician
                                 </div>
-                                <div className="rating">
+                                {/* <div className="rating">
                                         4.7 &#127775;
-                                </div>
+                                </div> */}
+
+                                <Rating name="half-rating-read" defaultValue={3.5} precision={0.1} readOnly />
 
                         </div>
                         <div className="call">
