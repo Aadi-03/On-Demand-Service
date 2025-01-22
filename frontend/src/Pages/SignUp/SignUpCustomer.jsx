@@ -86,7 +86,7 @@ const SignUpCustomer = () => {
           alert(response.data.error);
         } else {
           alert("Customer signed up successfully");
-          localStorage.setItem("customerToken", JSON.stringify(response.data.token));
+          localStorage.setItem("customerToken", response.data.token);
           navigate("/customer/dashboard");
         }
       }
