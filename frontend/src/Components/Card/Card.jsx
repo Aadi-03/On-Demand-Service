@@ -13,8 +13,10 @@ const Card = ({ name, age, distance, workType, rating, phoneNo, onClick }) => {
                     <span className="age">{age} yrs</span>
                 </div>
                 <div className="distance">{distance} km away</div>
-                <div className="type">{workType}</div>
-                <Rating name="half-rating-read" value={rating} precision={0.1} readOnly />
+                <div className="type">
+                    {workType}
+                <Rating name="half-rating-read" value={rating} precision={0.1} readOnly size = "small" />
+                </div>
             </div>
             <div className="call">
                 <IoIosCall />
