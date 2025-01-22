@@ -93,7 +93,7 @@ const SignUpTradesman = () => {
         }
         else{
           alert("Provider signed up successfully");
-          localStorage.setItem('tradesmanToken', JSON.stringify(response.data.token));
+          localStorage.setItem('providerToken', response.data.token);
           naviagate('/provider/dashboard');
         }
       }

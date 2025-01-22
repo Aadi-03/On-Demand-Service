@@ -48,6 +48,7 @@ const SignInTradesman = () => {
         }
         else{
           alert("Customer signed in successfully");
+          localStorage.setItem("providerToken", response.data.token);
           navigate('/provider/dashboard');
         }
       }

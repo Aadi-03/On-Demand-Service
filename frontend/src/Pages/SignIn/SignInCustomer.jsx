@@ -46,6 +46,7 @@ const SignInCustomer = () => {
         }
         else{
           alert("Customer signed in successfully");
+          localStorage.setItem("customerToken", response.data.token);
           navigate('/customer/dashboard');
         }
       }
