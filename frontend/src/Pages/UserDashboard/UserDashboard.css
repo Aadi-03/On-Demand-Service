@@ -94,6 +94,7 @@
 
     display: flex;
     justify-content: center;
+    
 
     .details {
       height: 100%;
@@ -282,4 +283,5 @@
 
                 }
         }
+      }
 }
