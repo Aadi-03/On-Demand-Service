@@ -7,154 +7,189 @@ import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/Footer/Footer";
 import Rating from "@mui/material/Rating";
 import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
 
 const UserDashboard = () => {
+  const [providerData, setProviderData] = useState([]);
+  const [filters, setFilters] = useState({
+    workType: [], // Stores the selected services (e.g., Electrician, Plumber)
+    rating: 0, // Stores the selected rating
+    distance: 1, // Default distance value (adjust as needed)
+  });
+  const handleServiceChange = (e) => {
+    const service = e.target.id;
+    setFilters((prev) => {
+      const newWorkType = prev.workType.includes(service)
+        ? prev.workType.filter((s) => s !== service) // Remove service if unchecked
+        : [...prev.workType, service]; // Add service if checked
+      return { ...prev, workType: newWorkType };
+    });
+  };
+
+  const handleRatingChange = (e) => {
+    setFilters((prev) => ({
+      ...prev,
+      rating: parseInt(e.target.id, 10), // Convert rating to number
+    }));
+  };
+
+  const handleDistanceChange = (event, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      distance: value == 15 ? 1000 : value, // Update the distance
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(filters);
+    const url = `http://localhost:3000/customer/auth/filterprovider?workType=${filters.workType}&distance=${filters.distance}&rating=${filters.rating}`;
+    console.log(url);
+    let config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: url,
+      headers: {
+        Authorization: `bearer ${localStorage.getItem("customerToken")}`,
+      },
+    };
+
+    async function makeRequest() {
+      try {
+        const response = await axios.request(config);
+        // console.log(JSON.stringify(response.data));
+        if (response.data.error) {
+          alert(response.data.error);
+        } else {
+          setProviderData(response.data.provider);
+          // console.log(providerData);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    makeRequest();
+  };
   const marks = [
-    {
-      value: 10,
-      label: "1km",
-    },
-    {
-      value: 20,
-      label: "2km",
-    },
-    {
-      value: 50,
-      label: "5km",
-    },
-    {
-      value: 100,
-      label: "10km",
-    },
+    { value: 1, label: "1 km" },
+    { value: 5, label: "5 km" },
+    { value: 10, label: "10 km" },
+    { value: 15, label: ">10 km" },
   ];
   function valuetext(value) {
     return `${value}km`;
   }
-  const [firsttimeclick,setfirsttimeclick]=useState(false);
-  const [cardData,setCardData]=useState({});
-  const handleCardClick=(data)=>{
-        setfirsttimeclick(true);
-        setCardData(data);
-  }
-  const cards = [
-        { workType: "Electrician", rating: 3.7, phoneNo: 1234567890 },
-        { workType: "Mechanic", rating: 4.7, phoneNo: 67890654789 },
-        { workType: "Mechanic", rating: 2.7, phoneNo: 6598748629 },
-        { workType: "Plumber", rating: 3.7, phoneNo: 9874587450 },
-        { workType: "Painter", rating: 3.1, phoneNo: 1236985210 },
-        { workType: "Carpenter", rating: 3.9, phoneNo: 3214569890 },
-        { workType: "Electrician", rating: 4.2, phoneNo: 3214867890 },
-      ];
+  const [firsttimeclick, setfirsttimeclick] = useState(false);
+  const [cardData, setCardData] = useState({});
+
+  const handleCardClick = (data) => {
+    setfirsttimeclick(true);
+
+    setCardData(data);
+    // console.log(data);
+  };
+
+  useEffect(() => {
+    // console.log(localStorage.getItem("customerToken"));
+
+    let config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: "http://localhost:3000/customer/auth/bulkprovider",
+      headers: {
+        Authorization: `bearer ${localStorage.getItem("customerToken")}`,
+      },
+    };
+
+    async function makeRequest() {
+      try {
+        const response = await axios.request(config);
+        // console.log(JSON.stringify(response.data));
+        if (response.data.error) {
+          alert(response.data.error);
+        } else {
+          setProviderData(response.data.provider);
+          // console.log(providerData);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    makeRequest();
+  }, []);
+  useEffect(() => {
+    if (!providerData.length && firsttimeclick) {
+      setfirsttimeclick(false);
+    }
+  }, [providerData, firsttimeclick]);
   return (
     <>
       <Navbar />
       <div className="user-dashboard">
         <div className="left">
           <p>Filters</p>
-          <form action="">
+          <form onSubmit={handleSubmit}>
+            {/* Services Filter */}
             <div className="filtertype">
               <h2>Services</h2>
-              <div className="option">
-                <label htmlFor="electrician">Electrician</label>
-                <input type="checkbox" name="service" id="electrician" />
-              </div>
-
-              <div className="option">
-                <label htmlFor="plumber">Plumber</label>
-                <input type="checkbox" name="service" id="plumber" />
-              </div>
-
-              <div className="option">
-                <label htmlFor="carpenter">Carpenter</label>
-                <input type="checkbox" name="service" id="carpenter" />
-              </div>
-
-              <div className="option">
-                <label htmlFor="painter">Painter</label>
-                <input type="checkbox" name="service" id="painter" />
-              </div>
+              {["Electrician", "Plumber", "Carpenter", "Mechanic"].map(
+                (service) => (
+                  <div className="option" key={service}>
+                    <label htmlFor={service}>
+                      {service.charAt(0).toUpperCase() + service.slice(1)}
+                    </label>
+                    <input
+                      type="checkbox"
+                      id={service}
+                      onChange={handleServiceChange}
+                      checked={filters.workType.includes(service)}
+                    />
+                  </div>
+                )
+              )}
             </div>
 
+            {/* Rating Filter */}
             <div className="filtertype">
-              <h2>Rating (atleast)</h2>
-              <div className="option">
-                <label htmlFor="5">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={5}
-                    precision={0.1}
-                    readOnly
-                    size="small"
+              <h2>Rating (at least)</h2>
+              {[5, 4, 3, 2, 1].map((rating) => (
+                <div className="option" key={rating}>
+                  <label htmlFor={rating}>
+                    <Rating
+                      name="half-rating-read"
+                      defaultValue={rating}
+                      precision={0.1}
+                      readOnly
+                      size="small"
+                    />
+                  </label>
+                  <input
+                    type="radio"
+                    name="rating"
+                    id={rating.toString()}
+                    onChange={handleRatingChange}
+                    checked={filters.rating === rating}
                   />
-                </label>
-                <input type="radio" name="rating" id="5" />
-              </div>
-
-              <div className="option">
-                <label htmlFor="4">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={4}
-                    precision={0.1}
-                    readOnly
-                    size="small"
-                  />
-                </label>
-                <input type="radio" name="rating" id="4" />
-              </div>
-
-              <div className="option">
-                <label htmlFor="3">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={3}
-                    precision={0.1}
-                    readOnly
-                    size="small"
-                  />
-                </label>
-                <input type="radio" name="rating" id="3" />
-              </div>
-
-              <div className="option">
-                <label htmlFor="2">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={2}
-                    precision={0.1}
-                    readOnly
-                    size="small"
-                  />
-                </label>
-                <input type="radio" name="rating" id="2" />
-              </div>
-
-              <div className="option">
-                <label htmlFor="1">
-                  <Rating
-                    name="half-rating-read"
-                    defaultValue={1}
-                    precision={0.1}
-                    readOnly
-                    size="small"
-                  />
-                </label>
-                <input type="radio" name="rating" id="1" />
-              </div>
+                </div>
+              ))}
             </div>
 
+            {/* Radius Filter */}
             <div className="filtertype">
               <h2>Radius</h2>
-              {/* <Box sx={{ width: 270, padding: '40px 0' }}> */}
               <Slider
                 aria-label="Restricted values"
-                defaultValue={1}
-                getAriaValueText={valuetext}
+                value={filters.distance}
+                onChange={handleDistanceChange}
                 step={null}
                 valueLabelDisplay="auto"
                 marks={marks}
+                min={0}
+                max={15}
               />
-              {/* </Box> */}
             </div>
 
             <button type="submit">Apply Filters</button>
@@ -164,71 +199,36 @@ const UserDashboard = () => {
           <div className="heading">Results for Search</div>
 
           <div className="card-container">
-          {cards.map((card, index) => (
-          <Card
-            key={index} // Key for each card
-            workType={card.workType}
-            rating={card.rating}
-            phoneNo={card.phoneNo}
-            onClick={() => handleCardClick(card)} // Pass clicked card data
-          />
-        ))}
-            
+            {providerData.length > 0 ? (
+              providerData.map((provider, index) => (
+                <Card
+                  key={index}
+                  id={provider.providerId}
+                  name={provider.providerName}
+                  age={provider.providerAge}
+                  distance={provider.providerDistanceInKm}
+                  workType={provider.providerWorkType}
+                  rating={provider.providerRating}
+                  phoneNo={provider.providerPhone}
+                  onClick={() => handleCardClick(provider)}
+                />
+              ))
+            ) : (
+              <p>No providers found</p>
+            )}
           </div>
         </div>
-        {firsttimeclick && <RightComponent workType={cardData.workType} rating={cardData.rating} phoneNo={cardData.phoneNo} />}
-        {/* <div className="right">
-          <div className="details">
-            <img src="" alt="" />
-            <p className="Name">John Doe</p>
-
-            <div className="details-container">
-              <div className="detail-type">
-                <h1>Contact Information</h1>
-                <div className="detail">
-                  <p className="detail-heading">Email : </p>
-                  <a href="mailto:abc@gmail.com">abc@gmail.com</a>
-                </div>
-                <div className="detail">
-                  <p className="detail-heading">Phone : </p>
-                  <a href="tel:1234567890">1234567890</a>
-                </div>
-
-                <div className="detail">
-                  <p className="detail-heading">Address : </p>
-                  <p>123, XYZ Street, ABC City</p>
-                </div>
-              </div>
-              <div className="detail-type">
-                <h1>Professional Information</h1>
-                <div className="detail">
-                  <p className="detail-heading">Service : </p>
-                  <p>Electrician</p>
-                </div>
-                <div className="detail">
-                  <p className="detail-heading">Experience : </p>
-                  <p>5 years</p>
-                </div>
-                <div className="detail">
-                  <p className="detail-heading">Rating : </p>
-                  <p>4.5 &#127775;</p>
-                </div>
-              </div>
-
-              <div className="detail-type">
-                <h1>Reviews & Feedbacks</h1>
-                <div className="detail">
-                  <p className="detail-heading">Review 1 : </p>
-                  <p>Good service</p>
-                </div>
-                <div className="detail">
-                  <p className="detail-heading">Review 2 : </p>
-                  <p>Very professional</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
+        {firsttimeclick && (
+          <RightComponent
+            name={cardData.providerName}
+            address={cardData.providerAddress}
+            email={cardData.providerEmail}
+            workType={cardData.providerWorkType}
+            rating={cardData.providerRating}
+            phoneNo={cardData.providerPhone}
+            feedback={cardData.providerFeedback}
+          />
+        )}
       </div>
 
       <Footer />
@@ -236,61 +236,82 @@ const UserDashboard = () => {
   );
 };
 
-const RightComponent=({workType,rating,phoneNo})=>{
-        return(
-                <div className="right">
-          <div className="details">
-            <img src="" alt="" />
-            <p className="Name">John Doe</p>
+const RightComponent = ({
+  name,
+  address,
+  email,
+  workType,
+  rating,
+  phoneNo,
+  feedback,
+}) => {
+  return (
+    <div className="right">
+      <div className="details">
+        <img src="" alt="" />
+        <p className="Name">{name}</p>
 
-            <div className="details-container">
-              <div className="detail-type">
-                <h1>Contact Information</h1>
-                <div className="detail">
-                  <p className="detail-heading">Email : </p>
-                  <a href="mailto:abc@gmail.com">abc@gmail.com</a>
-                </div>
-                <div className="detail">
-                  <p className="detail-heading">Phone : </p>
-                  <a href="tel:1234567890">{phoneNo}</a>
-                </div>
+        <div className="details-container">
+          <div className="detail-type">
+            <h1>Contact Information</h1>
+            <div className="detail">
+              <p className="detail-heading">Email : </p>
+              <a href={`mailto:${email}`}>{email}</a>
+            </div>
+            <div className="detail">
+              <p className="detail-heading">Phone : </p>
+              <a href={`tel:${phoneNo}`}>{phoneNo}</a>
+            </div>
 
-                <div className="detail">
-                  <p className="detail-heading">Address : </p>
-                  <p>123, XYZ Street, ABC City</p>
-                </div>
-              </div>
-              <div className="detail-type">
-                <h1>Professional Information</h1>
-                <div className="detail">
-                  <p className="detail-heading">Service : </p>
-                  <p>{workType}</p>
-                </div>
-                <div className="detail">
-                  <p className="detail-heading">Experience : </p>
-                  <p>5 years</p>
-                </div>
-                <div className="detail">
-                  <p className="detail-heading">Rating : </p>
-                  <p>{rating} &#127775;</p>
-                </div>
-              </div>
-
-              <div className="detail-type">
-                <h1>Reviews & Feedbacks</h1>
-                <div className="detail">
-                  <p className="detail-heading">Review 1 : </p>
-                  <p>Good service</p>
-                </div>
-                <div className="detail">
-                  <p className="detail-heading">Review 2 : </p>
-                  <p>Very professional</p>
-                </div>
-              </div>
+            <div className="detail">
+              <p className="detail-heading">Address : </p>
+              <p>{address}</p>
             </div>
           </div>
+          <div className="detail-type">
+            <h1>Professional Information</h1>
+            <div className="detail">
+              <p className="detail-heading">Service : </p>
+              <p>{workType}</p>
+            </div>
+            <div className="detail">
+              <p className="detail-heading">Experience : </p>
+              <p>5 years</p>
+            </div>
+            <div className="detail">
+              <p className="detail-heading">Rating : </p>
+              <p>{rating} &#127775;</p>
+            </div>
+          </div>
+
+          <div className="detail-type">
+            <h1>Reviews & Feedbacks</h1>
+
+            {feedback.length > 0 ? (
+              feedback.map((feedback, index) => (
+                <Feedbacks
+                  key={feedback.id || index}
+                  feedback={feedback.feedback}
+                  index={index}
+                />
+              ))
+            ) : (
+              <p>No feedbacks available</p>
+            )}
+          </div>
         </div>
-        )
-}
+      </div>
+    </div>
+  );
+};
+
+const Feedbacks = ({ feedback, index }) => {
+  return (
+    <div className="detail">
+      <p className="detail-heading">Review {index + 1} : </p>
+      <p>{feedback}</p>
+    </div>
+  );
+};
 
 export default UserDashboard;

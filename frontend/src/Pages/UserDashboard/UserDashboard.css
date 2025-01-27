@@ -191,7 +191,95 @@
 
                 }
         }
-      }
-    }
-  }
+
+        .center{
+                flex : 2.5;
+                min-height: 100vh;
+                padding : 10px 20px;
+                display: flex;
+                flex-direction: column;
+                border-left: 1px solid black;
+                border-right: 1px solid black;
+                
+                .heading{
+                        height : 50px;
+                        font-size: 25px;
+                        font-weight: bold;
+                        margin : 10px 0px;
+                }
+
+                .card-container{
+                        border-radius: 10px;
+                        min-height : 90vh;
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: space-between;
+                        
+                }
+
+        }
+
+        .right{
+                
+                flex : 1;
+                min-height: 100vh;
+
+                display: flex;
+                justify-content: center;
+                overflow: hidden;
+
+                .details{
+                        height : 100%;
+                        width : 90%;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        padding : 50px 0px;
+
+                        img{
+                                width: 200px;
+                                height: 200px;
+                                object-fit: cover;
+                                border-radius: 50%;
+                                box-shadow: 1px 1px 10px 1px black;
+                        }
+                        .Name{
+                                font-size: 30px;
+                                font-weight: bold;
+                                margin : 10px 0px;
+                        }
+
+                        .details-container{
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: space-between;
+                                width: 100%;
+                                padding : 10px;
+
+                                .detail-type{
+                                        h1{
+                                                font-size: 20px;
+                                                font-weight: bold;
+                                                text-decoration: underline;
+                                        }
+                                        .detail{
+                                                display: flex;
+                                                justify-content: space-between;
+                                                margin : 10px 0px;
+                                                font-size: 15px;
+
+                                                p{
+                                                        max-width: 180px;
+                                                }
+                                        }
+                                        .detail-heading{
+                                                font-weight: bold;
+                                        }
+                                }
+
+                                
+                        }
+
+                }
+        }
 }

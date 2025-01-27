@@ -1,31 +1,29 @@
 import { IoIosCall } from "react-icons/io";
 import "./Card.css";
-import * as React from 'react';
-import Rating from '@mui/material/Rating';
-const Card = ({workType,rating,phoneNo,onClick}) => {
-        return (
-                <div className="card" onClick={onClick}>
-                        <div className="image">
+import * as React from "react";
+import Rating from "@mui/material/Rating";
 
-                        </div>
-                        <div className="info">
-                                <div className="type">
-                                        {workType}
-                                </div>
-                                {/* <div className="rating">
-                                        4.7 &#127775;
-                                </div> */}
-
-                                <Rating name="half-rating-read" defaultValue={rating} precision={0.1} readOnly />
-
-                        </div>
-                        <div className="call">
-                                <IoIosCall />
-                                +91-{phoneNo}
-
-                        </div>
-
+const Card = ({ name, age, distance, workType, rating, phoneNo, onClick }) => {
+    return (
+        <div className="card" onClick={onClick}>
+            <div className="image"></div>
+            <div className="details">
+                <div className="name-age">
+                    <span className="name">{name}</span>
+                    <span className="age">{age} yrs</span>
                 </div>
-        );
-}
+                <div className="distance">{distance} km away</div>
+                <div className="type">
+                    {workType}
+                <Rating name="half-rating-read" value={rating} precision={0.1} readOnly size = "small" />
+                </div>
+            </div>
+            <div className="call">
+                <IoIosCall />
+                <span>+91-{phoneNo}</span>
+            </div>
+        </div>
+    );
+};
+
 export default Card;
