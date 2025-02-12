@@ -21,6 +21,9 @@ model Customer {
   address     Address    @relation(fields: [addressId], references: [id])
   orders      Order[]    @relation("CustomerOrders")
   feedbacks   Feedback[] @relation("CustomerFeedbacks")
+
+  // Many-to-many relation: A customer can have multiple favorite providers
+  favorites   Favorite[]
 }
 
 model Provider {
@@ -40,7 +43,21 @@ model Provider {
   aadharNumber String     @unique
   orders       Order[]    @relation("ProviderOrders")
   feedbacks    Feedback[] @relation("ProviderFeedbacks")
+
+  // Many-to-many relation: A provider can be favorited by multiple customers
+  favoritedBy  Favorite[]
 }
+
+// Junction table for many-to-many relation between Customer and Provider
+model Favorite {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  customerId  String    @db.ObjectId
+  providerId  String    @db.ObjectId
+  customer    Customer  @relation(fields: [customerId], references: [id])
+  provider    Provider  @relation(fields: [providerId], references: [id])
+  createdAt   DateTime  @default(now()) // Timestamp for when the provider was favorited
+}
+
 
 model Order {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
@@ -50,7 +67,7 @@ model Order {
   askedBy   Customer  @relation("CustomerOrders", fields: [askedById], references: [id])
   askedById String    @db.ObjectId
   completed Boolean   @default(false)
-  feedback  Feedback? @relation 
+  feedback  Feedback? @relation // Optional side of the relation
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
@@ -64,7 +81,7 @@ model Feedback {
   givenTo   Provider @relation("ProviderFeedbacks", fields: [givenToId], references: [id])
   givenToId String   @db.ObjectId
   orderId   String   @unique @db.ObjectId
-  order     Order    @relation(fields: [orderId], references: [id]) 
+  order     Order    @relation(fields: [orderId], references: [id]) // The required side of the relation
   createdAt DateTime @default(now())
 }
 

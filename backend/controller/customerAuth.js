@@ -136,4 +136,35 @@ router.get('/filterprovider', async (req, res) => {
 
 });
 
+// this route will provide order history detail of a customer
+router.get('/orderhistory', async (req, res) => {
+    const orders = await prisma.order.findMany({
+        where:{
+            askedById:req.userId
+        },
+        include:{
+            doneBy:true,
+            feedback:true
+        }
+    })
+    // console.log(orders);
+    
+    const newOrders=orders.map((order)=>{
+        return {
+            orderId:order.id,
+            orderDate:order.createdAt,
+            orderCompleted:order.completed,
+            orderFeedback: order.feedback?.feedback ?? "No feedback yet",
+            orderRating:order.feedback?.star ?? 0,
+            providerName:order.doneBy.firstName + " " + order.doneBy.lastName,
+            providerPhone:order.doneBy.phoneNumber,
+            providerWorkType:order.doneBy.workType,
+            providerEmail:order.doneBy.email,
+        }
+    })
+    res.status(200).json({
+        orders:newOrders,
+    });
+});
+
 export default router;
