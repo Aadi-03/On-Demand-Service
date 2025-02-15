@@ -13,6 +13,7 @@ import mechaniclogo from "../../assets/LandingPageImages/mechanic_logo.png";
 import plumberlogo from "../../assets/LandingPageImages/plumber_logo.png";
 
 import Navbar from "../../Components/Navbar/Navbar.jsx";
+import NewNavbar from "../../Components/NewNavbar/NewNavbar.jsx";
 
 
 const LandingPage = () => {
@@ -22,7 +23,8 @@ const LandingPage = () => {
   return (
 
     <>
-      <Navbar/>
+      {/* <Navbar/> */}
+      <NewNavbar/>
       <hr className="horizontal-rule" />
 
       <div className="Landing-Page">
