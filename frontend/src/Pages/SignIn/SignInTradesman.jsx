@@ -4,6 +4,7 @@ import "./SignInTradesman.css";
 
 
 import Navbar from "../../Components/Navbar/Navbar";
+import NewNavbar from '../../Components/NewNavbar/NewNavbar.jsx';
 import Footer from "../../Components/Footer/Footer";
 
 import { useState } from "react";
@@ -61,8 +62,9 @@ const SignInTradesman = () => {
   }
   return (
     <>
-    <Navbar />
-    <div className="signin-tradesman-wrapper">
+    {/* <Navbar /> */}
+    <NewNavbar/>
+        <div className="signin-tradesman-wrapper">
         <div className="email-wrapper">
             <label >Email :</label>
             <input type="text" placeholder='email' onChange={(e)=>{

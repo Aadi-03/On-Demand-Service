@@ -2,6 +2,8 @@ import "./SignUpCustomer.css";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../../Components/Navbar/Navbar";
+import NewNavbar from '../../Components/NewNavbar/NewNavbar.jsx';
+
 import Footer from "../../Components/Footer/Footer";
 import { useNavigate } from "react-router-dom";
 const SignUpCustomer = () => {
@@ -100,7 +102,8 @@ const SignUpCustomer = () => {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
+      <NewNavbar/>
       <form className="signup-customer-wrapper" onSubmit={handleSubmit}>
         <div className="name-wrapper">
           <div>

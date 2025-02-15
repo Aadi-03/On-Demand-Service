@@ -3,6 +3,7 @@ import "./SignInCustomer.css";
 
 
 import Navbar from "../../Components/Navbar/Navbar";
+import NewNavbar  from "../../Components/NewNavbar/NewNavbar.jsx";
 import Footer from "../../Components/Footer/Footer";
 
 import { useState } from "react";
@@ -60,7 +61,8 @@ const SignInCustomer = () => {
 
   return (
     <>
-    <Navbar />
+    {/* <Navbar /> */}
+    <NewNavbar/>
     <div className="signin-customer-wrapper">
         <div className="email-wrapper">
             <label >Email :</label>

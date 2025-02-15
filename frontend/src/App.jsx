@@ -11,7 +11,7 @@ import SignUpCustomer from "./Pages/SignUp/SignUpCustomer.jsx";
 import SignUpTradesman from "./Pages/SignUp/SignUpTradesman.jsx";
 
 import UserDashboard from "./Pages/UserDashboard/UserDashboard.jsx";
-
+import History from "./Pages/History/History.jsx";
 
 
 const router = createBrowserRouter([
@@ -44,6 +44,10 @@ const router = createBrowserRouter([
     path: "/customer/dashboard",
     element: <UserDashboard />,
   },
+  {
+    path: "/customer/dashboard/history",
+    element: <History />,
+  }
 ]);
 
 const App = () => {

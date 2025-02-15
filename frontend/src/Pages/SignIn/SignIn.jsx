@@ -7,12 +7,14 @@ import customer from'../../assets/LandingPageImages/customer-logo.jpeg';
 import service_provider from'../../assets/LandingPageImages/service-provider-logo.png';
 
 import Navbar from '../../Components/Navbar/Navbar.jsx';
+import NewNavbar from '../../Components/NewNavbar/NewNavbar.jsx';
 import Footer from '../../Components/Footer/Footer.jsx';
 
 const SignIn = () => {
   return (
     <>
-    <Navbar />
+    {/* <Navbar /> */}
+    <NewNavbar />
     <div className="signin-wrapper">
       <div className='signin-container'>
         <h1>SignIn</h1>

@@ -66,13 +66,10 @@ export default function PrimarySearchAppBar() {
   
   const navigate = useNavigate();
 
-        const handleSignin = () => {
-                navigate('/signin');
+        const handleHistory = () => {
+                navigate('history');
         }
-        const handleSignup = () => {
-                navigate('/signup');
-        }
-
+       
         const handleGoHome = () => {
                 navigate('/');
         }
@@ -114,8 +111,12 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleSignin}>Sign In</MenuItem>
-      <MenuItem onClick={handleSignup}>Sign Up</MenuItem>
+      <MenuItem >Profile</MenuItem>
+      <MenuItem >Edit Profile</MenuItem>
+      <MenuItem onClick={handleHistory}>History</MenuItem>
+      <MenuItem >Bookmarks</MenuItem>
+      <MenuItem >Report a Bug</MenuItem>
+      <MenuItem >LogOut</MenuItem>
     </Menu>
   );
 
@@ -190,7 +191,7 @@ export default function PrimarySearchAppBar() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-          <img src={logo} alt="" className="logo" style={{ height: '3.5rem',cursor:"Pointer"}} onClick={handleGoHome}/>
+          <img src={logo} alt="" className="logo" style={{ height: '3.5rem',cursor:"Pointer" }} onClick={handleGoHome}/>
           </Typography>
           <Search>
             <SearchIconWrapper>
