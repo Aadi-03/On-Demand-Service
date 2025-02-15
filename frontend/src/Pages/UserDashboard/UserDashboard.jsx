@@ -8,6 +8,9 @@ import Footer from "../../Components/Footer/Footer";
 import Rating from "@mui/material/Rating";
 import { useState } from "react";
 import { useEffect } from "react";
+
+import NewCustomerNavbar from '../../Components/NewNavbar/NewCustomerNavbar.jsx';
+
 import axios from "axios";
 
 const UserDashboard = () => {
@@ -127,7 +130,8 @@ const UserDashboard = () => {
   }, [providerData, firsttimeclick]);
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
+      <NewCustomerNavbar/>
       <div className="user-dashboard">
         <div className="left">
           <p>Filters</p>

@@ -4,6 +4,8 @@ import "./SignUpTradesman.css";
 import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/Footer/Footer";
 
+import NewNavbar from '../../Components/NewNavbar/NewNavbar.jsx';
+
 import axios from 'axios';
 const SignUpTradesman = () => {
   const naviagate = useNavigate();
@@ -107,7 +109,8 @@ const SignUpTradesman = () => {
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
+      <NewNavbar/>
       <div className="signup-tradesman-wrapper">
         <form onSubmit={handleSubmit}>
           <div className="name-wrapper">
