@@ -16,16 +16,16 @@ import axios from "axios";
 const UserDashboard = () => {
   const [providerData, setProviderData] = useState([]);
   const [filters, setFilters] = useState({
-    workType: [], // Stores the selected services (e.g., Electrician, Plumber)
-    rating: 0, // Stores the selected rating
-    distance: 1, // Default distance value (adjust as needed)
+    workType: [],
+    rating: 0, 
+    distance: 1, 
   });
   const handleServiceChange = (e) => {
     const service = e.target.id;
     setFilters((prev) => {
       const newWorkType = prev.workType.includes(service)
-        ? prev.workType.filter((s) => s !== service) // Remove service if unchecked
-        : [...prev.workType, service]; // Add service if checked
+        ? prev.workType.filter((s) => s !== service) 
+        : [...prev.workType, service]; 
       return { ...prev, workType: newWorkType };
     });
   };
@@ -33,14 +33,14 @@ const UserDashboard = () => {
   const handleRatingChange = (e) => {
     setFilters((prev) => ({
       ...prev,
-      rating: parseInt(e.target.id, 10), // Convert rating to number
+      rating: parseInt(e.target.id, 10), 
     }));
   };
 
   const handleDistanceChange = (event, value) => {
     setFilters((prev) => ({
       ...prev,
-      distance: value == 15 ? 1000 : value, // Update the distance
+      distance: value == 15 ? 1000 : value, 
     }));
   };
 
