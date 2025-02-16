@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NewCustomerNavbar from '../../Components/NewNavbar/NewCustomerNavbar.jsx';
 import Footer from '../../Components/Footer/Footer.jsx';
 import {useEffect} from 'react';
 import axios from 'axios';
 import { data } from 'react-router-dom';
+import './History.css';
 
 const History = () => {
-
+  const [history , setHistory] = useState([]);
   useEffect(() => {
     const fetchHistory=async()=>{
       try{
@@ -25,6 +26,7 @@ const History = () => {
       }
       const response = await axios.request(config);
       console.log(response.data);
+      setHistory(response.data['orders']);
     }
       catch(err)
       {
@@ -34,14 +36,32 @@ const History = () => {
     fetchHistory();
   }, []);
   return (
-    <>
+    <div className='histroy-page'>
       <NewCustomerNavbar/>
+        <h1 style={{textAlign:"center"}}>History</h1>
         <div>
-            <h1 style={{textAlign:"center",height:"75vh"}}>History</h1>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              {history.length > 0 ? (
+                history.map((order, index) => (
+                  <div key={index} style={{ border: '1px solid black', padding: '20px', margin: '10px', width: '80%' }}>
+                    <h3>Order ID: {order.orderId}</h3>
+                    <p>Work Type : {order.providerWorkType}</p>
+                    <p>Name : {order.providerName}</p>
+                    <p>Phone Number : {order.providerPhone}</p>
+                    <p>Email : {order.providerEmail}</p>
+                    <p>Date: {new Date(order.orderDate).toLocaleDateString()}</p>
+                    <p>Order Rating : {order.orderRating}</p>
+                    <p>Feedback : {order.orderFeedback}</p>
+                  </div>
+                ))
+              ) : (
+                <p>No order history available.</p>
+              )}
+            </div>
         </div>
         <Footer/>
 
-    </>
+    </div>
   );
 }
 
