@@ -167,4 +167,54 @@ router.get('/orderhistory', async (req, res) => {
     });
 });
 
+// this route will provide the detail of favorite providers of a customer
+router.get('/favoriteprovider', async (req, res) => {
+    try {
+        const customer = await prisma.favorite.findMany({
+            where: {
+                customerId: req.userId
+            },
+            include: {
+                provider: {
+                    include: {
+                        address: true,
+                        feedbacks: true
+                    }
+                }
+            }
+        });
+
+        const newCustomer = customer.map((customer) => {
+            const { houseNumber, streetName, state, country, pincode } = customer.provider.address;
+            const formattedAddress = `${houseNumber}, ${streetName}, ${state}, ${country} - ${pincode}`;
+            let rating = customer.provider.feedbacks.reduce((acc, feedback) => acc + feedback.star, 0) / customer.provider.feedbacks.length;
+            if (isNaN(rating)) {
+                rating = 0;
+            } else {
+                rating = Math.round(rating * 100) / 100;
+            }
+            return {
+                providerId: customer.provider.id,
+                providerName: customer.provider.firstName + " " + customer.provider.lastName,
+                providerAge: new Date().getFullYear() - new Date(customer.provider.dob).getFullYear(),
+                ProviderGender: customer.provider.gender,
+                providerPhone: customer.provider.phoneNumber,
+                providerWorkType: customer.provider.workType,
+                providerAddress: formattedAddress,
+                providerEmail: customer.provider.email,
+                providerRating: rating,
+            };
+        });
+
+        res.status(200).json({
+            favorite: newCustomer,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(200).json({
+            error: "An error occurred while fetching favorite providers."
+        });
+    }
+});
+
 export default router;
