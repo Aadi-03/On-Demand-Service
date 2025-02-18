@@ -67,7 +67,7 @@ export default function PrimarySearchAppBar() {
   const navigate = useNavigate();
 
         const handleHistory = () => {
-                navigate('history');
+                navigate('/customer/dashboard/history');
         }
        
         const handleGoHome = () => {
