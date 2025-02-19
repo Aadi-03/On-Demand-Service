@@ -10,6 +10,7 @@ import Navbar from '../../Components/Navbar/Navbar.jsx';
 import NewNavbar from '../../Components/NewNavbar/NewNavbar.jsx';
 import Footer from '../../Components/Footer/Footer.jsx';
 
+
 const SignIn = () => {
   return (
     <>

@@ -14,6 +14,8 @@ import UserDashboard from "./Pages/UserDashboard/UserDashboard.jsx";
 import History from "./Pages/History/History.jsx";
 
 
+import Favorites from "./Pages/Favorites/Favorites.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -47,6 +49,10 @@ const router = createBrowserRouter([
   {
     path: "/customer/dashboard/history",
     element: <History />,
+  },
+  {
+    path : "/customer/dashboard/favorites",
+    element: <Favorites />
   }
 ]);
 

@@ -9,7 +9,7 @@ import Footer from "../../Components/Footer/Footer";
 import { useState } from "react";
 import axios from 'axios';
 import { Navigate, useNavigate } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
 const SignInCustomer = () => {
   const [data, setData] = useState({
     email: "",
@@ -43,11 +43,12 @@ const SignInCustomer = () => {
         const response=await axios.request(config);
         console.log(JSON.stringify(response.data));
         if(response.data.error){
-          alert(response.data.error);
+          toast.error(response.data.error);
         }
         else{
-          alert("Customer signed in successfully");
+          toast.success("Sign In Successful");
           localStorage.setItem("customerToken", response.data.token);
+          await new Promise(resolve => setTimeout(resolve, 1000));
           navigate('/customer/dashboard');
         }
       }
@@ -63,6 +64,7 @@ const SignInCustomer = () => {
     <>
     {/* <Navbar /> */}
     <NewNavbar/>
+    <ToastContainer position="bottom-right" autoClose={3000} theme="light"/>
     <div className="signin-customer-wrapper">
         <div className="email-wrapper">
             <label >Email :</label>

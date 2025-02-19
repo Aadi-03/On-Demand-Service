@@ -8,13 +8,17 @@ import Footer from "../../Components/Footer/Footer";
 import Rating from "@mui/material/Rating";
 import { useState } from "react";
 import { useEffect } from "react";
-
 import NewCustomerNavbar from '../../Components/NewNavbar/NewCustomerNavbar.jsx';
+import bookmark from "../../assets/bookmark.png";
+import bookmarked from "../../assets/bookmarked.png";
+
+import { ToastContainer, toast } from 'react-toastify';
 
 import axios from "axios";
 
 const UserDashboard = () => {
   const [providerData, setProviderData] = useState([]);
+  const [favoriteList, setfavoriteList] = useState([]);
   const [filters, setFilters] = useState({
     workType: [],
     rating: 0, 
@@ -49,6 +53,7 @@ const UserDashboard = () => {
     console.log(filters);
     const url = `http://localhost:3000/customer/auth/filterprovider?workType=${filters.workType}&distance=${filters.distance}&rating=${filters.rating}`;
     console.log(url);
+
     let config = {
       method: "get",
       maxBodyLength: Infinity,
@@ -57,6 +62,7 @@ const UserDashboard = () => {
         Authorization: `bearer ${localStorage.getItem("customerToken")}`,
       },
     };
+
 
     async function makeRequest() {
       try {
@@ -72,7 +78,6 @@ const UserDashboard = () => {
         console.log(error);
       }
     }
-
     makeRequest();
   };
   const marks = [
@@ -114,24 +119,55 @@ const UserDashboard = () => {
           alert(response.data.error);
         } else {
           setProviderData(response.data.provider);
-          // console.log(providerData);
+          // console.log(response.data.provider);
         }
       } catch (error) {
         console.log(error);
       }
     }
 
+    let userconfig = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: 'http://localhost:3000/customer/auth/favoriteprovider',
+      headers: {
+        Authorization: `bearer ${localStorage.getItem("customerToken")}`,
+      },
+    };
+    async function makeRequestForUser() {
+      try {
+        const response = await axios.request(userconfig);
+        // console.log(JSON.stringify(response.data));
+        if (response.data.error) {
+          alert(response.data.error);
+        } else {
+          const fav_provider_id = response.data.favorite.map((provider) => provider.providerId);
+          setfavoriteList(fav_provider_id);
+          
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
     makeRequest();
+    makeRequestForUser();
+
   }, []);
+
+
   useEffect(() => {
     if (!providerData.length && firsttimeclick) {
       setfirsttimeclick(false);
     }
   }, [providerData, firsttimeclick]);
+
+
   return (
     <>
       {/* <Navbar /> */}
       <NewCustomerNavbar/>
+      <ToastContainer position="bottom-right" autoClose={3000} theme="light"/>
       <div className="user-dashboard">
         <div className="left">
           <p>Filters</p>
@@ -231,6 +267,9 @@ const UserDashboard = () => {
             rating={cardData.providerRating}
             phoneNo={cardData.providerPhone}
             feedback={cardData.providerFeedback}
+            providerId = {cardData.providerId}
+            favList = {favoriteList}
+            setfavoriteList = {setfavoriteList}
           />
         )}
       </div>
@@ -248,11 +287,35 @@ const RightComponent = ({
   rating,
   phoneNo,
   feedback,
+  providerId,
+  favList,
+  setfavoriteList
 }) => {
+
+
+
+  const handleBookmark = (id, list) => {
+    let newList;
+    if(list.includes(id)){
+      newList = list;
+      toast.info("To remove provider from favorites, go to favorites page");
+    }
+    else{
+      newList = [...list, id];
+      toast.success("Provider added to favorites");
+    }
+    setfavoriteList(newList);
+  }
   return (
     <div className="right">
       <div className="details">
-        <img src="" alt="" />
+        <img
+          src={favList.includes(providerId) ? bookmarked : bookmark}
+          alt=""
+          className="bookmark"
+          onClick={() => {handleBookmark(providerId, favList)}}
+        />
+        <img src="" alt="" className="profileimage" />
         <p className="Name">{name}</p>
 
         <div className="details-container">
