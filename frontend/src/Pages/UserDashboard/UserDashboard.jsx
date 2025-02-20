@@ -166,7 +166,7 @@ const UserDashboard = () => {
   return (
     <>
       {/* <Navbar /> */}
-      <NewCustomerNavbar/>
+      <NewCustomerNavbar setProviderData={setProviderData}/>
       <ToastContainer position="bottom-right" autoClose={3000} theme="light"/>
       <div className="user-dashboard">
         <div className="left">
