@@ -15,7 +15,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-
+import axios from 'axios';
 
 import { useNavigate } from 'react-router-dom';
 import logo from "../../assets/LandingPageImages/Company-Logo.png";
@@ -60,10 +60,46 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+
+export default function PrimarySearchAppBar({setProviderData}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+
   
+  const handleSearch = (event) => {
+    if (event.key === 'Enter') {
+      console.log('Search:', event.target.value);
+      let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: 'http://localhost:3000/customer/auth/searchprovider?keyword='+event.target.value,
+        headers: { 
+          'Authorization': `bearer ${localStorage.getItem("customerToken")}`,
+        }
+      };
+      
+      async function makeRequest() {
+        try {
+          const response = await axios.request(config);
+          // console.log(JSON.stringify(response.data));
+          if (response.data.error) {
+            alert(response.data.error);
+          } else {
+            setProviderData(response.data.provider);
+            
+          }
+        }
+        catch (error) {
+          console.log(error);
+        }
+      }
+      
+      makeRequest();
+      
+      // Add your search logic here
+    }
+  }
+
   const navigate = useNavigate();
 
         const handleHistory = () => {
@@ -203,6 +239,7 @@ export default function PrimarySearchAppBar() {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              onKeyDown={handleSearch}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
