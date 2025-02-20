@@ -15,6 +15,7 @@ import History from "./Pages/History/History.jsx";
 
 
 import Favorites from "./Pages/Favorites/Favorites.jsx";
+import CustomerProfile from "./Pages/Profile/Profile.jsx";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
   {
     path : "/customer/dashboard/favorites",
     element: <Favorites />
+  },
+  {
+    path : "/customer/dashboard/profile",
+    element: <CustomerProfile />
   }
 ]);
 
