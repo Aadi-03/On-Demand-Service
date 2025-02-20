@@ -9,6 +9,47 @@ const router = express.Router();
 
 router.use(verifyJwt);
 
+// this route will provide the detail of a customer
+router.get('/profile', async (req, res) => {
+    try {
+        const customer=await prisma.customer.findUnique({
+            where:{
+                id:req.userId
+            },
+            include:{
+                address: true,
+                favorites:{
+                    include:{
+                        provider:{
+                            include:{
+                                address:true
+                            }
+                        }
+                    }
+                },
+                feedbacks:true,
+                orders:{
+                    include:{
+                        doneBy:true
+                    }
+                }
+
+            }
+        })
+        customer.password=undefined;
+        res.status(200).json({
+            customer
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(200).json({
+            error: "An error occurred while fetching customer profile."
+        });
+        
+    }
+});
+
+
 // this route will provide all the providers in the database
 router.get('/bulkprovider', async (req, res) => {
     const customer = await prisma.customer.findUnique({
