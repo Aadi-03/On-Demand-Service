@@ -76,6 +76,9 @@ export default function PrimarySearchAppBar() {
         const handleFavorites = () => {
                 navigate('/customer/dashboard/favorites');
         }
+        const handleProfile = () => {
+                navigate('/customer/dashboard/profile');
+        }
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -114,8 +117,8 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem >Profile</MenuItem>
-      <MenuItem >Edit Profile</MenuItem>
+      <MenuItem onClick={handleProfile}>Profile</MenuItem>
+      {/* <MenuItem >Edit Profile</MenuItem> */}
       <MenuItem onClick={handleHistory}>History</MenuItem>
       <MenuItem onClick={handleFavorites}>Favorites</MenuItem>
       <MenuItem >Report a Bug</MenuItem>
