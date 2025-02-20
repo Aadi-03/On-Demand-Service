@@ -217,4 +217,61 @@ router.get('/favoriteprovider', async (req, res) => {
     }
 });
 
+// this route will add a provider to the favorite list of a customer
+router.post('/favoriteprovider', async (req, res) => {
+    try {
+        const { providerId } = req.body;
+        const provider=await prisma.favorite.findFirst({
+            where:{
+                customerId:req.userId,
+                providerId:providerId
+            }
+        })
+        if(provider){
+            return res.status(200).json({
+                error: "Provider already in favorite list."
+            });
+        }
+        const customer = await prisma.favorite.create({
+            data: {
+                customerId: req.userId,
+                providerId: providerId
+            }
+        });
+
+        res.status(200).json({
+            message: "Provider added to favorite list.",
+            favorite: customer
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(200).json({
+            error: "An error occurred while adding provider to favorite list."
+        });
+    }
+});
+
+// this route will remove a provider from the favorite list of a customer
+router.delete('/favoriteprovider', async (req, res) => {
+    try {
+        const { providerId } = req.body;
+        const customer = await prisma.favorite.deleteMany({
+            where: {
+                customerId: req.userId,
+                providerId: providerId
+            }
+        });
+
+        res.status(200).json({
+            message: "Provider removed from favorite list.",
+            favorite: customer
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(200).json({
+            error: "An error occurred while removing provider from favorite list."
+        });
+    }
+});
+
 export default router;

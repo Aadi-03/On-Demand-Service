@@ -6,6 +6,7 @@ import NewNavbar from '../../Components/NewNavbar/NewNavbar.jsx';
 
 import Footer from "../../Components/Footer/Footer";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 const SignUpCustomer = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -85,9 +86,9 @@ const SignUpCustomer = () => {
         const response = await axios.request(config);
         console.log(JSON.stringify(response.data));
         if (response.data.error) {
-          alert(response.data.error);
+          toast.error(response.data.error);
         } else {
-          alert("Customer signed up successfully");
+          toast.success("Sign Up Successful");
           localStorage.setItem("customerToken", response.data.token);
           navigate("/customer/dashboard");
         }
@@ -104,6 +105,7 @@ const SignUpCustomer = () => {
     <>
       {/* <Navbar /> */}
       <NewNavbar/>
+      <ToastContainer position="bottom-right" autoClose={3000} theme="light"/>
       <form className="signup-customer-wrapper" onSubmit={handleSubmit}>
         <div className="name-wrapper">
           <div>

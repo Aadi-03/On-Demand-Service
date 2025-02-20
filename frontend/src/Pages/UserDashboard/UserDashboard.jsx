@@ -119,7 +119,7 @@ const UserDashboard = () => {
           alert(response.data.error);
         } else {
           setProviderData(response.data.provider);
-          // console.log(response.data.provider);
+          
         }
       } catch (error) {
         console.log(error);
@@ -294,17 +294,54 @@ const RightComponent = ({
 
 
 
-  const handleBookmark = (id, list) => {
+  const handleBookmark = (id, list, name) => {
     let newList;
     if(list.includes(id)){
       newList = list;
       toast.info("To remove provider from favorites, go to favorites page");
     }
     else{
-      newList = [...list, id];
-      toast.success("Provider added to favorites");
+      let data = JSON.stringify({
+        "providerId": id
+      });
+      
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'http://localhost:3000/customer/auth/favoriteprovider',
+        headers: { 
+          'Authorization': 'bearer ' + localStorage.getItem('customerToken'), 
+          'Content-Type': 'application/json'
+        },
+        data : data
+      };
+      
+      async function makeRequest() {
+        try {
+          const response = await axios.request(config);
+          // console.log(JSON.stringify(response.data));
+          if (response.data.error) {
+            console.log("error while adding to favorites");
+            
+            toast.error(response.data.error);
+            
+            setfavoriteList(list);
+          } else {
+            newList = [...list, id];
+            // console.log(newList);
+            setfavoriteList(newList);
+            toast.success(`${name} added to favorites`);
+          }
+        }
+        catch (error) {
+          newList = list;
+          console.log("error",error);
+        }
+      }
+      
+      makeRequest();
+      
     }
-    setfavoriteList(newList);
   }
   return (
     <div className="right">
@@ -313,7 +350,7 @@ const RightComponent = ({
           src={favList.includes(providerId) ? bookmarked : bookmark}
           alt=""
           className="bookmark"
-          onClick={() => {handleBookmark(providerId, favList)}}
+          onClick={() => {handleBookmark(providerId, favList, name)}}
         />
         <img src="" alt="" className="profileimage" />
         <p className="Name">{name}</p>

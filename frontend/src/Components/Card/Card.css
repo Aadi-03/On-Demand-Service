@@ -12,6 +12,9 @@
         transition: box-shadow 0.3s ease;
         overflow: hidden; /* Prevent scrollbars from appearing */
     }
+    .card--no-distance {
+        height: 340px; /* Adjust the value as needed */
+    }
     
     .card:hover {
         box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
