@@ -61,44 +61,48 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 
-export default function PrimarySearchAppBar({setProviderData}) {
+export default function PrimarySearchAppBar({setProviderData,fav}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   
+  let debounceTimeout; // Global timeout reference
+
   const handleSearch = (event) => {
-    if (event.key === 'Enter') {
-      console.log('Search:', event.target.value);
+    const keyword = event.target.value;
+  
+    // Clear previous timeout to prevent multiple requests
+    clearTimeout(debounceTimeout);
+  
+    // Set a new timeout (500ms delay)
+    debounceTimeout = setTimeout(() => {
+      // console.log("Search:", keyword);
+  
       let config = {
-        method: 'get',
+        method: "get",
         maxBodyLength: Infinity,
-        url: 'http://localhost:3000/customer/auth/searchprovider?keyword='+event.target.value,
-        headers: { 
-          'Authorization': `bearer ${localStorage.getItem("customerToken")}`,
-        }
+        url: `http://localhost:3000/customer/auth/searchprovider?keyword=${keyword}&fav=${fav}`,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("customerToken")}`,
+        },
       };
-      
+  
       async function makeRequest() {
         try {
           const response = await axios.request(config);
-          // console.log(JSON.stringify(response.data));
           if (response.data.error) {
             alert(response.data.error);
           } else {
             setProviderData(response.data.provider);
-            
           }
-        }
-        catch (error) {
+        } catch (error) {
           console.log(error);
         }
       }
-      
+  
       makeRequest();
-      
-      // Add your search logic here
-    }
-  }
+    }, 500); // Adjust debounce delay as needed (e.g., 300ms, 500ms)
+  };
 
   const navigate = useNavigate();
 
@@ -242,7 +246,7 @@ export default function PrimarySearchAppBar({setProviderData}) {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
-              onKeyDown={handleSearch}
+              onChange={handleSearch}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />

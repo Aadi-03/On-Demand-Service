@@ -81,7 +81,7 @@ const Favorites = () => {
 
   return (
     <>
-      <NewCustomerNavbar />
+      <NewCustomerNavbar setProviderData={setProviderData} fav={true} />
       <ToastContainer position="bottom-right" autoClose={3000} theme="light" />
       <div className="favorites">
         <div className="heading">Favorites</div>
