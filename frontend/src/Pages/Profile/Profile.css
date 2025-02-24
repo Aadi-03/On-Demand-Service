@@ -41,7 +41,10 @@
   .profile-email,
   .profile-phone,
   .profile-gender,
-  .profile-dob {
+  .profile-dob,
+  .profile-orders,
+  .profile-fav,
+  .profile-feedbacks {
     font-size: 15px;
     color: #444;
     margin-bottom: 8px;
