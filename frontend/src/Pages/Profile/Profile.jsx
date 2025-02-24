@@ -22,7 +22,7 @@ const CustomerProfile = () => {
             try{
                 const response = await axios.request(config);
                 setUser(response.data.customer)
-                // console.log(response.data);
+                console.log(response.data);
                 
             }
             catch(err)
@@ -44,6 +44,9 @@ const CustomerProfile = () => {
       <p className="profile-phone">Phone: {user.phoneNumber}</p>
       <p className="profile-gender">Gender: {user.gender}</p>
       <p className="profile-dob">DOB: {new Date(user.dob).toLocaleDateString()}</p>
+      <p className="profile-orders">Orders: {user?.orders?.length}</p>
+      <p className="profile-fav">Favorites: {user?.favorites?.length} </p>
+      <p className="profile-feedbacks">Feedbacks: {user?.feedbacks?.length} </p>
        <div className="profile-address">
         <h3 className="address-title">Address</h3>
          <p className="address-detail">{user?.address?.houseNumber}, {user?.address?.streetName}</p>

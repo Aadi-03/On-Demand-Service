@@ -115,6 +115,10 @@ export default function PrimarySearchAppBar({setProviderData}) {
         const handleProfile = () => {
                 navigate('/customer/dashboard/profile');
         }
+        const handleLogout=()=>{
+                localStorage.removeItem('customerToken');
+                navigate('/');
+        }
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -158,7 +162,7 @@ export default function PrimarySearchAppBar({setProviderData}) {
       <MenuItem onClick={handleHistory}>History</MenuItem>
       <MenuItem onClick={handleFavorites}>Favorites</MenuItem>
       <MenuItem >Report a Bug</MenuItem>
-      <MenuItem >LogOut</MenuItem>
+      <MenuItem onClick={handleLogout}>LogOut</MenuItem>
     </Menu>
   );
 
