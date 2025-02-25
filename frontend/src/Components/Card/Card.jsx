@@ -23,6 +23,7 @@ const Card = ({ name, age, distance, workType, rating, phoneNo, onClick}) => {
                 <IoIosCall />
                 <span>+91-{phoneNo}</span>
             </div>
+            <button className="select-worker">Request</button>
         </div>
     );
 };

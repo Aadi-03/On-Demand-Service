@@ -165,8 +165,8 @@ export default function PrimarySearchAppBar({setProviderData,fav}) {
       {/* <MenuItem >Edit Profile</MenuItem> */}
       <MenuItem onClick={handleHistory}>History</MenuItem>
       <MenuItem onClick={handleFavorites}>Favorites</MenuItem>
-      <MenuItem >Report a Bug</MenuItem>
-      <MenuItem onClick={handleLogout}>LogOut</MenuItem>
+      <MenuItem>Report a Bug</MenuItem>
+      <MenuItem onClick={handleLogout} sx={{ color: 'red' }}>LogOut</MenuItem>
     </Menu>
   );
 

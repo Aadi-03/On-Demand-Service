@@ -70,7 +70,8 @@
         align-items: center;
     }
     
-    .call {
+    .call,
+    .select-worker{
         background-color: #f0f8ff;
         width: 90%;
         display: flex;
@@ -82,10 +83,19 @@
         color: #333;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        border : none;
+        margin : 5px;
     }
     
     .call:hover {
         background-color: #ffa500;
         color: #fff;
     }
-    
+
+    .select-worker{
+        font-weight: bold;
+    }
+    .select-worker:hover {
+        background-color : rgb(0, 145, 255);
+        color: #fff;
+    }

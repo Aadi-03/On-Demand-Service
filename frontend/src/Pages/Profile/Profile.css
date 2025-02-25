@@ -11,6 +11,17 @@
     position: relative;
     overflow: hidden;
   }
+
+  .profile-details{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    p{
+      text-align: left;
+      width : 60%;
+    }
+  }
   
   .profile-card:hover {
     transform: translateY(-5px);

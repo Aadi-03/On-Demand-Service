@@ -14,9 +14,12 @@ import bookmarked from "../../assets/bookmarked.png";
 
 import { ToastContainer, toast } from 'react-toastify';
 
+import { useNavigate } from 'react-router-dom';
+
 import axios from "axios";
 
 const UserDashboard = () => {
+  const navigate = useNavigate();
   const [providerData, setProviderData] = useState([]);
   const [favoriteList, setfavoriteList] = useState([]);
   const [filters, setFilters] = useState({
@@ -116,7 +119,9 @@ const UserDashboard = () => {
         const response = await axios.request(config);
         // console.log(JSON.stringify(response.data));
         if (response.data.error) {
-          alert(response.data.error);
+          // toast.error('Please SignIn');
+          // navigate('/signin')
+          // alert(response.data.error);
         } else {
           setProviderData(response.data.provider);
           
@@ -139,7 +144,8 @@ const UserDashboard = () => {
         const response = await axios.request(userconfig);
         // console.log(JSON.stringify(response.data));
         if (response.data.error) {
-          alert(response.data.error);
+            navigate('/signin')         
+          // alert(response.data.error);
         } else {
           const fav_provider_id = response.data.favorite.map((provider) => provider.providerId);
           setfavoriteList(fav_provider_id);
