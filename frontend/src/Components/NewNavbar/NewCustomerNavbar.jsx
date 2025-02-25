@@ -61,23 +61,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 
-export default function PrimarySearchAppBar({setProviderData,fav}) {
+export default function PrimarySearchAppBar({ setProviderData, fav }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-  
+
   let debounceTimeout; // Global timeout reference
 
   const handleSearch = (event) => {
     const keyword = event.target.value;
-  
+
     // Clear previous timeout to prevent multiple requests
     clearTimeout(debounceTimeout);
-  
+
     // Set a new timeout (500ms delay)
     debounceTimeout = setTimeout(() => {
       // console.log("Search:", keyword);
-  
+
       let config = {
         method: "get",
         maxBodyLength: Infinity,
@@ -86,7 +86,7 @@ export default function PrimarySearchAppBar({setProviderData,fav}) {
           Authorization: `Bearer ${localStorage.getItem("customerToken")}`,
         },
       };
-  
+
       async function makeRequest() {
         try {
           const response = await axios.request(config);
@@ -99,30 +99,30 @@ export default function PrimarySearchAppBar({setProviderData,fav}) {
           console.log(error);
         }
       }
-  
+
       makeRequest();
     }, 500); // Adjust debounce delay as needed (e.g., 300ms, 500ms)
   };
 
   const navigate = useNavigate();
 
-        const handleHistory = () => {
-                navigate('/customer/dashboard/history');
-        }
-       
-        const handleGoHome = () => {
-                navigate('/');
-        }
-        const handleFavorites = () => {
-                navigate('/customer/dashboard/favorites');
-        }
-        const handleProfile = () => {
-                navigate('/customer/dashboard/profile');
-        }
-        const handleLogout=()=>{
-                localStorage.removeItem('customerToken');
-                navigate('/');
-        }
+  const handleHistory = () => {
+    navigate('/customer/dashboard/history');
+  }
+
+  const handleGoHome = () => {
+    navigate('/');
+  }
+  const handleFavorites = () => {
+    navigate('/customer/dashboard/favorites');
+  }
+  const handleProfile = () => {
+    navigate('/customer/dashboard/profile');
+  }
+  const handleLogout = () => {
+    localStorage.removeItem('customerToken');
+    navigate('/');
+  }
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -241,7 +241,7 @@ export default function PrimarySearchAppBar({setProviderData,fav}) {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-          <img src={logo} alt="" className="logo" style={{ height: '3.5rem',cursor:"Pointer"}} onClick={handleGoHome}/>
+            <img src={logo} alt="" className="logo" style={{ height: '3.5rem', cursor: "Pointer" }} onClick={handleGoHome} />
           </Typography>
           <Search>
             <SearchIconWrapper>
@@ -256,19 +256,19 @@ export default function PrimarySearchAppBar({setProviderData,fav}) {
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-            <Badge
-    badgeContent={4}
-    color="error"
-    sx={{
-      '& .MuiBadge-badge': {
-        top: 10,  // Adjust vertical alignment
-        right: 10.5, // Adjust horizontal alignment
-        fontSize: '0.6rem', // Optional: Adjust text size
-        minWidth: '18px', // Adjust badge width
-        height: '18px', // Adjust badge height
-      },
-    }}>
-                <MailIcon sx={{ fontSize: 32 }}/>
+              <Badge
+                badgeContent={4}
+                color="error"
+                sx={{
+                  '& .MuiBadge-badge': {
+                    top: 10,  // Adjust vertical alignment
+                    right: 10.5, // Adjust horizontal alignment
+                    fontSize: '0.6rem', // Optional: Adjust text size
+                    minWidth: '18px', // Adjust badge width
+                    height: '18px', // Adjust badge height
+                  },
+                }}>
+                <MailIcon sx={{ fontSize: 32 }} />
               </Badge>
             </IconButton>
             <IconButton

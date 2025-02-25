@@ -242,7 +242,7 @@ const UserDashboard = () => {
           </form>
         </div>
         <div className="center">
-          <div className="heading">Results for Search</div>
+        <div className="heading">Results for Search</div>
 
           <div className="card-container">
             {providerData.length > 0 ? (

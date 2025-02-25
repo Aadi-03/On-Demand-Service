@@ -11,11 +11,14 @@ import SignUpCustomer from "./Pages/SignUp/SignUpCustomer.jsx";
 import SignUpTradesman from "./Pages/SignUp/SignUpTradesman.jsx";
 
 import UserDashboard from "./Pages/UserDashboard/UserDashboard.jsx";
+import WorkerDashboard from "./Pages/WorkerDashboard/WorkerDashboard.jsx";
+
 import History from "./Pages/History/History.jsx";
 
 
 import Favorites from "./Pages/Favorites/Favorites.jsx";
 import CustomerProfile from "./Pages/Profile/Profile.jsx";
+
 
 const router = createBrowserRouter([
   {
@@ -58,6 +61,11 @@ const router = createBrowserRouter([
   {
     path : "/customer/dashboard/profile",
     element: <CustomerProfile />
+  },
+
+  {
+    path : "/provider/dashboard",
+    element: <WorkerDashboard />
   }
 ]);
 
