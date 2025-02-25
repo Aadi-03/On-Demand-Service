@@ -119,9 +119,6 @@ const UserDashboard = () => {
         const response = await axios.request(config);
         // console.log(JSON.stringify(response.data));
         if (response.data.error) {
-          // toast.error('Please SignIn');
-          // navigate('/signin')
-          // alert(response.data.error);
         } else {
           setProviderData(response.data.provider);
           

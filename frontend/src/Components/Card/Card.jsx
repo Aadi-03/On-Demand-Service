@@ -4,9 +4,9 @@ import * as React from "react";
 import Rating from "@mui/material/Rating";
 import { toast, ToastContainer } from "react-toastify";
 
-const handleRequestService = () => {
+const handleRequestService = (event) => {
+    event.stopPropagation();
     toast.success("Service Requested Successfully");
-    
 }
 
 const Card = ({ name, age, distance, workType, rating, phoneNo, onClick }) => {
@@ -31,7 +31,7 @@ const Card = ({ name, age, distance, workType, rating, phoneNo, onClick }) => {
                     <IoIosCall />
                     <span>+91-{phoneNo}</span>
                 </div>
-                <button className="select-worker" onClick={() => handleRequestService()}>Request Service</button>
+                <button className="select-worker" onClick={handleRequestService}>Request Service</button>
             </div>
         </>
     );
