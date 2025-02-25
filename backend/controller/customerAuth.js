@@ -307,12 +307,17 @@ router.get("/orderhistory", async (req, res) => {
       orderCompleted: order.completed,
       orderFeedback: order.feedback?.feedback ?? "No feedback yet",
       orderRating: order.feedback?.star ?? 0,
+      orderTitle: order.taskName,
+      orderDescription: order.description,
+      orderState: order.state,
       providerName: order.doneBy.firstName + " " + order.doneBy.lastName,
       providerPhone: order.doneBy.phoneNumber,
       providerWorkType: order.doneBy.workType,
       providerEmail: order.doneBy.email,
     };
   });
+  
+  newOrders.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
   res.status(200).json({
     orders: newOrders,
   });

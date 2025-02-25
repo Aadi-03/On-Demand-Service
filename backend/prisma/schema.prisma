@@ -60,16 +60,18 @@ model Favorite {
 
 
 model Order {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  taskName  String
-  doneBy    Provider  @relation("ProviderOrders", fields: [doneById], references: [id])
-  doneById  String    @db.ObjectId
-  askedBy   Customer  @relation("CustomerOrders", fields: [askedById], references: [id])
-  askedById String    @db.ObjectId
-  completed Boolean   @default(false)
-  feedback  Feedback? @relation // Optional side of the relation
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  taskName    String
+  description String?
+  state       OrderState @default(AVAILABLE)
+  doneBy      Provider   @relation("ProviderOrders", fields: [doneById], references: [id])
+  doneById    String     @db.ObjectId
+  askedBy     Customer   @relation("CustomerOrders", fields: [askedById], references: [id])
+  askedById   String     @db.ObjectId
+  completed   Boolean    @default(false)
+  feedback    Feedback?  @relation // Optional side of the relation
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 }
 
 model Feedback {
@@ -96,4 +98,11 @@ model Address {
   latitude    Float
   customers   Customer[]
   providers   Provider[]
+}
+
+enum OrderState {
+  AVAILABLE
+  PENDING
+  COMPLETED
+  REJECTED
 }
