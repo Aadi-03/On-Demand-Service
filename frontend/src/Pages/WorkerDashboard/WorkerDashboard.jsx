@@ -19,6 +19,9 @@ const WorkerDashboard = () => {
     completedTask: false,
     feedback: false,
   });
+
+  const [tasks,setTasks]=useState();  
+  const [value,setValue]=useState();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -36,7 +39,7 @@ const WorkerDashboard = () => {
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   };
 
-  const handleClickedButton = (buttonName) => {
+  const handleClickedButton = async(buttonName) => {
     setClickedButton((prevState) => ({
       ...prevState,
       profile: false,
@@ -45,7 +48,24 @@ const WorkerDashboard = () => {
       completedTask: false,
       [buttonName]: true,
     }));
+    let config = {
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: `http://localhost:3000/provider/auth/${buttonName}`,
+      headers: { 
+        'Authorization':`bearer ${localStorage.getItem("providerToken")}`
+      }
+    };
+    try{
+    let result=await axios.request(config);
+    setTasks(result.data);
+    // console.log(result.data);
+    }
+    catch(err)
+    {
+      console.log(err);
   };
+}
 
   const formatDate = (dateString) => {
     if (!dateString) return "";
@@ -213,90 +233,90 @@ const WorkerDashboard = () => {
           {ClickedButton["acceptedTask"] && (
             <div className="accepted-task">
               <h2>Accepted Task</h2>
-              <div className="Task-Card">
+              {tasks?.acceptedTask?.map((task)=>{
+                return <div className="Task-Card">
                 <div className="task-details">
-                  <h3>Customer Name</h3>
-                  <p>Location</p>
-                  <p>Task Type</p>
-                  <p>Task Date</p>
+                  <h3>{task?.askedBy?.firstName} {task?.askedBy?.lastName}</h3>
+                  <p>{task?.askedBy?.address?.houseNumber} {task?.askedBy?.address?.streetName} {task?.askedBy?.address?.state} {task?.askedBy?.address?.country}</p>
+                  <p>{task?.taskName}</p>
+                  <p>{formatDate(task?.updatedAt)}</p>
                   <button
                     onClick={() => {
                       handleSeeDetail(1);
+                      setValue(task.id);
                     }}
                   >
-                    {seeDetail[1] ? "Close Detail" : "See Detail"}
+                    {(seeDetail[1]&&value==task.id) ? "Close Detail" : "See Detail"}
                   </button>
                   <button>Complete</button>
                 </div>
-                {seeDetail[1] && (
+                {(seeDetail[1]&&value==task.id)&& (
                   <div className="Task-description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Nihil, consectetur autem unde dignissimos debitis commodi.
-                    Dolorem, quasi inventore dicta at sequi ab cum corrupti.
-                    Veniam, quisquam. Maiores odio itaque laborum.
+                    {task?.description}
                   </div>
                 )}
               </div>
+              })}
             </div>
           )}
 
           {ClickedButton["availableTask"] && (
             <div className="available-task">
               <h2>Available Task</h2>
-              <div className="Task-Card">
+              {tasks?.availableTask?.map((task)=>{
+                return <div className="Task-Card">
                 <div className="task-details">
-                  <h3>Customer Name</h3>
-                  <p>Location</p>
-                  <p>Task Type</p>
-                  <p>Task Date</p>
+                  <h3>{task?.askedBy?.firstName} {task?.askedBy?.lastName}</h3>
+                  <p>{task?.askedBy?.address?.houseNumber} {task?.askedBy?.address?.streetName} {task?.askedBy?.address?.state} {task?.askedBy?.address?.country}</p>
+                  <p>{task?.taskName}</p>
+                  <p>{formatDate(task?.updatedAt)}</p>
                   <button
                     onClick={() => {
                       handleSeeDetail(1);
+                      setValue(task.id)
                     }}
                   >
-                    {seeDetail[1] ? "Close Detail" : "See Detail"}
+                    {(seeDetail[1]&&value==task.id) ? "Close Detail" : "See Detail"}
                   </button>
                   <button>Accept</button>
                   <button>Reject</button>
                 </div>
-                {seeDetail[1] && (
+                {(seeDetail[1]&&value==task.id ) && (
                   <div className="Task-description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Nihil, consectetur autem unde dignissimos debitis commodi.
-                    Dolorem, quasi inventore dicta at sequi ab cum corrupti.
-                    Veniam, quisquam. Maiores odio itaque laborum.
+                    {task?.description}
                   </div>
                 )}
               </div>
+              })}
             </div>
           )}
 
           {ClickedButton["completedTask"] && (
             <div className="completed-task">
               <h2>Completed Task</h2>
-              <div className="Task-Card">
+              {tasks?.completedTask?.map((task)=>{
+                return <div className="Task-Card">
                 <div className="task-details">
-                  <h3>Customer Name</h3>
-                  <p>Location</p>
-                  <p>Task Type</p>
-                  <p>Task Date</p>
+                  <h3>{task?.askedBy?.firstName} {task?.askedBy?.lastName}</h3>
+                  <p>{task?.askedBy?.address?.houseNumber} {task?.askedBy?.address?.streetName} {task?.askedBy?.address?.state} {task?.askedBy?.address?.country}</p>
+                  <p>{task?.taskName}</p>
+                  <p>{formatDate(task?.updatedAt)}</p>
                   <button
                     onClick={() => {
                       handleSeeDetail(1);
+                      setValue(task.id);
                     }}
                   >
-                    {seeDetail[1] ? "Close Detail" : "See Detail"}
+                    {(seeDetail[1]&&value==task.id) ? "Close Detail" : "See Detail"}
                   </button>
                 </div>
-                {seeDetail[1] && (
+                {(seeDetail[1]&&value==task.id) && (
                   <div className="Task-description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Nihil, consectetur autem unde dignissimos debitis commodi.
-                    Dolorem, quasi inventore dicta at sequi ab cum corrupti.
-                    Veniam, quisquam. Maiores odio itaque laborum.
+                   {task?.description}
                   </div>
                 )}
               </div>
+              })}
             </div>
           )}
         </div>
