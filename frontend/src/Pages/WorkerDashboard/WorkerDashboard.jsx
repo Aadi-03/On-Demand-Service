@@ -5,7 +5,7 @@ import Footer from "../../Components/Footer/Footer";
 import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const WorkerDashboard = () => {
   const [profileData, setProfileData] = useState({});
@@ -18,6 +18,7 @@ const WorkerDashboard = () => {
     feedback: false,
   });
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSeeDetail = (taskId) => {
     setSeeDetail((prevState) => ({
@@ -89,7 +90,12 @@ const WorkerDashboard = () => {
         } else {
           // toast.success("Profile Data Fetched Successfully");
           setProfileData(response.data);
-        //   console.log(response.data);
+          if (location.state?.info) {
+            toast.info(location.state.info, {
+              autoClose: 3000,
+            });
+            window.history.replaceState({}, document.title);
+          }
         }
       } catch (error) {
         console.log(error);

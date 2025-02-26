@@ -6,9 +6,9 @@ import Navbar from "../../Components/Navbar/Navbar";
 import NewNavbar  from "../../Components/NewNavbar/NewNavbar.jsx";
 import Footer from "../../Components/Footer/Footer";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
-import { Navigate, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 const SignInCustomer = () => {
   const [data, setData] = useState({
@@ -17,7 +17,22 @@ const SignInCustomer = () => {
   });
 
   const navigate=useNavigate();
-
+  const location=useLocation();
+  useEffect(()=>{
+    if(localStorage.getItem("customerToken")){
+      navigate('/customer/dashboard',{
+        state:{
+          error:"You are already signed in"
+        }
+      });
+    }
+    if(location.state?.error){
+      toast.error(location.state.error, { 
+        position: "top-right" 
+      });
+      window.history.replaceState({},document.title);
+    }
+  },[location]);
   
 
   async function handleClick(e){
