@@ -2,18 +2,11 @@ import { IoIosCall } from "react-icons/io";
 import "./Card.css";
 import * as React from "react";
 import Rating from "@mui/material/Rating";
-import { toast, ToastContainer } from "react-toastify";
-
-const handleRequestService = (event) => {
-    event.stopPropagation();
-    toast.success("Service Requested Successfully");
-}
 
 const Card = ({ name, age, distance, workType, rating, phoneNo, onClick }) => {
     const cardClass = distance ? "card" : "card card--no-distance";
     return (
         <>
-            <ToastContainer position="bottom-right" autoClose={3000} theme="light"/>
             <div className={cardClass} onClick={onClick}>
                 <div className="image"></div>
                 <div className="details">
@@ -31,7 +24,6 @@ const Card = ({ name, age, distance, workType, rating, phoneNo, onClick }) => {
                     <IoIosCall />
                     <span>+91-{phoneNo}</span>
                 </div>
-                <button className="select-worker" onClick={handleRequestService}>Request Service</button>
             </div>
         </>
     );

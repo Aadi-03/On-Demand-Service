@@ -6,7 +6,6 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
         margin: 10px;
         background-color: #fff;
         transition: box-shadow 0.3s ease;
@@ -14,10 +13,6 @@
     }
     .card--no-distance {
         height: 340px; /* Adjust the value as needed */
-    }
-    
-    .card:hover {
-        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
     }
     
     .image {
@@ -70,8 +65,7 @@
         align-items: center;
     }
     
-    .call,
-    .select-worker{
+    .call{
         background-color: #f0f8ff;
         width: 90%;
         display: flex;
@@ -89,13 +83,5 @@
     
     .call:hover {
         background-color: #ffa500;
-        color: #fff;
-    }
-
-    .select-worker{
-        font-weight: bold;
-    }
-    .select-worker:hover {
-        background-color : rgb(0, 145, 255);
         color: #fff;
     }

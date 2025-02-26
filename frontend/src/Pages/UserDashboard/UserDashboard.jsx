@@ -22,17 +22,18 @@ const UserDashboard = () => {
   const navigate = useNavigate();
   const [providerData, setProviderData] = useState([]);
   const [favoriteList, setfavoriteList] = useState([]);
+  const [descriptionComponent, setdescriptionComponent] = useState(false);
   const [filters, setFilters] = useState({
     workType: [],
-    rating: 0, 
-    distance: 1, 
+    rating: 0,
+    distance: 1,
   });
   const handleServiceChange = (e) => {
     const service = e.target.id;
     setFilters((prev) => {
       const newWorkType = prev.workType.includes(service)
-        ? prev.workType.filter((s) => s !== service) 
-        : [...prev.workType, service]; 
+        ? prev.workType.filter((s) => s !== service)
+        : [...prev.workType, service];
       return { ...prev, workType: newWorkType };
     });
   };
@@ -40,14 +41,14 @@ const UserDashboard = () => {
   const handleRatingChange = (e) => {
     setFilters((prev) => ({
       ...prev,
-      rating: parseInt(e.target.id, 10), 
+      rating: parseInt(e.target.id, 10),
     }));
   };
 
   const handleDistanceChange = (event, value) => {
     setFilters((prev) => ({
       ...prev,
-      distance: value == 15 ? 1000 : value, 
+      distance: value == 15 ? 1000 : value,
     }));
   };
 
@@ -65,7 +66,6 @@ const UserDashboard = () => {
         Authorization: `bearer ${localStorage.getItem("customerToken")}`,
       },
     };
-
 
     async function makeRequest() {
       try {
@@ -102,6 +102,10 @@ const UserDashboard = () => {
     // console.log(data);
   };
 
+  const handleServiceRequest = () => {
+    setdescriptionComponent(!descriptionComponent);
+  };
+
   useEffect(() => {
     // console.log(localStorage.getItem("customerToken"));
 
@@ -121,7 +125,7 @@ const UserDashboard = () => {
         if (response.data.error) {
         } else {
           setProviderData(response.data.provider);
-          
+
         }
       } catch (error) {
         console.log(error);
@@ -141,18 +145,18 @@ const UserDashboard = () => {
         const response = await axios.request(userconfig);
         // console.log(JSON.stringify(response.data));
         if (response.data.error) {
-            navigate('/signin')         
+          navigate('/signin')
           // alert(response.data.error);
         } else {
           const fav_provider_id = response.data.favorite.map((provider) => provider.providerId);
           setfavoriteList(fav_provider_id);
-          
+
         }
       } catch (error) {
         console.log(error);
       }
     }
-    
+
     makeRequest();
     makeRequestForUser();
 
@@ -166,11 +170,14 @@ const UserDashboard = () => {
   }, [providerData, firsttimeclick]);
 
 
+
+
+
   return (
     <>
       {/* <Navbar /> */}
-      <NewCustomerNavbar setProviderData={setProviderData}/>
-      <ToastContainer position="bottom-right" autoClose={3000} theme="light"/>
+      <NewCustomerNavbar setProviderData={setProviderData} />
+      <ToastContainer position="bottom-right" autoClose={3000} theme="light" />
       <div className="user-dashboard">
         <div className="left">
           <p>Filters</p>
@@ -239,22 +246,38 @@ const UserDashboard = () => {
           </form>
         </div>
         <div className="center">
-        <div className="heading">Results for Search</div>
+          <div className="heading">Results for Search</div>
+          {
+            descriptionComponent && <div className="descriptionComponent"> 
+                <div className="description-container">
+                  <h3>Enter Description of Task</h3>
+                  <form action="" className="description-form">
+                    <input type="text" placeholder="Enter the title"/>
+                    <textarea placeholder = "Enter Description" name="" id="" cols="30" rows="10"> </textarea>
+                    <button type="submit">Submit</button>
+                  </form>
+                  <button className="close-button" onClick = {() => {handleServiceRequest()}}>Close</button>
+                </div> 
+              </div>
+            }
 
           <div className="card-container">
             {providerData.length > 0 ? (
               providerData.map((provider, index) => (
-                <Card
-                  key={index}
-                  id={provider.providerId}
-                  name={provider.providerName}
-                  age={provider.providerAge}
-                  distance={provider.providerDistanceInKm}
-                  workType={provider.providerWorkType}
-                  rating={provider.providerRating}
-                  phoneNo={provider.providerPhone}
-                  onClick={() => handleCardClick(provider)}
-                />
+                  <div className="provider-card-container">
+                  <Card
+                    key={index}
+                    id={provider.providerId}
+                    name={provider.providerName}
+                    age={provider.providerAge}
+                    distance={provider.providerDistanceInKm}
+                    workType={provider.providerWorkType}
+                    rating={provider.providerRating}
+                    phoneNo={provider.providerPhone}
+                    onClick={() => handleCardClick(provider)}
+                  />
+                  <button className="select-worker" onClick={() => {handleServiceRequest(provider)}}>Request Service</button>
+                </div>
               ))
             ) : (
               <p>No providers found</p>
@@ -270,9 +293,9 @@ const UserDashboard = () => {
             rating={cardData.providerRating}
             phoneNo={cardData.providerPhone}
             feedback={cardData.providerFeedback}
-            providerId = {cardData.providerId}
-            favList = {favoriteList}
-            setfavoriteList = {setfavoriteList}
+            providerId={cardData.providerId}
+            favList={favoriteList}
+            setfavoriteList={setfavoriteList}
           />
         )}
       </div>
@@ -299,35 +322,35 @@ const RightComponent = ({
 
   const handleBookmark = (id, list, name) => {
     let newList;
-    if(list.includes(id)){
+    if (list.includes(id)) {
       newList = list;
       toast.info("To remove provider from favorites, go to favorites page");
     }
-    else{
+    else {
       let data = JSON.stringify({
         "providerId": id
       });
-      
+
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
         url: 'http://localhost:3000/customer/auth/favoriteprovider',
-        headers: { 
-          'Authorization': 'bearer ' + localStorage.getItem('customerToken'), 
+        headers: {
+          'Authorization': 'bearer ' + localStorage.getItem('customerToken'),
           'Content-Type': 'application/json'
         },
-        data : data
+        data: data
       };
-      
+
       async function makeRequest() {
         try {
           const response = await axios.request(config);
           // console.log(JSON.stringify(response.data));
           if (response.data.error) {
             console.log("error while adding to favorites");
-            
+
             toast.error(response.data.error);
-            
+
             setfavoriteList(list);
           } else {
             newList = [...list, id];
@@ -338,12 +361,12 @@ const RightComponent = ({
         }
         catch (error) {
           newList = list;
-          console.log("error",error);
+          console.log("error", error);
         }
       }
-      
+
       makeRequest();
-      
+
     }
   }
   return (
@@ -353,7 +376,7 @@ const RightComponent = ({
           src={favList.includes(providerId) ? bookmarked : bookmark}
           alt=""
           className="bookmark"
-          onClick={() => {handleBookmark(providerId, favList, name)}}
+          onClick={() => { handleBookmark(providerId, favList, name) }}
         />
         <img src="" alt="" className="profileimage" />
         <p className="Name">{name}</p>
