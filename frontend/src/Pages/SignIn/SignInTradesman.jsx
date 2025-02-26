@@ -73,7 +73,7 @@ const SignInTradesman = () => {
         </div>
         <div className="password-wrapper">
             <label >Password: </label>
-            <input type="text" placeholder='password' onChange={(e)=>{
+            <input type="password" placeholder='password' onChange={(e)=>{
               setData({...data,password:e.target.value})
             }} />
         </div>
