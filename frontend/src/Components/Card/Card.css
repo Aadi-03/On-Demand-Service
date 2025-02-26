@@ -6,7 +6,6 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        margin: 10px;
         background-color: #fff;
         transition: box-shadow 0.3s ease;
         overflow: hidden; /* Prevent scrollbars from appearing */
