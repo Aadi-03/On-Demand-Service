@@ -14,6 +14,14 @@ const SignInTradesman = () => {
   console.log(location);
 
   useEffect(() => {
+    if(localStorage.getItem("providerToken")){
+      navigate('/provider/dashboard',{
+        state:{
+          info:"You are already signed in"
+        }
+      });
+    }
+    
     // Check if we have an error message in location state
     if (location.state?.error) {
       // Display the error toast

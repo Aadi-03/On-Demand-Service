@@ -14,12 +14,14 @@ import bookmarked from "../../assets/bookmarked.png";
 
 import { ToastContainer, toast } from 'react-toastify';
 
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import axios from "axios";
 
 const UserDashboard = () => {
   const navigate = useNavigate();
+  const location=useLocation();
+
   const [providerData, setProviderData] = useState([]);
   const [favoriteList, setfavoriteList] = useState([]);
   const [descriptionComponent, setdescriptionComponent] = useState(false);
@@ -125,7 +127,14 @@ const UserDashboard = () => {
         if (response.data.error) {
         } else {
           setProviderData(response.data.provider);
-
+          if(location.state?.error){
+            toast.info(location.state.error, { 
+              autoClose: 3000 
+            });
+            window.history.replaceState({},document.title);
+          }
+        
+          
         }
       } catch (error) {
         console.log(error);
@@ -145,7 +154,13 @@ const UserDashboard = () => {
         const response = await axios.request(userconfig);
         // console.log(JSON.stringify(response.data));
         if (response.data.error) {
-          navigate('/signin')
+          // console.log(response.data.error);
+          
+            navigate('/signincustomer',{
+              state:{
+                error: response.data.error + " Please Login Again"
+              }
+            })         
           // alert(response.data.error);
         } else {
           const fav_provider_id = response.data.favorite.map((provider) => provider.providerId);
