@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import available from '../../assets/available.png';
+import unavailable from '../../assets/unavailable.png';
 
 const WorkerDashboard = () => {
   const [profileData, setProfileData] = useState({});
@@ -128,17 +130,17 @@ const WorkerDashboard = () => {
             </p>
             <p
               onClick={() => {
-                handleClickedButton("acceptedTask");
-              }}
-            >
-              Accepted Task
-            </p>
-            <p
-              onClick={() => {
                 handleClickedButton("availableTask");
               }}
             >
               Available Task
+            </p>
+            <p
+              onClick={() => {
+                handleClickedButton("acceptedTask");
+              }}
+            >
+              Accepted Task
             </p>
             <p
               onClick={() => {
@@ -152,7 +154,13 @@ const WorkerDashboard = () => {
         <div className="right-panel">
           {ClickedButton["profile"] && (
             <div className="profile">
-              <h2>Hi {profileData.firstName} !</h2>
+              <div className="status-container">
+                <h2>Hi {profileData.firstName} !</h2>
+                <select className="status">
+                  <option value="available" className="available" selected>Available</option>
+                  <option value="unavailable" className="unavailable" >Unavailable</option>
+                </select>
+              </div>
               <h3>Welcome to your profile section</h3>
               <div className="worker-detail">
                 <b>Full Name</b>

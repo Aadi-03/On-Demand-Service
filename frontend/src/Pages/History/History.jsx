@@ -82,7 +82,7 @@ const History = () => {
                     <p>{order.providerEmail}</p>
                   </div>
                   <div className="detail">
-                    <b>Worke Type</b>
+                    <b>Work Type : </b>
                     <p>{order.providerWorkType}</p>
                   </div>
                 </div>
