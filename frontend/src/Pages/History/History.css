@@ -8,7 +8,6 @@
                 display: flex;
                 align-items: center;
                 flex-direction: column;
-                
         }
 
         .historycard{
@@ -20,10 +19,34 @@
                 border-radius: 20px;
                 width: 80%;
 
-                .id-date{
+                h3{
+                        text-decoration: underline      ;
+                }
+
+                .order-details{
+                        display: flex;
+                        justify-content: space-between;
+                        border-bottom: 1px solid black;
+
+                }
+                .worker-details{
                         display: flex;
                         justify-content: space-between;
                 }
+                
+                .detail{
+                        display: flex;
+                }
+        }
+
+        .PENDING{
+                background-color: lightcyan;
+        }
+        .COMPLETED{
+                background-color: lightgreen;
+        }
+        .REJECTED{
+                background-color: lightcoral;
         }
 
 

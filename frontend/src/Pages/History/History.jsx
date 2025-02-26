@@ -42,18 +42,62 @@ const History = () => {
         <div className="historycontainer" >
           {history.length > 0 ? (
             history.map((order, index) => (
-              <div key={index} className="historycard" style={{ backgroundColor: order.orderCompleted ? 'lightgreen' : 'lightcoral' }}>
-                <div className="id-date">
-                  <h3>Order ID: {order.orderId}</h3>
-                  <p> <b> Date: </b> {new Date(order.orderDate).toLocaleDateString()}</p>
+              <div key={index} className={`historycard ${order.orderState}`} >
+                <div className="order-details">
+                  <div className="detail">
+                    <b>Task ID : </b>
+                    <p>{order.orderId}</p>
+                  </div>
+                  <div className="detail">
+                    <b>Date : </b>
+                    <p>{order.orderDate}</p>
+                  </div>
                 </div>
-                <p><b>Work Type : </b> {order.providerWorkType}</p>
-                <p> <b> Name : </b>{order.providerName}</p>
-                <p> <b> Phone Number : </b> {order.providerPhone}</p>
-                <p> <b> Email : </b> {order.providerEmail}</p>
-                <p> <b> Order Rating : </b> {order.orderRating}</p>
-                <p> <b> Feedback : </b> {order.orderFeedback}</p>
+
+                <h3>Task Details</h3>
+                <div className="task-detail">
+
+                  <div className="detail">
+                    <b>Title : </b>
+                    <p> {order.orderTitle}</p>
+                  </div>
+                  <div className="detail">
+                    <b>Description : </b>
+                    <p>{order.orderDescription}</p>
+                  </div>
+                </div>
+
+                <h3>Worker Details</h3>
+                <div className="worker-details">
+                  <div className="detail">
+                    <b>Name : </b>
+                    <p>{order.providerName}</p>
+                  </div>
+                  <div className="detail">
+                    <b>Phone : </b>
+                    <p>{order.providerPhone}</p>
+                  </div>
+                  <div className="detail">
+                    <b>Email : </b>
+                    <p>{order.providerEmail}</p>
+                  </div>
+                  <div className="detail">
+                    <b>Worke Type</b>
+                    <p>{order.providerWorkType}</p>
+                  </div>
+                </div>
+
+                <h3>Reviews</h3>
+                <div className="detail">
+                  <b>Rating : </b>
+                  <p>{order.orderRating}</p>
+                </div>
+                <div className="detail">
+                  <b>Feedback : </b>
+                  <p>{order.orderFeedback}</p>
+                </div>
               </div>
+
             ))
           ) : (
             <p>No order history available.</p>
