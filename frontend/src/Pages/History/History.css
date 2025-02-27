@@ -48,6 +48,9 @@
         .REJECTED{
                 background-color: lightcoral;
         }
+        .AVAILABLE{
+                background-color: bisque;
+        }
 
 
 }
