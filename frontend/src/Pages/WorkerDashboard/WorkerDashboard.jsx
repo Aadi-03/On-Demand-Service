@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
-import available from '../../assets/available.png';
-import unavailable from '../../assets/unavailable.png';
+import available from "../../assets/available.png";
+import unavailable from "../../assets/unavailable.png";
 
 const WorkerDashboard = () => {
   const [profileData, setProfileData] = useState({});
@@ -19,6 +19,9 @@ const WorkerDashboard = () => {
     completedTask: false,
     feedback: false,
   });
+
+  const [tasks, setTasks] = useState();
+  const [value, setValue] = useState();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -36,7 +39,7 @@ const WorkerDashboard = () => {
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   };
 
-  const handleClickedButton = (buttonName) => {
+  const handleClickedButton = async (buttonName) => {
     setClickedButton((prevState) => ({
       ...prevState,
       profile: false,
@@ -45,6 +48,21 @@ const WorkerDashboard = () => {
       completedTask: false,
       [buttonName]: true,
     }));
+    let config = {
+      method: "get",
+      maxBodyLength: Infinity,
+      url: `http://localhost:3000/provider/auth/${buttonName}`,
+      headers: {
+        Authorization: `bearer ${localStorage.getItem("providerToken")}`,
+      },
+    };
+    try {
+      let result = await axios.request(config);
+      setTasks(result.data);
+      // console.log(result.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const formatDate = (dateString) => {
@@ -156,9 +174,61 @@ const WorkerDashboard = () => {
             <div className="profile">
               <div className="status-container">
                 <h2>Hi {profileData.firstName} !</h2>
-                <select className="status">
-                  <option value="available" className="available" selected>Available</option>
-                  <option value="unavailable" className="unavailable" >Unavailable</option>
+                <select
+                  className="status"
+                  value={profileData.available ? "available" : "unavailable"}
+                  onChange={(e) => {
+                    const newStatus = e.target.value === "available";
+
+                    // Update local state immediately for better UX
+                    setProfileData({ ...profileData, available: newStatus });
+
+                    // Prepare API request data
+                    let data = JSON.stringify({
+                      available: newStatus,
+                    });
+
+                    let config = {
+                      method: "patch",
+                      maxBodyLength: Infinity,
+                      url: "http://localhost:3000/provider/auth/updateStatus",
+                      headers: {
+                        Authorization: `bearer ${localStorage.getItem(
+                          "providerToken"
+                        )}`,
+                        "Content-Type": "application/json",
+                      },
+                      data: data,
+                    };
+
+                    // Make the API request
+                    axios
+                      .request(config)
+                      .then((response) => {
+                        toast.success(
+                          `Status updated to ${
+                            newStatus ? "Available" : "Unavailable"
+                          }`
+                        );
+                        console.log(response.data);
+                      })
+                      .catch((error) => {
+                        console.error(error);
+                        // Revert the UI change if the API call fails
+                        setProfileData({
+                          ...profileData,
+                          available: !newStatus,
+                        });
+                        toast.error("Failed to update status");
+                      });
+                  }}
+                >
+                  <option value="available" className="available">
+                    Available
+                  </option>
+                  <option value="unavailable" className="unavailable">
+                    Unavailable
+                  </option>
                 </select>
               </div>
               <h3>Welcome to your profile section</h3>
@@ -213,90 +283,123 @@ const WorkerDashboard = () => {
           {ClickedButton["acceptedTask"] && (
             <div className="accepted-task">
               <h2>Accepted Task</h2>
-              <div className="Task-Card">
-                <div className="task-details">
-                  <h3>Customer Name</h3>
-                  <p>Location</p>
-                  <p>Task Type</p>
-                  <p>Task Date</p>
-                  <button
-                    onClick={() => {
-                      handleSeeDetail(1);
-                    }}
-                  >
-                    {seeDetail[1] ? "Close Detail" : "See Detail"}
-                  </button>
-                  <button>Complete</button>
-                </div>
-                {seeDetail[1] && (
-                  <div className="Task-description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Nihil, consectetur autem unde dignissimos debitis commodi.
-                    Dolorem, quasi inventore dicta at sequi ab cum corrupti.
-                    Veniam, quisquam. Maiores odio itaque laborum.
+              {tasks?.acceptedTask?.map((task) => {
+                return (
+                  <div className="Task-Card">
+                    <div className="task-details">
+                      <h3>
+                        {task?.askedBy?.firstName} {task?.askedBy?.lastName}
+                      </h3>
+                      <p>
+                        {task?.askedBy?.address?.houseNumber}{" "}
+                        {task?.askedBy?.address?.streetName}{" "}
+                        {task?.askedBy?.address?.state}{" "}
+                        {task?.askedBy?.address?.country}
+                      </p>
+                      <p>{task?.taskName}</p>
+                      <p>{formatDate(task?.updatedAt)}</p>
+                      <button
+                        onClick={() => {
+                          handleSeeDetail(1);
+                          setValue(task.id);
+                        }}
+                      >
+                        {seeDetail[1] && value == task.id
+                          ? "Close Detail"
+                          : "See Detail"}
+                      </button>
+                      <button>Complete</button>
+                    </div>
+                    {seeDetail[1] && value == task.id && (
+                      <div className="Task-description">
+                        {task?.description}
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
+                );
+              })}
             </div>
           )}
 
           {ClickedButton["availableTask"] && (
             <div className="available-task">
               <h2>Available Task</h2>
-              <div className="Task-Card">
-                <div className="task-details">
-                  <h3>Customer Name</h3>
-                  <p>Location</p>
-                  <p>Task Type</p>
-                  <p>Task Date</p>
-                  <button
-                    onClick={() => {
-                      handleSeeDetail(1);
-                    }}
-                  >
-                    {seeDetail[1] ? "Close Detail" : "See Detail"}
-                  </button>
-                  <button>Accept</button>
-                  <button>Reject</button>
-                </div>
-                {seeDetail[1] && (
-                  <div className="Task-description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Nihil, consectetur autem unde dignissimos debitis commodi.
-                    Dolorem, quasi inventore dicta at sequi ab cum corrupti.
-                    Veniam, quisquam. Maiores odio itaque laborum.
+              {tasks?.availableTask?.map((task) => {
+                return (
+                  <div className="Task-Card">
+                    <div className="task-details">
+                      <h3>
+                        {task?.askedBy?.firstName} {task?.askedBy?.lastName}
+                      </h3>
+                      <p>
+                        {task?.askedBy?.address?.houseNumber}{" "}
+                        {task?.askedBy?.address?.streetName}{" "}
+                        {task?.askedBy?.address?.state}{" "}
+                        {task?.askedBy?.address?.country}
+                      </p>
+                      <p>{task?.taskName}</p>
+                      <p>{formatDate(task?.updatedAt)}</p>
+                      <button
+                        onClick={() => {
+                          handleSeeDetail(1);
+                          setValue(task.id);
+                        }}
+                      >
+                        {seeDetail[1] && value == task.id
+                          ? "Close Detail"
+                          : "See Detail"}
+                      </button>
+                      <button>Accept</button>
+                      <button>Reject</button>
+                    </div>
+                    {seeDetail[1] && value == task.id && (
+                      <div className="Task-description">
+                        {task?.description}
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
+                );
+              })}
             </div>
           )}
 
           {ClickedButton["completedTask"] && (
             <div className="completed-task">
               <h2>Completed Task</h2>
-              <div className="Task-Card">
-                <div className="task-details">
-                  <h3>Customer Name</h3>
-                  <p>Location</p>
-                  <p>Task Type</p>
-                  <p>Task Date</p>
-                  <button
-                    onClick={() => {
-                      handleSeeDetail(1);
-                    }}
-                  >
-                    {seeDetail[1] ? "Close Detail" : "See Detail"}
-                  </button>
-                </div>
-                {seeDetail[1] && (
-                  <div className="Task-description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Nihil, consectetur autem unde dignissimos debitis commodi.
-                    Dolorem, quasi inventore dicta at sequi ab cum corrupti.
-                    Veniam, quisquam. Maiores odio itaque laborum.
+              {tasks?.completedTask?.map((task) => {
+                return (
+                  <div className="Task-Card">
+                    <div className="task-details">
+                      <h3>
+                        {task?.askedBy?.firstName} {task?.askedBy?.lastName}
+                      </h3>
+                      <p>
+                        {task?.askedBy?.address?.houseNumber}{" "}
+                        {task?.askedBy?.address?.streetName}{" "}
+                        {task?.askedBy?.address?.state}{" "}
+                        {task?.askedBy?.address?.country}
+                      </p>
+                      <p>{task?.taskName}</p>
+                      <p>{formatDate(task?.updatedAt)}</p>
+                      <button
+                        onClick={() => {
+                          handleSeeDetail(1);
+                          setValue(task.id);
+                        }}
+                      >
+                        {seeDetail[1] && value == task.id
+                          ? "Close Detail"
+                          : "See Detail"}
+                      </button>
+                    </div>
+                    {seeDetail[1] && value == task.id && (
+                      <div className="Task-description">
+                        {task?.description}
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
+                );
+              })}
             </div>
           )}
         </div>

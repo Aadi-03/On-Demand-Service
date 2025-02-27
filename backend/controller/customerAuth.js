@@ -3,6 +3,7 @@ const prisma = new PrismaClient();
 import express from "express";
 import verifyJwt from "../middleware/verifyJwt.js";
 import calcDistance from "../utils/calculateDistance.js";
+import { completedOrder, createOrder, deleteOrder, reOpenOrder } from "./order.js";
 const router = express.Router();
 
 router.use(verifyJwt);
@@ -56,9 +57,9 @@ router.get("/bulkprovider", async (req, res) => {
     },
   });
   const providers = await prisma.provider.findMany({
-    where: {
-      available: true,
-    },
+    // where: {
+    //   available: true,
+    // },
     include: {
       address: true,
       feedbacks: true,
@@ -437,5 +438,16 @@ router.delete("/favoriteprovider", async (req, res) => {
     });
   }
 });
+
+// this route will create an order by the customer
+router.post("/createOrder",createOrder);
+
+// this route will mark the order as completed by the customer
+router.patch("/markCompletedOrder",completedOrder);
+
+// this route will mark the order as pending if the customer is not satisfied with the provider work
+router.patch("/reOpenOrder",reOpenOrder);
+
+router.delete("/deleteOrder", deleteOrder); 
 
 export default router;
