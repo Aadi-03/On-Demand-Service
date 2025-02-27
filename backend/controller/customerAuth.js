@@ -318,7 +318,27 @@ router.get("/orderhistory", async (req, res) => {
     };
   });
   
-  newOrders.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate));
+  // Sort orders by priority state first, then by date
+newOrders.sort((a, b) => {
+  // Define priority for each state
+  const getPriority = (state) => {
+    if (state === "AVAILABLE") return 0;
+    if (state === "PENDING") return 1;
+    return 2; // All other states
+  };
+
+  // Get priorities
+  const priorityA = getPriority(a.orderState);
+  const priorityB = getPriority(b.orderState);
+
+  // First sort by priority
+  if (priorityA !== priorityB) {
+    return priorityA - priorityB;
+  }
+  
+  // If same priority, sort by date (newest first)
+  return new Date(b.orderDate) - new Date(a.orderDate);
+});
   res.status(200).json({
     orders: newOrders,
   });
@@ -448,6 +468,7 @@ router.patch("/markCompletedOrder",completedOrder);
 // this route will mark the order as pending if the customer is not satisfied with the provider work
 router.patch("/reOpenOrder",reOpenOrder);
 
+// this route will delete the order by the customer
 router.delete("/deleteOrder", deleteOrder); 
 
 export default router;

@@ -3,6 +3,7 @@ import "./Card.css";
 import * as React from "react";
 import Rating from "@mui/material/Rating";
 import { ToastContainer, toast } from 'react-toastify';
+import axios from "axios";
 const Card = ({ providerId,name, age, distance, workType, rating, phoneNo, onClick }) => {
     const [open,setOpen]=React.useState(false)
     const cardClass = distance ? "card" : "card card--no-distance";
@@ -30,20 +31,53 @@ const Card = ({ providerId,name, age, distance, workType, rating, phoneNo, onCli
                     </div>
                     <button className="select-worker" onClick={()=>{setOpen(!open)}}>Request Service</button>
                 </div>
-                {open && <Input setOpen={setOpen} providerId={providerId}/>}
+                {open && <Input setOpen={setOpen} providerId={providerId} name={name}/>}
             </div>
         </>
     );
 };
 
-const Input = ({setOpen,providerId}) => {
+const Input = ({setOpen,providerId,name}) => {
     const [title,setTitle]=React.useState();
     const [desc,setDesc]=React.useState();
     const handleSubmit=(e)=>{
         e.preventDefault(); 
-        console.log(title,desc,providerId);
-        setOpen((c)=>!c);
-        toast.success("Order placed");
+        // console.log(title,desc,providerId);
+        let data = JSON.stringify({
+            "name": title,
+            "description": desc,
+            "providerId": providerId
+          });
+          
+          let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'http://localhost:3000/customer/auth/createOrder',
+            headers: { 
+                Authorization: `bearer ${localStorage.getItem("customerToken")}`, 
+              'Content-Type': 'application/json'
+            },
+            data : data
+          };
+          
+          async function makeRequest() {
+            try {
+              const response = await axios.request(config);
+            //   console.log((response.data));
+            if(response.data.error){
+              toast.error(response.data.error);
+            }else{
+                toast.success("Order placed to "+name);
+            }
+            }
+            catch (error) {
+              console.log(error);
+            }
+            finally {
+              setOpen((c)=>!c);
+            }
+          }
+          makeRequest();
         
     }
     return (
