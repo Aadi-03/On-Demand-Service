@@ -34,6 +34,8 @@ export const acceptOrder = async (req, res) => {
         const order = await prisma.order.update({
             where: {
                 id: orderId,
+                doneById: req.providerId,
+                state: OrderState.AVAILABLE,
             },
             data: {
                 state: OrderState.PENDING,
@@ -55,6 +57,8 @@ export const completeOrder = async (req, res) =>{
         const order = await prisma.order.update({
             where: {
                 id: orderId,
+                doneById: req.providerId,
+                state: OrderState.PENDING,
             },
             data: {
                 state: OrderState.COMPLETED,
@@ -88,7 +92,7 @@ export const completedOrder = async (req, res) => {
     }
 }
 
-// if the customer not satisfied with the work done by the provider
+// if the customer not satisfied with the work done by the provider (for the customer)
 export const reOpenOrder = async (req, res) => {
     try {
         const {orderId} = req.body;
@@ -119,6 +123,8 @@ export const rejectOrder = async (req, res) => {
         const order = await prisma.order.update({
             where: {
                 id: orderId,
+                doneById: req.providerId,
+                state: OrderState.AVAILABLE,
             },
             data: {
                 state: OrderState.REJECTED,

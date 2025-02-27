@@ -308,7 +308,45 @@ const WorkerDashboard = () => {
                           ? "Close Detail"
                           : "See Detail"}
                       </button>
-                      <button>Complete</button>
+
+                      <button onClick={()=>{
+                        let data = JSON.stringify({
+                          "orderId": task.id
+                        });
+                        
+                        let config = {
+                          method: 'patch',
+                          maxBodyLength: Infinity,
+                          url: 'http://localhost:3000/provider/auth/completeOrder',
+                          headers: { 
+                            'Authorization': 'bearer '+localStorage.getItem("providerToken"), 
+                            'Content-Type': 'application/json'
+                          },
+                          data : data
+                        };
+                        
+                        async function makeRequest() {
+                          try {
+                            const response = await axios.request(config);
+                            // console.log(JSON.stringify(response.data));
+                            if(response.data.error){
+                              toast.error(response.data.error);
+                            }else{
+
+                              toast.success("Task "+ task.taskName+" Completed Successfully");
+                              setTasks(prevTasks => ({
+                                ...prevTasks,
+                                acceptedTask: prevTasks.acceptedTask.filter(t => t.id !== task.id)
+                              }));
+                            }
+                          }
+                          catch (error) {
+                            console.log(error);
+                          }
+                        }
+                        
+                        makeRequest();
+                      }}>Complete</button>
                     </div>
                     {seeDetail[1] && value == task.id && (
                       <div className="Task-description">
@@ -349,8 +387,84 @@ const WorkerDashboard = () => {
                           ? "Close Detail"
                           : "See Detail"}
                       </button>
-                      <button>Accept</button>
-                      <button>Reject</button>
+                      <button onClick={()=>{
+                        let data = JSON.stringify({
+                          "orderId": task.id
+                        });
+                        
+                        let config = {
+                          method: 'patch',
+                          maxBodyLength: Infinity,
+                          url: 'http://localhost:3000/provider/auth/acceptOrder',
+                          headers: { 
+                            'Authorization': 'bearer '+localStorage.getItem("providerToken"), 
+                            'Content-Type': 'application/json'
+                          },
+                          data : data
+                        };
+                        
+                        async function makeRequest() {
+                          try {
+                            const response = await axios.request(config);
+                            // console.log(JSON.stringify(response.data));
+                            if(response.data.error){
+                              toast.error(response.data.error);
+                            }else{
+
+                              toast.success("Task "+ task.taskName+" Accepted Successfully");
+                              setTasks(prevTasks => ({
+                                ...prevTasks,
+                                availableTask: prevTasks.availableTask.filter(t => t.id !== task.id)
+                              }));
+                            }
+                          }
+                          catch (error) {
+                            console.log(error);
+                          }
+                        }
+                        
+                        makeRequest();
+                      }}>Accept</button>
+
+                      <button onClick={()=>{
+                        let data = JSON.stringify({
+                          "orderId": task.id
+                        });
+                        
+                        let config = {
+                          method: 'patch',
+                          maxBodyLength: Infinity,
+                          url: 'http://localhost:3000/provider/auth/rejectOrder',
+                          headers: { 
+                            'Authorization': 'bearer '+localStorage.getItem("providerToken"), 
+                            'Content-Type': 'application/json'
+                          },
+                          data : data
+                        };
+                        
+                        async function makeRequest() {
+                          try {
+                            const response = await axios.request(config);
+                            // console.log(JSON.stringify(response.data));
+                            if(response.data.error){
+                              toast.error(response.data.error);
+                            }
+                            else{
+                              toast.success("Task "+ task.taskName+" Rejected Successfully");
+                              setTasks(prevTasks => ({
+                                ...prevTasks,
+                                availableTask: prevTasks.availableTask.filter(t => t.id !== task.id)
+                              }));
+                            }
+                          }
+                          catch (error) {
+                            console.log(error);
+                          }
+                        }
+                        
+                        makeRequest();
+                      }}>Reject</button>
+
                     </div>
                     {seeDetail[1] && value == task.id && (
                       <div className="Task-description">

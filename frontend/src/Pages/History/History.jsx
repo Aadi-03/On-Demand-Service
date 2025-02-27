@@ -25,7 +25,7 @@ const History = () => {
           data: newData,
         }
         const response = await axios.request(config);
-        console.log(response.data);
+        // console.log(response.data);
         setHistory(response.data['orders']);
       }
       catch (err) {
