@@ -27,9 +27,7 @@ const SignInCustomer = () => {
       });
     }
     if(location.state?.error){
-      toast.error(location.state.error, { 
-        position: "top-right" 
-      });
+      toast.error(location.state.error);
       window.history.replaceState({},document.title);
     }
   },[location]);

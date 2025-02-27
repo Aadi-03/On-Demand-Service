@@ -128,7 +128,7 @@ const WorkerDashboard = () => {
   return (
     <>
       <NewNavbar />
-      <ToastContainer />
+      <ToastContainer position="bottom-right" />
       <div className="WorkerDashboard">
         <div className="left-panel">
           <div className="profile">
