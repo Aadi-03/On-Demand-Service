@@ -117,6 +117,23 @@ router.get("/completedTask", async (req, res) => {
   }
 });
 
+// this route will update the provider availability status
+router.patch("/updateStatus", async (req, res) => {
+  try {
+    const provider = await prisma.provider.update({
+      where: {
+        id: req.providerId,
+      },
+      data: {
+        available: req.body.available,
+      },
+    });
+    res.status(200).json(provider);
+  } catch (error) {
+    res.status(200).json({ error: "Internal Server Error" });
+  }
+});
+
 // this route will mark the order as accepted by the provider and the order will be pending
 router.patch("/acceptOrder",acceptOrder);
 

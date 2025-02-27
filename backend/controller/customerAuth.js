@@ -57,9 +57,9 @@ router.get("/bulkprovider", async (req, res) => {
     },
   });
   const providers = await prisma.provider.findMany({
-    where: {
-      available: true,
-    },
+    // where: {
+    //   available: true,
+    // },
     include: {
       address: true,
       feedbacks: true,
