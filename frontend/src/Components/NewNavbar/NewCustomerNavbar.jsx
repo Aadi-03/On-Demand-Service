@@ -16,6 +16,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios';
+import dashboardIcon from "../../assets/dashboard.png";
 
 import { useNavigate } from 'react-router-dom';
 import logo from "../../assets/LandingPageImages/Company-Logo.png";
@@ -122,6 +123,9 @@ export default function PrimarySearchAppBar({ setProviderData, fav }) {
   const handleLogout = () => {
     localStorage.removeItem('customerToken');
     navigate('/');
+  }
+  const handleDashboard=()=>{
+    navigate('/customer/dashboard');
   }
 
   const isMenuOpen = Boolean(anchorEl);
@@ -255,6 +259,7 @@ export default function PrimarySearchAppBar({ setProviderData, fav }) {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <img src={dashboardIcon}  alt="" style={{ height: '1.58rem', cursor: "Pointer",position:"relative",top:"1rem" }} onClick={handleDashboard} />
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge
                 badgeContent={4}
