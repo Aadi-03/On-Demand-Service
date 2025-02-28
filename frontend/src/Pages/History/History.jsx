@@ -5,10 +5,16 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { data } from 'react-router-dom';
 import './History.css';
+import HistoryCard from '../../Components/HistoryCard/HistoryCard.jsx';
 
 const History = () => {
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [Tab, setTab] = useState('pending');
+  const [pending, setPending] = useState([]);
+  const [completed, setCompleted] = useState([]);
+  const [rejected, setRejected] = useState([]);
+  const [unaccepted, setUnaccepted] = useState([]);
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -29,6 +35,30 @@ const History = () => {
         const response = await axios.request(config);
         // console.log(response.data);
         setHistory(response.data['orders']);
+
+        let pendingOrders = [];
+        let completedOrders = [];
+        let rejectedOrders = [];
+        let unacceptedOrders = [];
+        response.data['orders'].map((order) => {
+          if (order.orderState === 'PENDING') {
+            pendingOrders.push(order);
+          }
+          else if (order.orderState === 'COMPLETED') {
+            completedOrders.push(order);
+          }
+          else if (order.orderState === 'REJECTED') {
+            rejectedOrders.push(order);
+          }
+          else {
+            unacceptedOrders.push(order);
+          }
+        }
+        );
+        setPending(pendingOrders);
+        setCompleted(completedOrders);
+        setRejected(rejectedOrders);
+        setUnaccepted(unacceptedOrders);
         setLoading(false);
       }
       catch (err) {
@@ -67,10 +97,17 @@ const History = () => {
     </div>
   );
 
+  const handleSetTab = (tab) => {
+    const btns = document.querySelectorAll('.history-tabs button');
+    btns.forEach(btn => btn.classList.remove('clicked'));
+    setTab(tab);
+    const btn = document.querySelector(`.${tab}`);
+    btn.classList.add('clicked');
+  }
   return (
     <>
       <NewCustomerNavbar />
-      <div className='history-page'>
+      <div className={`history-page`}>
         <h1 style={{ textAlign: "center" }}>History</h1>
         <div className="historycontainer">
           {loading ? (
@@ -80,65 +117,45 @@ const History = () => {
               <SkeletonCard />
               <SkeletonCard />
             </>
-          ) : history.length > 0 ? (
-            history.map((order, index) => (
-              <div key={index} className={`historycard ${order.orderState}`} >
-                <div className="order-details">
-                  <div className="detail">
-                    <b>Task ID : </b>
-                    <p>{order.orderId}</p>
-                  </div>
-                  <div className="detail">
-                    <b>Date : </b>
-                    <p>{order.orderDate}</p>
-                  </div>
-                </div>
-
-                <h3>Task Details</h3>
-                <div className="task-detail">
-                  <div className="detail">
-                    <b>Title : </b>
-                    <p> {order.orderTitle}</p>
-                  </div>
-                  <div className="detail">
-                    <b>Description : </b>
-                    <p>{order.orderDescription}</p>
-                  </div>
-                </div>
-
-                <h3>Worker Details</h3>
-                <div className="worker-details">
-                  <div className="detail">
-                    <b>Name : </b>
-                    <p>{order.providerName}</p>
-                  </div>
-                  <div className="detail">
-                    <b>Phone : </b>
-                    <p>{order.providerPhone}</p>
-                  </div>
-                  <div className="detail">
-                    <b>Email : </b>
-                    <p>{order.providerEmail}</p>
-                  </div>
-                  <div className="detail">
-                    <b>Work Type : </b>
-                    <p>{order.providerWorkType}</p>
-                  </div>
-                </div>
-
-                <h3>Reviews</h3>
-                <div className="detail">
-                  <b>Rating : </b>
-                  <p>{order.orderRating}</p>
-                </div>
-                <div className="detail">
-                  <b>Feedback : </b>
-                  <p>{order.orderFeedback}</p>
-                </div>
-              </div>
-            ))
           ) : (
-            <h3>No order history available.</h3>
+            <>
+              <div className="history-tabs">
+                <button className="all" onClick={() => handleSetTab('all')}>All</button>
+                <button className="pending" onClick={() => handleSetTab('pending')}>Pending</button>
+                <button className="unaccepted" onClick={() => handleSetTab('unaccepted')}>Unaccepted</button>
+                <button className="completed" onClick={() => handleSetTab('completed')}>Completed</button>
+                <button className="rejected" onClick={() => handleSetTab('rejected')}>Rejected</button>
+              </div>
+
+              {Tab === 'all' && (
+                <>
+                  {pending.map((order) => (
+                    <HistoryCard key={order.id} order={order} tab={'pending'} />
+                  ))}
+                  {unaccepted.map((order) => (
+                    <HistoryCard key={order.id} order={order} tab={'unaccepted'} />
+                  ))}
+                  {completed.map((order) => (
+                    <HistoryCard key={order.id} order={order} tab={'completed'} />
+                  ))}
+                  {rejected.map((order) => (
+                    <HistoryCard key={order.id} order={order} tab={'rejected'} />
+                  ))}
+                </>
+              )}
+              {Tab === 'pending' && pending.map((order) => (
+                <HistoryCard key={order.id} order={order} tab = {'pending'} />
+              ))}
+              {Tab === 'unaccepted' && unaccepted.map((order) => (
+                <HistoryCard key={order.id} order={order}  tab ={'unaccepted'} />
+              ))}
+              {Tab === 'completed' && completed.map((order) => (
+                <HistoryCard key={order.id} order={order}  tab = {'completed'}/>
+              ))}
+              {Tab === 'rejected' && rejected.map((order) => (
+                <HistoryCard key={order.id} order={order}  tab = {'rejected'}/>
+              ))}
+            </>
           )}
         </div>
       </div>
