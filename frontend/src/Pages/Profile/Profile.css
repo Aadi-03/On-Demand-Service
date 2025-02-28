@@ -1,4 +1,3 @@
-
 .profile-card {
     max-width: 850px;
     margin: 20px auto;
@@ -122,4 +121,63 @@
       font-size: 14px;
     }
   } */
+
+  /* Skeleton Loading Styles */
+  .skeleton-profile {
+    pointer-events: none;
+  }
   
+  .skeleton-text {
+    height: 18px;
+    border-radius: 4px;
+    background-color: #e0e0e0;
+    width: 60%;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+  
+  .skeleton-label {
+    display: block;
+    height: 18px;
+    width: 120px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+  
+  .skeleton-name {
+    height: 30px;
+    width: 70%;
+    margin: 0 auto 30px;
+  }
+  
+  .skeleton-title {
+    height: 22px;
+    width: 150px;
+    margin: 0 auto 10px;
+  }
+  
+  .skeleton-long {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .skeleton-address {
+    background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+  }
+  
+  .profile-details .skeleton-text,
+  .profile-details .skeleton-label {
+    margin: 8px 0;
+  }
+  
+  @keyframes pulse {
+    0% {
+      background-color: #e0e0e0;
+    }
+    50% {
+      background-color: #f0f0f0;
+    }
+    100% {
+      background-color: #e0e0e0;
+    }
+  }

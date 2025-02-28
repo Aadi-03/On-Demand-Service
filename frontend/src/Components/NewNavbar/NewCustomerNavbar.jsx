@@ -61,8 +61,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-
-export default function PrimarySearchAppBar({ setProviderData, fav }) {
+export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -75,6 +74,11 @@ export default function PrimarySearchAppBar({ setProviderData, fav }) {
     // Clear previous timeout to prevent multiple requests
     clearTimeout(debounceTimeout);
 
+    // Set loading state to true when search begins
+    if (setLoading) {
+      setLoading(true);
+    }
+
     // Set a new timeout (500ms delay)
     debounceTimeout = setTimeout(() => {
       // console.log("Search:", keyword);
@@ -82,7 +86,7 @@ export default function PrimarySearchAppBar({ setProviderData, fav }) {
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `http://localhost:3000/customer/auth/searchprovider?keyword=${keyword}&fav=${fav}`,
+        url: `http://localhost:3000/customer/auth/searchprovider?keyword=${keyword}&fav=${fav || false}`,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("customerToken")}`,
         },
@@ -98,11 +102,16 @@ export default function PrimarySearchAppBar({ setProviderData, fav }) {
           }
         } catch (error) {
           console.log(error);
+        } finally {
+          // Set loading state to false when search completes
+          if (setLoading) {
+            setLoading(false);
+          }
         }
       }
 
       makeRequest();
-    }, 500); // Adjust debounce delay as needed (e.g., 300ms, 500ms)
+    }, 500); // Adjust debounce delay as needed
   };
 
   const navigate = useNavigate();

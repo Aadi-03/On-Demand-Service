@@ -8,6 +8,8 @@ import './History.css';
 
 const History = () => {
   const [history, setHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const fetchHistory = async () => {
       try {
@@ -27,20 +29,58 @@ const History = () => {
         const response = await axios.request(config);
         // console.log(response.data);
         setHistory(response.data['orders']);
+        setLoading(false);
       }
       catch (err) {
         console.log(err);
+        setLoading(false);
       }
     }
     fetchHistory();
   }, []);
+
+  // Skeleton loader component
+  const SkeletonCard = () => (
+    <div className="historycard skeleton-card">
+      <div className="order-details">
+        <div className="detail skeleton-text"></div>
+        <div className="detail skeleton-text"></div>
+      </div>
+
+      <h3 className="skeleton-text skeleton-title"></h3>
+      <div className="task-detail">
+        <div className="detail skeleton-text"></div>
+        <div className="detail skeleton-text skeleton-long"></div>
+      </div>
+
+      <h3 className="skeleton-text skeleton-title"></h3>
+      <div className="worker-details">
+        <div className="detail skeleton-text"></div>
+        <div className="detail skeleton-text"></div>
+        <div className="detail skeleton-text"></div>
+        <div className="detail skeleton-text"></div>
+      </div>
+
+      <h3 className="skeleton-text skeleton-title"></h3>
+      <div className="detail skeleton-text"></div>
+      <div className="detail skeleton-text skeleton-long"></div>
+    </div>
+  );
+
   return (
     <>
       <NewCustomerNavbar />
       <div className='history-page'>
         <h1 style={{ textAlign: "center" }}>History</h1>
-        <div className="historycontainer" >
-          {history.length > 0 ? (
+        <div className="historycontainer">
+          {loading ? (
+            // Show 3 skeleton cards while loading
+            <>
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+            </>
+          ) : history.length > 0 ? (
             history.map((order, index) => (
               <div key={index} className={`historycard ${order.orderState}`} >
                 <div className="order-details">
@@ -56,7 +96,6 @@ const History = () => {
 
                 <h3>Task Details</h3>
                 <div className="task-detail">
-
                   <div className="detail">
                     <b>Title : </b>
                     <p> {order.orderTitle}</p>
@@ -97,7 +136,6 @@ const History = () => {
                   <p>{order.orderFeedback}</p>
                 </div>
               </div>
-
             ))
           ) : (
             <h3>No order history available.</h3>
