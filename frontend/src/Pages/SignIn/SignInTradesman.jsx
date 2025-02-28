@@ -76,7 +76,7 @@ const SignInTradesman = () => {
     <>
       {/* <Navbar /> */}
       <NewNavbar />
-      <ToastContainer />
+      <ToastContainer position="bottom-right"/>
       <div className="signin-tradesman-wrapper">
         <div className="email-wrapper">
           <label>Email :</label>
