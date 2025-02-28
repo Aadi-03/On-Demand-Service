@@ -14,7 +14,6 @@
     padding: 0px 30px;
     flex-wrap: wrap;
 
-
     .provider-complete-card-holder {
       box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
       display: flex;
@@ -130,8 +129,6 @@
 
     }
 
-
-
     .bookmark-container {
       position: relative;
 
@@ -147,6 +144,58 @@
           cursor: pointer;
         }
       }
+    }
+  }
+
+  /* Skeleton Loading Styles */
+  .skeleton-card {
+    background-color: #f5f5f5;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    height: 340px;
+  }
+
+  .skeleton-image {
+    background-color: #e0e0e0;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+
+  .skeleton-text {
+    height: 16px;
+    margin: 8px 0;
+    border-radius: 3px;
+    background-color: #e0e0e0;
+    width: 80%;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+
+  .skeleton-small {
+    width: 60px;
+    height: 14px;
+  }
+
+  .skeleton-rating {
+    width: 100px;
+  }
+
+  .skeleton-button {
+    height: 38px;
+    margin: 5px 0;
+    border-radius: 10px;
+    background-color: #e0e0e0;
+    width: 90%;
+    animation: pulse 1.5s infinite ease-in-out;
+  }
+
+  @keyframes pulse {
+    0% {
+      background-color: #e0e0e0;
+    }
+    50% {
+      background-color: #f0f0f0;
+    }
+    100% {
+      background-color: #e0e0e0;
     }
   }
 }

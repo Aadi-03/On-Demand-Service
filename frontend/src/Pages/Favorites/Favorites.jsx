@@ -13,6 +13,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 const Favorites = () => {
   const [providerData, setProviderData] = useState([]);
+  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     // console.log(localStorage.getItem("customerToken"));
@@ -35,15 +36,15 @@ const Favorites = () => {
         } else {
           setProviderData(response.data.favorite);
         }
+        setLoading(false);
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     }
 
     makeRequest();
   }, []);
-
- 
 
   const handleRemoveBookmard = (id, name) => {
     let data = JSON.stringify({
@@ -81,17 +82,55 @@ const Favorites = () => {
 
     makeRequest();
   };
+  
+  // Skeleton loader component for provider cards
+  const SkeletonCard = () => (
+    <div className="bookmark-container">
+      <div className="provider-complete-card-holder">
+        <div className="provider-card-container">
+          <div className="card skeleton-card">
+            <div className="image skeleton-image"></div>
+            <div className="details">
+              <div className="name-age">
+                <span className="name skeleton-text"></span>
+                <span className="age skeleton-text skeleton-small"></span>
+              </div>
+              <div className="distance skeleton-text skeleton-small"></div>
+              <div className="type">
+                <span className="skeleton-text"></span>
+                <span className="skeleton-text skeleton-rating"></span>
+              </div>
+            </div>
+            <div className="call skeleton-button"></div>
+          </div>
+          <div className="select-worker skeleton-button"></div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <>
-      <NewCustomerNavbar setProviderData={setProviderData} fav={true} />
+      <NewCustomerNavbar 
+        setProviderData={setProviderData} 
+        fav={true} 
+        setLoading={setLoading} 
+      />
       <ToastContainer position="bottom-right" autoClose={3000} theme="light" />
       <div className="favorites">
         <div className="heading">Favorites</div>
         <div className="card-container">
-          {providerData.length > 0 ? (
+          {loading ? (
+            // Show skeleton cards while loading
+            <>
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+              <SkeletonCard />
+            </>
+          ) : providerData.length > 0 ? (
             providerData.map((provider, index) => (
-              <div className="bookmark-container">
+              <div className="bookmark-container" key={index}>
                 <img
                   src={bookmarked}
                   alt=""
@@ -103,22 +142,16 @@ const Favorites = () => {
                     )
                   }
                 />
-                
-                  
-                    <Card
-                      key={index}
-                      providerId={provider.providerId}
-                      name={provider.providerName}
-                      age={provider.providerAge}
-                      distance={provider.providerDistanceInKm}
-                      workType={provider.providerWorkType}
-                      rating={provider.providerRating}
-                      phoneNo={provider.providerPhone}
-                      onClick={() => handleCardClick(provider)}
-                    />
-                    
-
-                
+                <Card
+                  providerId={provider.providerId}
+                  name={provider.providerName}
+                  age={provider.providerAge}
+                  distance={provider.providerDistanceInKm}
+                  workType={provider.providerWorkType}
+                  rating={provider.providerRating}
+                  phoneNo={provider.providerPhone}
+                  onClick={() => handleCardClick(provider)}
+                />
               </div>
             ))
           ) : (

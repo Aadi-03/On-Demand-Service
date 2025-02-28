@@ -52,5 +52,55 @@
                 background-color: bisque;
         }
 
+        /* Skeleton Loading Styles */
+        .skeleton-card {
+                background-color: #f0f0f0;
+                border: none;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                height: 200px;
+        }
 
+        .skeleton-text {
+                height: 15px;
+                margin: 10px 0;
+                border-radius: 3px;
+                background-color: #e0e0e0;
+                width: 150px;
+                animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        .skeleton-title {
+                height: 20px;
+                width: 120px;
+                margin: 15px 0;
+        }
+
+        .skeleton-long {
+                width: 250px;
+        }
+
+        .skeleton-card .order-details {
+                border-bottom: 1px solid #e0e0e0;
+        }
+
+        .skeleton-card .detail {
+                margin: 8px 0;
+                width: 200px;
+        }
+
+        .skeleton-card .worker-details .detail {
+                width: 180px;
+        }
+
+        @keyframes pulse {
+                0% {
+                        background-color: #e0e0e0;
+                }
+                50% {
+                        background-color: #f0f0f0;
+                }
+                100% {
+                        background-color: #e0e0e0;
+                }
+        }
 }

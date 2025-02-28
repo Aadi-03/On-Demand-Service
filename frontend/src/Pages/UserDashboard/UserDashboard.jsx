@@ -24,12 +24,89 @@ const UserDashboard = () => {
 
   const [providerData, setProviderData] = useState([]);
   const [favoriteList, setfavoriteList] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
   
   const [filters, setFilters] = useState({
     workType: [],
     rating: 0,
     distance: 1,
   });
+
+  // Skeleton card component
+  const SkeletonCard = () => (
+    <div className="provider-complete-card-holder">
+      <div className="provider-card-container">
+        <div className="card skeleton-card">
+          <div className="image skeleton-image"></div>
+          <div className="details">
+            <div className="name-age">
+              <span className="name skeleton-text"></span>
+              <span className="age skeleton-text skeleton-small"></span>
+            </div>
+            <div className="distance skeleton-text skeleton-small"></div>
+            <div className="type">
+              <span className="skeleton-text"></span>
+              <span className="skeleton-text skeleton-rating"></span>
+            </div>
+          </div>
+          <div className="call skeleton-button"></div>
+        </div>
+        <div className="select-worker skeleton-button"></div>
+      </div>
+    </div>
+  );
+  
+  // Skeleton for right component
+  const SkeletonRightComponent = () => (
+    <div className="right">
+      <div className="details skeleton-right-panel">
+        <div className="skeleton-bookmark"></div>
+        <div className="skeleton-image-large"></div>
+        <p className="Name skeleton-text skeleton-name-large"></p>
+
+        <div className="details-container">
+          <div className="detail-type">
+            <h1 className="skeleton-text skeleton-section-title"></h1>
+            <div className="detail">
+              <p className="detail-heading skeleton-text skeleton-label"></p>
+              <p className="skeleton-text"></p>
+            </div>
+            <div className="detail">
+              <p className="detail-heading skeleton-text skeleton-label"></p>
+              <p className="skeleton-text"></p>
+            </div>
+            <div className="detail">
+              <p className="detail-heading skeleton-text skeleton-label"></p>
+              <p className="skeleton-text skeleton-long"></p>
+            </div>
+          </div>
+          <div className="detail-type">
+            <h1 className="skeleton-text skeleton-section-title"></h1>
+            <div className="detail">
+              <p className="detail-heading skeleton-text skeleton-label"></p>
+              <p className="skeleton-text"></p>
+            </div>
+            <div className="detail">
+              <p className="detail-heading skeleton-text skeleton-label"></p>
+              <p className="skeleton-text"></p>
+            </div>
+            <div className="detail">
+              <p className="detail-heading skeleton-text skeleton-label"></p>
+              <p className="skeleton-text"></p>
+            </div>
+          </div>
+          <div className="detail-type">
+            <h1 className="skeleton-text skeleton-section-title"></h1>
+            <div className="detail">
+              <p className="detail-heading skeleton-text skeleton-label"></p>
+              <p className="skeleton-text skeleton-long"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   const handleServiceChange = (e) => {
     const service = e.target.id;
     setFilters((prev) => {
@@ -57,6 +134,7 @@ const UserDashboard = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(filters);
+    setLoading(true); // Set loading to true when applying filters
     const url = `http://localhost:3000/customer/auth/filterprovider?workType=${filters.workType}&distance=${filters.distance}&rating=${filters.rating}`;
     console.log(url);
 
@@ -81,6 +159,8 @@ const UserDashboard = () => {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false); // Set loading to false regardless of result
       }
     }
     makeRequest();
@@ -99,15 +179,13 @@ const UserDashboard = () => {
 
   const handleCardClick = (data) => {
     setfirsttimeclick(true);
-
     setCardData(data);
     // console.log(data);
   };
 
-  
-
   useEffect(() => {
     // console.log(localStorage.getItem("customerToken"));
+    setLoading(true); // Set loading to true on initial data fetch
 
     let config = {
       method: "get",
@@ -123,6 +201,7 @@ const UserDashboard = () => {
         const response = await axios.request(config);
         // console.log(JSON.stringify(response.data));
         if (response.data.error) {
+          // Handle error
         } else {
           setProviderData(response.data.provider);
           if (location.state?.error) {
@@ -161,16 +240,15 @@ const UserDashboard = () => {
         } else {
           const fav_provider_id = response.data.favorite.map((provider) => provider.providerId);
           setfavoriteList(fav_provider_id);
-
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false); // Set loading to false after all requests are complete
       }
     }
 
-    makeRequest();
-    makeRequestForUser();
-
+    Promise.all([makeRequest(), makeRequestForUser()]);
   }, []);
 
 
@@ -180,14 +258,9 @@ const UserDashboard = () => {
     }
   }, [providerData, firsttimeclick]);
 
-
-
-
-
   return (
     <>
-      {/* <Navbar /> */}
-      <NewCustomerNavbar setProviderData={setProviderData} />
+      <NewCustomerNavbar setProviderData={setProviderData} setLoading={setLoading} />
       <ToastContainer position="bottom-right" autoClose={3000} theme="light" />
       <div className="user-dashboard">
         <div className="left">
@@ -259,24 +332,29 @@ const UserDashboard = () => {
         <div className="center">
           <div className="heading">Results for Search</div>
           <div className="card-container">
-            {providerData.length > 0 ? (
+            {loading ? (
+              // Show skeleton cards while loading
+              <>
+                <SkeletonCard />
+                <SkeletonCard />
+                <SkeletonCard />
+                <SkeletonCard />
+                <SkeletonCard />
+                <SkeletonCard />
+              </>
+            ) : providerData.length > 0 ? (
               providerData.map((provider, index) => (
-                
-                  
-                    <Card
-                      key={index}
-                      providerId={provider.providerId}
-                      name={provider.providerName}
-                      age={provider.providerAge}
-                      distance={provider.providerDistanceInKm}
-                      workType={provider.providerWorkType}
-                      rating={provider.providerRating}
-                      phoneNo={provider.providerPhone}
-                      onClick={() => handleCardClick(provider)}
-                    />
-                  
-
-                
+                <Card
+                  key={index}
+                  providerId={provider.providerId}
+                  name={provider.providerName}
+                  age={provider.providerAge}
+                  distance={provider.providerDistanceInKm}
+                  workType={provider.providerWorkType}
+                  rating={provider.providerRating}
+                  phoneNo={provider.providerPhone}
+                  onClick={() => handleCardClick(provider)}
+                />
               ))
             ) : (
               <p>No providers found</p>
