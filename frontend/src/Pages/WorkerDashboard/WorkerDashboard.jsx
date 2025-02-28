@@ -26,11 +26,12 @@ const WorkerDashboard = () => {
   const location = useLocation();
 
   const handleSeeDetail = (taskId) => {
-    setSeeDetail((prevState) => ({
-      ...prevState,
-      [taskId]: !prevState[taskId],
-    }));
-  };
+    setSeeDetail((prevState) => {
+        return {
+            [taskId]: !prevState[taskId] || false 
+        };
+    });
+};
 
   const calculateAge = (date) => {
     const birthDate = new Date(date);
@@ -300,55 +301,65 @@ const WorkerDashboard = () => {
                       <p>{formatDate(task?.updatedAt)}</p>
                       <button
                         onClick={() => {
-                          handleSeeDetail(1);
                           setValue(task.id);
+                          handleSeeDetail(task.id);
                         }}
                       >
-                        {seeDetail[1] && value == task.id
+                        {seeDetail[value] && value == task.id
                           ? "Close Detail"
                           : "See Detail"}
                       </button>
 
-                      <button onClick={()=>{
-                        let data = JSON.stringify({
-                          "orderId": task.id
-                        });
-                        
-                        let config = {
-                          method: 'patch',
-                          maxBodyLength: Infinity,
-                          url: 'http://localhost:3000/provider/auth/completeOrder',
-                          headers: { 
-                            'Authorization': 'bearer '+localStorage.getItem("providerToken"), 
-                            'Content-Type': 'application/json'
-                          },
-                          data : data
-                        };
-                        
-                        async function makeRequest() {
-                          try {
-                            const response = await axios.request(config);
-                            // console.log(JSON.stringify(response.data));
-                            if(response.data.error){
-                              toast.error(response.data.error);
-                            }else{
+                      <button
+                        onClick={() => {
+                          let data = JSON.stringify({
+                            orderId: task.id,
+                          });
 
-                              toast.success("Task "+ task.taskName+" Completed Successfully");
-                              setTasks(prevTasks => ({
-                                ...prevTasks,
-                                acceptedTask: prevTasks.acceptedTask.filter(t => t.id !== task.id)
-                              }));
+                          let config = {
+                            method: "patch",
+                            maxBodyLength: Infinity,
+                            url: "http://localhost:3000/provider/auth/completeOrder",
+                            headers: {
+                              Authorization:
+                                "bearer " +
+                                localStorage.getItem("providerToken"),
+                              "Content-Type": "application/json",
+                            },
+                            data: data,
+                          };
+
+                          async function makeRequest() {
+                            try {
+                              const response = await axios.request(config);
+                              // console.log(JSON.stringify(response.data));
+                              if (response.data.error) {
+                                toast.error(response.data.error);
+                              } else {
+                                toast.success(
+                                  "Task " +
+                                    task.taskName +
+                                    " Completed Successfully"
+                                );
+                                setTasks((prevTasks) => ({
+                                  ...prevTasks,
+                                  acceptedTask: prevTasks.acceptedTask.filter(
+                                    (t) => t.id !== task.id
+                                  ),
+                                }));
+                              }
+                            } catch (error) {
+                              console.log(error);
                             }
                           }
-                          catch (error) {
-                            console.log(error);
-                          }
-                        }
-                        
-                        makeRequest();
-                      }}>Complete</button>
+
+                          makeRequest();
+                        }}
+                      >
+                        Complete
+                      </button>
                     </div>
-                    {seeDetail[1] && value == task.id && (
+                    {seeDetail[value] && value == task.id && (
                       <div className="Task-description">
                         {task?.description}
                       </div>
@@ -379,94 +390,113 @@ const WorkerDashboard = () => {
                       <p>{formatDate(task?.updatedAt)}</p>
                       <button
                         onClick={() => {
-                          handleSeeDetail(1);
                           setValue(task.id);
+                          handleSeeDetail(task.id);
                         }}
                       >
-                        {seeDetail[1] && value == task.id
+                        {seeDetail[value] && value == task.id
                           ? "Close Detail"
                           : "See Detail"}
                       </button>
-                      <button onClick={()=>{
-                        let data = JSON.stringify({
-                          "orderId": task.id
-                        });
-                        
-                        let config = {
-                          method: 'patch',
-                          maxBodyLength: Infinity,
-                          url: 'http://localhost:3000/provider/auth/acceptOrder',
-                          headers: { 
-                            'Authorization': 'bearer '+localStorage.getItem("providerToken"), 
-                            'Content-Type': 'application/json'
-                          },
-                          data : data
-                        };
-                        
-                        async function makeRequest() {
-                          try {
-                            const response = await axios.request(config);
-                            // console.log(JSON.stringify(response.data));
-                            if(response.data.error){
-                              toast.error(response.data.error);
-                            }else{
+                      <button
+                        onClick={() => {
+                          let data = JSON.stringify({
+                            orderId: task.id,
+                          });
 
-                              toast.success("Task "+ task.taskName+" Accepted Successfully");
-                              setTasks(prevTasks => ({
-                                ...prevTasks,
-                                availableTask: prevTasks.availableTask.filter(t => t.id !== task.id)
-                              }));
+                          let config = {
+                            method: "patch",
+                            maxBodyLength: Infinity,
+                            url: "http://localhost:3000/provider/auth/acceptOrder",
+                            headers: {
+                              Authorization:
+                                "bearer " +
+                                localStorage.getItem("providerToken"),
+                              "Content-Type": "application/json",
+                            },
+                            data: data,
+                          };
+
+                          async function makeRequest() {
+                            try {
+                              const response = await axios.request(config);
+                              // console.log(JSON.stringify(response.data));
+                              if (response.data.error) {
+                                toast.error(response.data.error);
+                              } else {
+                                toast.success(
+                                  "Task " +
+                                    task.taskName +
+                                    " Accepted Successfully"
+                                );
+                                setTasks((prevTasks) => ({
+                                  ...prevTasks,
+                                  availableTask: prevTasks.availableTask.filter(
+                                    (t) => t.id !== task.id
+                                  ),
+                                }));
+                              }
+                            } catch (error) {
+                              console.log(error);
                             }
                           }
-                          catch (error) {
-                            console.log(error);
-                          }
-                        }
-                        
-                        makeRequest();
-                      }}>Accept</button>
 
-                      <button onClick={()=>{
-                        let data = JSON.stringify({
-                          "orderId": task.id
-                        });
-                        
-                        let config = {
-                          method: 'patch',
-                          maxBodyLength: Infinity,
-                          url: 'http://localhost:3000/provider/auth/rejectOrder',
-                          headers: { 
-                            'Authorization': 'bearer '+localStorage.getItem("providerToken"), 
-                            'Content-Type': 'application/json'
-                          },
-                          data : data
-                        };
-                        
-                        async function makeRequest() {
-                          try {
-                            const response = await axios.request(config);
-                            // console.log(JSON.stringify(response.data));
-                            if(response.data.error){
-                              toast.error(response.data.error);
-                            }
-                            else{
-                              toast.success("Task "+ task.taskName+" Rejected Successfully");
-                              setTasks(prevTasks => ({
-                                ...prevTasks,
-                                availableTask: prevTasks.availableTask.filter(t => t.id !== task.id)
-                              }));
-                            }
-                          }
-                          catch (error) {
-                            console.log(error);
-                          }
-                        }
-                        
-                        makeRequest();
-                      }}>Reject</button>
+                          makeRequest();
+                        }}
+                      >
+                        Accept
+                      </button>
 
+                      <button
+                        onClick={() => {
+                          let data = JSON.stringify({
+                            orderId: task.id,
+                          });
+
+                          let config = {
+                            method: "patch",
+                            maxBodyLength: Infinity,
+                            url: "http://localhost:3000/provider/auth/rejectOrder",
+                            headers: {
+                              Authorization:
+                                "bearer " +
+                                localStorage.getItem("providerToken"),
+                              "Content-Type": "application/json",
+                            },
+                            data: data,
+                          };
+
+                          async function makeRequest() {
+                            try {
+                              const response = await axios.request(config);
+                              // console.log(JSON.stringify(response.data));
+                              if (response.data.error) {
+                                toast.error(response.data.error);
+                              } else {
+                                toast.success(
+                                  "Task " +
+                                    task.taskName +
+                                    " Rejected Successfully"
+                                );
+                                setTasks((prevTasks) => ({
+                                  ...prevTasks,
+                                  availableTask: prevTasks.availableTask.filter(
+                                    (t) => t.id !== task.id
+                                  ),
+                                }));
+                              }
+                            } catch (error) {
+                              console.log(error);
+                            }
+                          }
+
+                          makeRequest();
+                        }}
+                      >
+                        Reject
+                      </button>
                     </div>
-                    {seeDetail[1] && value == task.id && (
+                    {seeDetail[value] && value == task?.id && (
                       <div className="Task-description">
                         {task?.description}
                       </div>
@@ -497,16 +527,16 @@ const WorkerDashboard = () => {
                       <p>{formatDate(task?.updatedAt)}</p>
                       <button
                         onClick={() => {
-                          handleSeeDetail(1);
-                          setValue(task.id);
+                          setValue(task?.id);
+                          handleSeeDetail(task?.id);
                         }}
                       >
-                        {seeDetail[1] && value == task.id
+                        {seeDetail[value] && value == task?.id
                           ? "Close Detail"
                           : "See Detail"}
                       </button>
                     </div>
-                    {seeDetail[1] && value == task.id && (
+                    {seeDetail[value] && value == task?.id && (
                       <div className="Task-description">
                         {task?.description}
                       </div>

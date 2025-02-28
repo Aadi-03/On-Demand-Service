@@ -66,12 +66,16 @@ export default function PrimarySearchAppBar() {
   
   const navigate = useNavigate();
 
-        const handleHistory = () => {
-                navigate('history');
-        }
+        // const handleHistory = () => {
+        //         navigate('history');
+        // }
        
         const handleGoHome = () => {
                 navigate('/');
+        }
+        const handleLogout = () => {
+          localStorage.removeItem('providerToken');
+          navigate('/');
         }
 
   const isMenuOpen = Boolean(anchorEl);
@@ -111,12 +115,12 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem >Profile</MenuItem>
+      {/* <MenuItem >Profile</MenuItem> */}
       <MenuItem >Edit Profile</MenuItem>
-      <MenuItem onClick={handleHistory}>History</MenuItem>
-      <MenuItem >Bookmarks</MenuItem>
+      {/* <MenuItem onClick={handleHistory}>History</MenuItem> */}
+      {/* <MenuItem >Bookmarks</MenuItem> */}
       <MenuItem >Report a Bug</MenuItem>
-      <MenuItem >LogOut</MenuItem>
+      <MenuItem onClick={handleLogout} sx={{ color: 'red' }}>LogOut</MenuItem>
     </Menu>
   );
 
