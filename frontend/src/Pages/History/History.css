@@ -1,4 +1,5 @@
 .history-page {
+        height: fit-content;
         h1{
                 text-align: center;
                 margin: 20px;
@@ -8,50 +9,29 @@
                 display: flex;
                 align-items: center;
                 flex-direction: column;
-        }
 
-        .historycard{
-                display: flex;
-                flex-direction: column;
-                border: 1px solid black;
-                padding: 20px;
-                margin: 10px;
-                border-radius: 20px;
-                width: 80%;
+                min-height: 80vh;
 
-                h3{
-                        text-decoration: underline      ;
-                }
-
-                .order-details{
+                .history-tabs{
                         display: flex;
-                        justify-content: space-between;
-                        border-bottom: 1px solid black;
-
-                }
-                .worker-details{
-                        display: flex;
-                        justify-content: space-between;
+                        justify-content: center;
+                        margin: 20px;
+                        button{
+                                width : 200px;
+                                margin: 0 10px;
+                                padding: 10px 20px;
+                                border: 1px solid #000;
+                                border-radius: 5px;
+                                cursor: pointer;
+                                transition: 0.3s;
+                                font-weight: bold;
+                                box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+                        }
                 }
                 
-                .detail{
-                        display: flex;
-                }
+                
         }
-
-        .PENDING{
-                background-color: lightcyan;
-        }
-        .COMPLETED{
-                background-color: lightgreen;
-        }
-        .REJECTED{
-                background-color: lightcoral;
-        }
-        .AVAILABLE{
-                background-color: bisque;
-        }
-
+        
         /* Skeleton Loading Styles */
         .skeleton-card {
                 background-color: #f0f0f0;
@@ -103,4 +83,25 @@
                         background-color: #e0e0e0;
                 }
         }
+}
+
+.all{
+        background-color: white;
+}
+.unaccepted{
+        background-color: rgb(240, 128, 216);
+}
+.pending{
+        background-color: lightcyan;
+}
+.completed{
+        background-color: lightgreen;
+}
+.rejected{
+        background-color: lightcoral;
+}
+
+.clicked{
+        background-color: #000;
+        color: white;
 }
