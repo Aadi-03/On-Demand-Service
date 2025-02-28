@@ -100,7 +100,7 @@ const History = () => {
 
             ))
           ) : (
-            <p>No order history available.</p>
+            <h3>No order history available.</h3>
           )}
         </div>
       </div>
