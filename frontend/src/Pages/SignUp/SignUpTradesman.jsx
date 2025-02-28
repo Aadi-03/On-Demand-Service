@@ -5,7 +5,7 @@ import Navbar from "../../Components/Navbar/Navbar";
 import Footer from "../../Components/Footer/Footer";
 
 import NewNavbar from '../../Components/NewNavbar/NewNavbar.jsx';
-
+import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
 const SignUpTradesman = () => {
   const naviagate = useNavigate();
@@ -91,12 +91,12 @@ const SignUpTradesman = () => {
         const response = await axios.request(config);
         console.log(JSON.stringify(response.data));
         if (response.data.error) {
-          alert(response.data.error);
+          toast.error(response.data.error);
         }
         else{
-          alert("Provider signed up successfully");
+          // alert("Provider signed up successfully");
           localStorage.setItem('providerToken', response.data.token);
-          naviagate('/provider/dashboard');
+          naviagate('/provider/dashboard',{state:{success:"You have signed up successfully"}});
         }
       }
       catch (error) {

@@ -152,7 +152,7 @@ const UserDashboard = () => {
         const response = await axios.request(config);
         // console.log(JSON.stringify(response.data));
         if (response.data.error) {
-          alert(response.data.error);
+          toast.error(response.data.error);
         } else {
           setProviderData(response.data.provider);
           // console.log(providerData);
@@ -204,8 +204,14 @@ const UserDashboard = () => {
           // Handle error
         } else {
           setProviderData(response.data.provider);
-          if (location.state?.error) {
-            toast.info(location.state.error, {
+          if (location.state?.info) {
+            toast.info(location.state.info, {
+              autoClose: 3000
+            });
+            window.history.replaceState({}, document.title);
+          }
+          if (location.state?.success) {
+            toast.success(location.state.success, {
               autoClose: 3000
             });
             window.history.replaceState({}, document.title);

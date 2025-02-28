@@ -117,6 +117,12 @@ const WorkerDashboard = () => {
             });
             window.history.replaceState({}, document.title);
           }
+          if (location.state?.success) {
+            toast.success(location.state.success, {
+              autoClose: 3000,
+            });
+            window.history.replaceState({}, document.title);
+          }
         }
       } catch (error) {
         console.log(error);

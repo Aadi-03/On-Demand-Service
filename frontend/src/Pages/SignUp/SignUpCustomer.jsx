@@ -88,9 +88,9 @@ const SignUpCustomer = () => {
         if (response.data.error) {
           toast.error(response.data.error);
         } else {
-          toast.success("Sign Up Successful");
+          // toast.success("Sign Up Successful");
           localStorage.setItem("customerToken", response.data.token);
-          navigate("/customer/dashboard");
+          navigate("/customer/dashboard",{state:{success:"You have signed up successfully"}});
         }
       }
       catch (error) {

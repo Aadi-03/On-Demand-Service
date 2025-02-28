@@ -22,7 +22,7 @@ const SignInCustomer = () => {
     if(localStorage.getItem("customerToken")){
       navigate('/customer/dashboard',{
         state:{
-          error:"You are already signed in"
+          info:"You were already signed in"
         }
       });
     }
@@ -59,10 +59,10 @@ const SignInCustomer = () => {
           toast.error(response.data.error);
         }
         else{
-          toast.success("Sign In Successful");
+          // toast.success("Sign In Successful");
           localStorage.setItem("customerToken", response.data.token);
-          await new Promise(resolve => setTimeout(resolve, 1000));
-          navigate('/customer/dashboard');
+          // await new Promise(resolve => setTimeout(resolve, 1000));
+          navigate('/customer/dashboard',{state:{success:"Sign In Successful"}});
         }
       }
       catch(error){

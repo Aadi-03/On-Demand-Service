@@ -17,7 +17,7 @@ const SignInTradesman = () => {
     if(localStorage.getItem("providerToken")){
       navigate('/provider/dashboard',{
         state:{
-          info:"You are already signed in"
+          info:"You were already signed in"
         }
       });
     }
@@ -60,11 +60,11 @@ const SignInTradesman = () => {
         const response = await axios.request(config);
         console.log(JSON.stringify(response.data));
         if (response.data.error) {
-          alert(response.data.error);
+          toast.error(response.data.error);
         } else {
-          alert("Customer signed in successfully");
+          // alert("Customer signed in successfully");
           localStorage.setItem("providerToken", response.data.token);
-          navigate("/provider/dashboard");
+          navigate("/provider/dashboard",{state:{success:"You have signed in successfully"}});
         }
       } catch (error) {
         console.log(error);
