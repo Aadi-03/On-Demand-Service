@@ -16,7 +16,11 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios';
+
 import dashboardIcon from "../../assets/dashboard4.png";
+import { ToastContainer, toast } from 'react-toastify';
+
+
 
 import { useNavigate } from 'react-router-dom';
 import logo from "../../assets/LandingPageImages/Company-Logo.png";
@@ -96,7 +100,7 @@ export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }
         try {
           const response = await axios.request(config);
           if (response.data.error) {
-            alert(response.data.error);
+            toast.error(response.data.error);
           } else {
             setProviderData(response.data.provider);
           }
