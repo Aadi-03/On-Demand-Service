@@ -2,7 +2,7 @@ import { OrderState, PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 import express from "express";
 import verifyProviderJwt from "../middleware/verifyProviderJwt.js";
-import { acceptOrder, completeOrder, rejectOrder } from "./order.js";
+import { acceptOrder, completeOrder, rejectOrder, reOpenOrder } from "./order.js";
 
 const router = express.Router();
 
@@ -142,5 +142,8 @@ router.patch("/completeOrder",completeOrder);
 
 // this route will mark the order as rejected by the provider
 router.patch("/rejectOrder",rejectOrder);
+
+// this route will change the completed state order to pending
+router.patch("/redoOrder",reOpenOrder);
 
 export default router;
