@@ -74,7 +74,7 @@ export default function PrimarySearchAppBar() {
         }
         const handleLogout = () => {
           localStorage.removeItem('providerToken');
-          navigate('/');
+          navigate('/',{state: {logout: true}});
         }
 
   const isMenuOpen = Boolean(anchorEl);

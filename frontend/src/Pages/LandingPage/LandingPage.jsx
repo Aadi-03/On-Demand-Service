@@ -14,10 +14,22 @@ import plumberlogo from "../../assets/LandingPageImages/plumber_logo.png";
 
 import Navbar from "../../Components/Navbar/Navbar.jsx";
 import NewNavbar from "../../Components/NewNavbar/NewNavbar.jsx";
-
+import { toast, ToastContainer } from "react-toastify";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const LandingPage = () => {
+  const location=useLocation();
+  useEffect(()=>{
+    if(location.state?.logout){
+      // console.log("logout");
+      
+      toast.success("Logout Successful");
+      window.history.replaceState({}, document.title);
+    }
 
+
+  },[location])
   
 
   return (
@@ -25,6 +37,7 @@ const LandingPage = () => {
     <>
       {/* <Navbar/> */}
       <NewNavbar/>
+      <ToastContainer position="bottom-right"/>
       <hr className="horizontal-rule" />
 
       <div className="Landing-Page">
