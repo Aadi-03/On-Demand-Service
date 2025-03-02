@@ -467,7 +467,7 @@ router.post("/createOrder",createOrder);
 router.patch("/markCompletedOrder",completedOrder);
 
 // this route will mark the order as pending if the customer is not satisfied with the provider work
-router.patch("/reOpenOrder",reOpenOrder);
+// router.patch("/reOpenOrder",reOpenOrder);
 
 // this route will delete the order by the customer
 router.delete("/deleteOrder", deleteOrder); 

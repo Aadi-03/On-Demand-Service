@@ -135,7 +135,7 @@ export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }
   }
   const handleLogout = () => {
     localStorage.removeItem('customerToken');
-    navigate('/');
+    navigate('/', { state: { logout: true } });
   }
   const handleDashboard=()=>{
     navigate('/customer/dashboard');

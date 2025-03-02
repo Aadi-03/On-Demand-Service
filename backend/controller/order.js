@@ -93,6 +93,7 @@ export const completedOrder = async (req, res) => {
 }
 
 // if the customer not satisfied with the work done by the provider (for the customer)
+// provider can re-open the order
 export const reOpenOrder = async (req, res) => {
     try {
         const {orderId} = req.body;
@@ -102,6 +103,8 @@ export const reOpenOrder = async (req, res) => {
         const order = await prisma.order.update({
             where: {
                 id: orderId,
+                state: OrderState.COMPLETED,
+                doneById: req.providerId,
             },
             data: {
                 state: OrderState.PENDING,
