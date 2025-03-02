@@ -134,16 +134,22 @@
                         }
                         .Task-Card{
                                 
+                                
+                                min-height: max-content;
                                 border: 1px solid black;
                                 border-radius: 10px;
                                 padding : 10px;
                                 margin : 10px 0;
                                 box-shadow: 1px 1px 1px #390c0c;
                                 .task-details{
+                                        
                                         transition: all 0.3s ease-in-out;
                                         display: flex;
                                         justify-content: space-between;
-                                        margin : 10px 0;
+                                        margin : 2px 0;
+                                        p{
+                                                width: 16%;
+                                        }
                                 }
 
                                 button{
