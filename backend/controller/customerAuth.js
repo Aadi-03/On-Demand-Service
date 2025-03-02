@@ -86,6 +86,7 @@ router.get("/bulkprovider", async (req, res) => {
       ProviderGender: provider.gender,
       providerPhone: provider.phoneNumber,
       providerWorkType: provider.workType,
+      providerStatus: provider.available,
       providerDistanceInKm: calcDistance(
         customer.address.latitude,
         customer.address.longitude,

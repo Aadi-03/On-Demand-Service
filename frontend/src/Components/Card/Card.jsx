@@ -4,12 +4,15 @@ import * as React from "react";
 import Rating from "@mui/material/Rating";
 import { ToastContainer, toast } from 'react-toastify';
 import axios from "axios";
-const Card = ({ providerId,name, age, distance, workType, rating, phoneNo, onClick }) => {
+import available from '../../assets/available.png';
+import unavailable from '../../assets/unavailable.png';
+const Card = ({ providerId,name, age, distance, workType, rating, phoneNo, status, onClick }) => {
     const [open,setOpen]=React.useState(false)
     const cardClass = distance ? "card" : "card card--no-distance";
     return (
         <>
             <div className="provider-complete-card-holder">
+                <img src= {(status) ? available : unavailable} alt="" className="providerStatus" />
                 <div className="provider-card-container">
                     <div className={cardClass} onClick={onClick}>
                         <div className="image"></div>

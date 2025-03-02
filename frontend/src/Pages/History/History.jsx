@@ -15,6 +15,7 @@ const History = () => {
   const [completed, setCompleted] = useState([]);
   const [rejected, setRejected] = useState([]);
   const [unaccepted, setUnaccepted] = useState([]);
+  const [partialCompleted, setpartialCompleted] = useState([]);
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -40,8 +41,13 @@ const History = () => {
         let completedOrders = [];
         let rejectedOrders = [];
         let unacceptedOrders = [];
+        let paritalcomplete = [];
+
         response.data['orders'].forEach((order) => {
-          if (order.orderState === 'PENDING') {
+          if(order.orderCompleted == true){
+            paritalcomplete.push(order);
+          }
+          else if (order.orderState === 'PENDING') {
             pendingOrders.push(order);
           }
           else if (order.orderState === 'COMPLETED') {
@@ -59,6 +65,7 @@ const History = () => {
         setCompleted(completedOrders);
         setRejected(rejectedOrders);
         setUnaccepted(unacceptedOrders);
+        setpartialCompleted(paritalcomplete);
         setLoading(false);
       }
       catch (err) {
@@ -121,6 +128,7 @@ const History = () => {
             <>
               <div className="history-tabs">
                 <button className="all" onClick={() => handleSetTab('all')}>All</button>
+                <button className="partialcompleted" onClick={() => handleSetTab('partialcompleted')}>Partial Completed</button>
                 <button className="pending" onClick={() => handleSetTab('pending')}>Pending</button>
                 <button className="unaccepted" onClick={() => handleSetTab('unaccepted')}>Unaccepted</button>
                 <button className="completed" onClick={() => handleSetTab('completed')}>Completed</button>
@@ -154,6 +162,9 @@ const History = () => {
               ))}
               {Tab === 'rejected' && rejected.map((order) => (
                 <HistoryCard key={order.id} order={order}  tab = {'rejected'}/>
+              ))}
+              {Tab === 'partialcompleted' && partialCompleted.map((order) => (
+                <HistoryCard key={order.id} order={order}  tab = {'partialcompleted'}/>
               ))}
             </>
           )}

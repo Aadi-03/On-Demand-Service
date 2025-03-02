@@ -90,6 +90,7 @@
       transition : all 0.3s ease;
       
       .provider-complete-card-holder {
+        position : relative;
         box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
         display: flex;
         min-height: 400px;
@@ -98,6 +99,16 @@
         overflow: hidden; 
         margin : 5px;
         padding : 5px;
+
+        .providerStatus{
+          position : absolute;
+          height : 10px;
+          width: 10px;
+          top : 5px;
+          right : 5px;
+          z-index: 1;
+
+        }
 
         .provider-card-container {
           display: flex;

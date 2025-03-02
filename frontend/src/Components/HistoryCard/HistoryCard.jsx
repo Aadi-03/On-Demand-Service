@@ -65,8 +65,7 @@ const HistoryCard = ({ order, tab }) => {
 
                         <div className="history-buttons">
                                 {['unaccepted', 'pending'].includes(tab) && <button className="Revoke">Revoke Request</button>}
-                                {tab === 'pending' && <button className="Feedback">Feedback</button>}
-                                {tab === 'pending' && <button className="Complete">Complete</button>}
+                                {['partialcompleted', 'pending'].includes(tab) && <button className="Complete">Complete</button>}
                         </div>
                 </div>
         );

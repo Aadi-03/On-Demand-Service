@@ -359,6 +359,7 @@ const UserDashboard = () => {
                   workType={provider.providerWorkType}
                   rating={provider.providerRating}
                   phoneNo={provider.providerPhone}
+                  status = {provider.providerStatus}
                   onClick={() => handleCardClick(provider)}
                 />
               ))
