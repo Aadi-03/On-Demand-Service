@@ -532,6 +532,12 @@ const WorkerDashboard = () => {
                       <p>{task?.taskName}</p>
                       <p>{formatDate(task?.updatedAt)}</p>
                       <button
+                        onClick={()=>{
+                         
+                        }}>
+                          ReDo
+                      </button>
+                      <button
                         onClick={() => {
                           setValue(task?.id);
                           handleSeeDetail(task?.id);
