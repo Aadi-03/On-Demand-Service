@@ -24,10 +24,10 @@ const Card = ({ providerId,name, age, distance, workType, rating, phoneNo, onCli
                                 <Rating name="half-rating-read" value={rating} precision={0.1} readOnly size="small" />
                             </div>
                         </div>
-                        <div className="call">
+                        {/* <div className="call">
                             <IoIosCall />
                             <span>+91-{phoneNo}</span>
-                        </div>
+                        </div> */}
                     </div>
                     <button className="select-worker" onClick={()=>{setOpen(!open)}}>Request Service</button>
                 </div>

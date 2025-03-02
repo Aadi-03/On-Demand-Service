@@ -40,7 +40,7 @@ const History = () => {
         let completedOrders = [];
         let rejectedOrders = [];
         let unacceptedOrders = [];
-        response.data['orders'].map((order) => {
+        response.data['orders'].forEach((order) => {
           if (order.orderState === 'PENDING') {
             pendingOrders.push(order);
           }

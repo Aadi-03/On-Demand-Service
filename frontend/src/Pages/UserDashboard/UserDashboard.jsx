@@ -49,7 +49,7 @@ const UserDashboard = () => {
               <span className="skeleton-text skeleton-rating"></span>
             </div>
           </div>
-          <div className="call skeleton-button"></div>
+          {/* <div className="call skeleton-button"></div> */}
         </div>
         <div className="select-worker skeleton-button"></div>
       </div>
