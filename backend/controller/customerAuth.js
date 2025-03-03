@@ -119,7 +119,7 @@ router.get("/filterprovider", async (req, res) => {
   const { workType, distance, rating } = req.query;
   let providers = await prisma.provider.findMany({
     where: {
-      available: true,
+      // available: true,
     },
     include: {
       address: true,
@@ -181,6 +181,7 @@ router.get("/filterprovider", async (req, res) => {
       ProviderGender: provider.gender,
       providerPhone: provider.phoneNumber,
       providerWorkType: provider.workType,
+      providerStatus: provider.available,
       providerDistanceInKm: calcDistance(
         customer.address.latitude,
         customer.address.longitude,
@@ -265,6 +266,7 @@ router.get("/searchprovider", async (req, res) => {
         ProviderGender: provider.gender,
         providerPhone: provider.phoneNumber,
         providerWorkType: provider.workType,
+        providerStatus: provider.available,
         providerDistanceInKm: calcDistance(
           customer.address.latitude,
           customer.address.longitude,
@@ -386,6 +388,7 @@ router.get("/favoriteprovider", async (req, res) => {
         ProviderGender: customer.provider.gender,
         providerPhone: customer.provider.phoneNumber,
         providerWorkType: customer.provider.workType,
+        providerStatus: customer.provider.available,
         providerAddress: formattedAddress,
         providerEmail: customer.provider.email,
         providerRating: rating,
