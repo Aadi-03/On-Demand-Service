@@ -15,6 +15,7 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        margin-right: 5px;
 
         .profile {
             display: flex;
@@ -50,6 +51,7 @@
                 font-size: 18px;
                 font-weight: 600;
                 margin: 8px;
+                width : 90%;
                 padding: 12px 20px;
                 border-radius: 12px;
                 background: linear-gradient(90deg, #0056b3, #007bff);
@@ -59,8 +61,8 @@
                 box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.12);
 
                 &:hover {
-                    background: linear-gradient(90deg, #007bff, #0056b3);
                     transform: scale(1.05);
+                    background: linear-gradient(90deg, #007bff, #0056b3);
                     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
                 }
             }
@@ -76,11 +78,15 @@
         box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
 
         .profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             .status-container {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 padding: 10px 0;
+                width : 98%;
 
                 .status {
                     width: 160px;
@@ -106,7 +112,6 @@
                     }
                 }
             }
-
             h2 {
                 font-size: 30px;
                 font-weight: bold;
@@ -118,6 +123,7 @@
                 font-weight: 600;
                 color: #5a6c7a;
                 margin-bottom: 15px;
+                width: 98%;
             }
 
             .worker-detail {
@@ -128,6 +134,7 @@
                 padding: 12px;
                 background: #f5f7fa;
                 transition: all 0.3s ease-in-out;
+                width : 98%;
 
                 b {
                     font-size: 18px;
@@ -174,12 +181,6 @@
                 box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.08);
                 transition: all 0.3s ease-in-out;
 
-                &:hover {
-                    background: #e6eef9;
-                    transform: scale(1.02);
-                    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.12);
-                }
-
                 .task-details {
                     display: flex;
                     justify-content: space-between;
@@ -195,7 +196,7 @@
                 button {
                     padding: 6px 8px;
                     width: 12%;
-                    margin: 1px;
+                    margin: 3px;
                     height: 40px;
                     border-radius: 8px;
                     border: none;
@@ -203,15 +204,19 @@
                     transition: all 0.3s ease-in-out;
                     font-size: 14px;
                     font-weight: bold;
-                    background: linear-gradient(90deg, #35516e, #007bff);
+                    background: linear-gradient(90deg, #0056b3, #007bff);
                     color: white;
                     box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.1);
-                
+                    
                     &:hover {
-                        background: #8018da; 
-                        transform: scale(1.03);
+                        transform: scale(1.02);
+                        background: linear-gradient(90deg,#007bff, #0056b3);
                         box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
                     }
+                }
+                &:hover {
+                    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.12);
+                    background: #e6eef9;
                 }
             }
         }
