@@ -139,7 +139,7 @@ const WorkerDashboard = () => {
       <div className="WorkerDashboard">
         <div className="left-panel">
           <div className="profile">
-            <img src="" alt="profile" />
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0irgjGV82yk4HfNp8xz2IZtwMVm6uzJo9KQ&s" alt="profile not visible" />
             <h3>
               {profileData.firstName} {profileData.lastName}
             </h3>
