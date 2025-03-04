@@ -1,8 +1,6 @@
 import './HistoryCard.css';
 import { useState } from 'react';
 
-import start from '../../assets/rating.png';
-
 const HistoryCard = ({ order, tab }) => {
         const [showFeedback, setShowFeedback] = useState(false);
 
