@@ -73,22 +73,51 @@ export const completeOrder = async (req, res) =>{
 // order marked completed by the customer
 export const completedOrder = async (req, res) => {
     try {
-        const {orderId} = req.body;
-        if (!orderId) {
+        const {orderId, rating, feedback} = req.body;
+        if (!orderId || !rating || !feedback) {
             return res.status(200).json({ error: "All mandatory fields must be provided" });
         }
+        
+        // First check if the order exists and is in the right state
+        const existingOrder = await prisma.order.findUnique({
+            where: {
+                id: orderId,
+                askedById: req.userId, // Ensure the user owns this order
+                state: {in:[OrderState.PENDING, OrderState.COMPLETED]} // Only pending orders can be completed
+            }
+        });
+        
+        if (!existingOrder) {
+            return res.status(200).json({ error: "Order not found or not in the right state" });
+        }
+        
+        // Update the order
         const order = await prisma.order.update({
             where: {
                 id: orderId,
+                askedById: req.userId
             },
             data: {
                 state: OrderState.COMPLETED,
                 completed: true,
             }
         });
-        res.status(200).json({order});
+        
+        // Create the feedback with converted rating to ensure it's a number
+        const orderFeedback = await prisma.feedback.create({
+            data: {
+                orderId: orderId,
+                star: Number(rating),
+                feedback: feedback,
+                givenById: req.userId,
+                givenToId: existingOrder.doneById, // Use the validated order
+            }
+        });
+        
+        res.status(200).json({order, orderFeedback});
     } catch (error) {
-        res.status(200).json({ error: "Internal Server Error" });
+        console.error("Error in completedOrder:", error); // Log the actual error
+        res.status(200).json({ error: "Internal Server Error while giving feedback." });
     }
 }
 
@@ -146,14 +175,19 @@ export const deleteOrder = async (req, res) => {
         if (!orderId) {
             return res.status(200).json({ error: "All mandatory fields must be provided" });
         }
+        // console.log(req.userId);
+        
         const order = await prisma.order.delete({
             where: {
                 id: orderId,
+                askedById: req.userId,
+                state: {in:[OrderState.PENDING, OrderState.AVAILABLE]}
+
             }
         }); 
         res.status(200).json({order});
     
     } catch (error) {
-        res.status(200).json({ error: "Internal Server Error" });
+        res.status(200).json({ error: "Internal Server Error while deleting the order" });
     }
 }
