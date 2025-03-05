@@ -6,6 +6,7 @@ import axios from 'axios';
 import { data } from 'react-router-dom';
 import './History.css';
 import HistoryCard from '../../Components/HistoryCard/HistoryCard.jsx';
+import { toast, ToastContainer } from "react-toastify";
 
 const History = () => {
   const [history, setHistory] = useState([]);
@@ -44,14 +45,14 @@ const History = () => {
         let paritalcomplete = [];
 
         response.data['orders'].forEach((order) => {
-          if(order.orderCompleted == true){
-            paritalcomplete.push(order);
+          if(order.orderState === 'COMPLETED' && order.orderCompleted == true){
+            completedOrders.push(order);
           }
           else if (order.orderState === 'PENDING') {
             pendingOrders.push(order);
           }
-          else if (order.orderState === 'COMPLETED') {
-            completedOrders.push(order);
+          else if (order.orderState === 'COMPLETED') {  
+            paritalcomplete.push(order);
           }
           else if (order.orderState === 'REJECTED') {
             rejectedOrders.push(order);
@@ -113,6 +114,7 @@ const History = () => {
   }
   return (
     <>
+    <ToastContainer position="bottom-right"/>
       <NewCustomerNavbar />
       <div className={`history-page`}>
         <h1 style={{ textAlign: "center" }}>History</h1>
@@ -138,10 +140,10 @@ const History = () => {
               {Tab === 'all' && (
                 <>
                   {pending.map((order) => (
-                    <HistoryCard key={order.id} order={order} tab={'pending'} />
+                    <HistoryCard key={order.id} order={order} tab={'pending'} setPending={setPending} setCompleted={setCompleted} setRejected={setRejected}/>
                   ))}
                   {unaccepted.map((order) => (
-                    <HistoryCard key={order.id} order={order} tab={'unaccepted'} />
+                    <HistoryCard key={order.id} order={order} tab={'unaccepted'} setUnaccepted={setUnaccepted} setRejected={setRejected}/>
                   ))}
                   {completed.map((order) => (
                     <HistoryCard key={order.id} order={order} tab={'completed'} />
@@ -152,10 +154,10 @@ const History = () => {
                 </>
               )}
               {Tab === 'pending' && pending.map((order) => (
-                <HistoryCard key={order.id} order={order} tab = {'pending'} />
+                <HistoryCard key={order.id} order={order} tab = {'pending'} setPending={setPending} setCompleted={setCompleted} setRejected={setRejected}/>
               ))}
               {Tab === 'unaccepted' && unaccepted.map((order) => (
-                <HistoryCard key={order.id} order={order}  tab ={'unaccepted'} />
+                <HistoryCard key={order.id} order={order}  tab ={'unaccepted'} setUnaccepted={setUnaccepted}  setRejected={setRejected}/>
               ))}
               {Tab === 'completed' && completed.map((order) => (
                 <HistoryCard key={order.id} order={order}  tab = {'completed'}/>
@@ -164,7 +166,7 @@ const History = () => {
                 <HistoryCard key={order.id} order={order}  tab = {'rejected'}/>
               ))}
               {Tab === 'partialcompleted' && partialCompleted.map((order) => (
-                <HistoryCard key={order.id} order={order}  tab = {'partialcompleted'}/>
+                <HistoryCard key={order.id} order={order}  tab = {'partialcompleted'} setpartialCompleted={setpartialCompleted} setCompleted={setCompleted}/>
               ))}
             </>
           )}

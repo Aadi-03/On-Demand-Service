@@ -531,46 +531,50 @@ const WorkerDashboard = () => {
                       </p>
                       <p>{task?.taskName}</p>
                       <p>{formatDate(task?.updatedAt)}</p>
-                      <button
-                        onClick={()=>{
-                          let data = JSON.stringify({
-                            "orderId": task.id
-                          });
-                          
-                          let config = {
-                            method: 'patch',
-                            maxBodyLength: Infinity,
-                            url: 'http://localhost:3000/provider/auth/redoOrder',
-                            headers: { 
-                              'Authorization': 'bearer ' + localStorage.getItem("providerToken"),
-                              'Content-Type': 'application/json'
-                            },
-                            data : data
-                          };
-                          
-                          async function makeRequest() {
-                            try {
-                              const response = await axios.request(config);
-                              // console.log(JSON.stringify(response.data));
-                              if(response.data.error){
-                                toast.error(response.data.error);
-                              } else {
-                                toast.success("Task " + task.taskName + " ReDo Successfully");
-                                setTasks((prevTasks) => ({
-                                  ...prevTasks,
-                                  completedTask: prevTasks.completedTask.filter(t => t.id !== task.id)
-                                }));
-                              }
-                            }
-                            catch (error) {
-                              console.log(error);
-                            }
-                          }
-                          
-                          makeRequest();
-                        }}>
-                          ReDo
-                      </button>
+                      {!task.completed && (
+  <button
+    onClick={()=>{
+      console.log(task);
+      
+      let data = JSON.stringify({
+        "orderId": task.id
+      });
+      
+      let config = {
+        method: 'patch',
+        maxBodyLength: Infinity,
+        url: 'http://localhost:3000/provider/auth/redoOrder',
+        headers: { 
+          'Authorization': 'bearer ' + localStorage.getItem("providerToken"),
+          'Content-Type': 'application/json'
+        },
+        data : data
+      };
+      
+      async function makeRequest() {
+        try {
+          const response = await axios.request(config);
+          // console.log(JSON.stringify(response.data));
+          if(response.data.error){
+            toast.error(response.data.error);
+          } else {
+            toast.success("Task " + task.taskName + " ReDo Successfully");
+            setTasks((prevTasks) => ({
+              ...prevTasks,
+              completedTask: prevTasks.completedTask.filter(t => t.id !== task.id)
+            }));
+          }
+        }
+        catch (error) {
+          console.log(error);
+        }
+      }
+      
+      makeRequest();
+    }}>
+      ReDo
+  </button>
+)}
                       <button
                         onClick={() => {
                           setValue(task?.id);
