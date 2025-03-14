@@ -23,7 +23,7 @@ const History = () => {
       try {
         let newData = JSON.stringify({ userId: localStorage.getItem("currentUser") });
         console.log(newData);
-        const url = `http://localhost:3000/customer/auth/orderhistory`;
+        const url = `http://localhost:5000/customer/auth/orderhistory`;
         console.log(url);
         let config = {
           method: "get",

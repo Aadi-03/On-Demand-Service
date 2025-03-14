@@ -52,7 +52,7 @@ const WorkerDashboard = () => {
     let config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: `http://localhost:3000/provider/auth/${buttonName}`,
+      url: `http://localhost:5000/provider/auth/${buttonName}`,
       headers: {
         Authorization: `bearer ${localStorage.getItem("providerToken")}`,
       },
@@ -92,7 +92,7 @@ const WorkerDashboard = () => {
     let config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: "http://localhost:3000/provider/auth/profile",
+      url: "http://localhost:5000/provider/auth/profile",
       headers: {
         Authorization: `bearer ${localStorage.getItem("providerToken")}`,
       },
@@ -113,13 +113,13 @@ const WorkerDashboard = () => {
           setProfileData(response.data);
           if (location.state?.info) {
             toast.info(location.state.info, {
-              autoClose: 3000,
+              autoClose: 5000,
             });
             window.history.replaceState({}, document.title);
           }
           if (location.state?.success) {
             toast.success(location.state.success, {
-              autoClose: 3000,
+              autoClose: 5000,
             });
             window.history.replaceState({}, document.title);
           }
@@ -198,7 +198,7 @@ const WorkerDashboard = () => {
                     let config = {
                       method: "patch",
                       maxBodyLength: Infinity,
-                      url: "http://localhost:3000/provider/auth/updateStatus",
+                      url: "http://localhost:5000/provider/auth/updateStatus",
                       headers: {
                         Authorization: `bearer ${localStorage.getItem(
                           "providerToken"
@@ -325,7 +325,7 @@ const WorkerDashboard = () => {
                           let config = {
                             method: "patch",
                             maxBodyLength: Infinity,
-                            url: "http://localhost:3000/provider/auth/completeOrder",
+                            url: "http://localhost:5000/provider/auth/completeOrder",
                             headers: {
                               Authorization:
                                 "bearer " +
@@ -413,7 +413,7 @@ const WorkerDashboard = () => {
                           let config = {
                             method: "patch",
                             maxBodyLength: Infinity,
-                            url: "http://localhost:3000/provider/auth/acceptOrder",
+                            url: "http://localhost:5000/provider/auth/acceptOrder",
                             headers: {
                               Authorization:
                                 "bearer " +
@@ -462,7 +462,7 @@ const WorkerDashboard = () => {
                           let config = {
                             method: "patch",
                             maxBodyLength: Infinity,
-                            url: "http://localhost:3000/provider/auth/rejectOrder",
+                            url: "http://localhost:5000/provider/auth/rejectOrder",
                             headers: {
                               Authorization:
                                 "bearer " +
@@ -543,7 +543,7 @@ const WorkerDashboard = () => {
       let config = {
         method: 'patch',
         maxBodyLength: Infinity,
-        url: 'http://localhost:3000/provider/auth/redoOrder',
+        url: 'http://localhost:5000/provider/auth/redoOrder',
         headers: { 
           'Authorization': 'bearer ' + localStorage.getItem("providerToken"),
           'Content-Type': 'application/json'

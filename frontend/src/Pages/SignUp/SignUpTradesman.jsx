@@ -79,7 +79,7 @@ const SignUpTradesman = () => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:3000/provider/signup',
+      url: 'http://localhost:5000/provider/signup',
       headers: { 
         'Content-Type': 'application/json'
       },

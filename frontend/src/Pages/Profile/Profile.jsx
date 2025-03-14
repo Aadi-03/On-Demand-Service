@@ -23,7 +23,7 @@ const CustomerProfile = () => {
         let config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'http://localhost:3000/customer/auth/profile',
+            url: 'http://localhost:5000/customer/auth/profile',
             headers: {
                 "Authorization": `bearer ${localStorage.getItem('customerToken')}`
             }

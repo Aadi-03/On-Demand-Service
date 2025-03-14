@@ -74,7 +74,7 @@ const SignUpCustomer = () => {
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:3000/customer/signup',
+      url: 'http://localhost:5000/customer/signup',
       headers: { 
         'Content-Type': 'application/json'
       },
@@ -105,7 +105,7 @@ const SignUpCustomer = () => {
     <>
       {/* <Navbar /> */}
       <NewNavbar/>
-      <ToastContainer position="bottom-right" autoClose={3000} theme="light"/>
+      <ToastContainer position="bottom-right" autoClose={5000} theme="light"/>
       <form className="signup-customer-wrapper" onSubmit={handleSubmit}>
         <div className="name-wrapper">
           <div>

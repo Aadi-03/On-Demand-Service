@@ -21,7 +21,7 @@ const Favorites = () => {
     let config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: "http://localhost:3000/customer/auth/favoriteprovider",
+      url: "http://localhost:5000/customer/auth/favoriteprovider",
       headers: {
         Authorization: `bearer ${localStorage.getItem("customerToken")}`,
       },
@@ -54,7 +54,7 @@ const Favorites = () => {
     let config = {
       method: "delete",
       maxBodyLength: Infinity,
-      url: "http://localhost:3000/customer/auth/favoriteprovider",
+      url: "http://localhost:5000/customer/auth/favoriteprovider",
       headers: {
         Authorization: "bearer " + localStorage.getItem("customerToken"),
         "Content-Type": "application/json",
@@ -116,7 +116,7 @@ const Favorites = () => {
         fav={true} 
         setLoading={setLoading} 
       />
-      <ToastContainer position="bottom-right" autoClose={3000} theme="light" />
+      <ToastContainer position="bottom-right" autoClose={5000} theme="light" />
       <div className="favorites">
         <div className="heading">Favorites</div>
         <div className="card-container">

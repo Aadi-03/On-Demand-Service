@@ -44,7 +44,7 @@ const SignInCustomer = () => {
     let config={
       method:"post",
       maxBodyLength:Infinity,
-      url:"http://localhost:3000/customer/signin",
+      url:"http://localhost:5000/customer/signin",
       headers:{
         "Content-Type":"application/json"
       },
@@ -77,7 +77,7 @@ const SignInCustomer = () => {
     <>
     {/* <Navbar /> */}
     <NewNavbar/>
-    <ToastContainer position="bottom-right" autoClose={3000} theme="light"/>
+    <ToastContainer position="bottom-right" autoClose={5000} theme="light"/>
     <div className="signin-customer-wrapper">
         <div className="email-wrapper">
             <label >Email :</label>

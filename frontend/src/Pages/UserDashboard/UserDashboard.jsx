@@ -135,7 +135,7 @@ const UserDashboard = () => {
     e.preventDefault();
     console.log(filters);
     setLoading(true); // Set loading to true when applying filters
-    const url = `http://localhost:3000/customer/auth/filterprovider?workType=${filters.workType}&distance=${filters.distance}&rating=${filters.rating}`;
+    const url = `http://localhost:5000/customer/auth/filterprovider?workType=${filters.workType}&distance=${filters.distance}&rating=${filters.rating}`;
     console.log(url);
 
     let config = {
@@ -190,7 +190,7 @@ const UserDashboard = () => {
     let config = {
       method: "get",
       maxBodyLength: Infinity,
-      url: "http://localhost:3000/customer/auth/bulkprovider",
+      url: "http://localhost:5000/customer/auth/bulkprovider",
       headers: {
         Authorization: `bearer ${localStorage.getItem("customerToken")}`,
       },
@@ -206,13 +206,13 @@ const UserDashboard = () => {
           setProviderData(response.data.provider);
           if (location.state?.info) {
             toast.info(location.state.info, {
-              autoClose: 3000
+              autoClose: 5000
             });
             window.history.replaceState({}, document.title);
           }
           if (location.state?.success) {
             toast.success(location.state.success, {
-              autoClose: 3000
+              autoClose: 5000
             });
             window.history.replaceState({}, document.title);
           }
@@ -225,7 +225,7 @@ const UserDashboard = () => {
     let userconfig = {
       method: "get",
       maxBodyLength: Infinity,
-      url: 'http://localhost:3000/customer/auth/favoriteprovider',
+      url: 'http://localhost:5000/customer/auth/favoriteprovider',
       headers: {
         Authorization: `bearer ${localStorage.getItem("customerToken")}`,
       },
@@ -267,7 +267,7 @@ const UserDashboard = () => {
   return (
     <>
       <NewCustomerNavbar setProviderData={setProviderData} setLoading={setLoading} />
-      <ToastContainer position="bottom-right" autoClose={3000} theme="light" />
+      <ToastContainer position="bottom-right" autoClose={5000} theme="light" />
       <div className="user-dashboard">
         <div className="left">
           <p>Filters</p>
@@ -418,7 +418,7 @@ const RightComponent = ({
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'http://localhost:3000/customer/auth/favoriteprovider',
+        url: 'http://localhost:5000/customer/auth/favoriteprovider',
         headers: {
           'Authorization': 'bearer ' + localStorage.getItem('customerToken'),
           'Content-Type': 'application/json'
