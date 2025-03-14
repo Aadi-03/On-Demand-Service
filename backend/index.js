@@ -4,7 +4,7 @@ import customerRoute from './routes/customer.js';
 import providerRoute from './routes/provider.js';
 
 const app = express();
-const port = 3000;
+const port = 5000;
 
 app.use(express.json());
 app.use(cors());
