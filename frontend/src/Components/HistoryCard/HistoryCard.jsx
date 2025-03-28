@@ -26,7 +26,7 @@ const HistoryCard = ({
     let config = {
       method: "delete",
       maxBodyLength: Infinity,
-      url: "http://localhost:3000/customer/auth/deleteOrder",
+      url: "http://localhost:5000/customer/auth/deleteOrder",
       headers: {
         Authorization: "bearer " + localStorage.getItem("customerToken"),
         "Content-Type": "application/json",
@@ -190,7 +190,7 @@ const Feedback = ({
       let config = {
         method: "patch",
         maxBodyLength: Infinity,
-        url: "http://localhost:3000/customer/auth/markCompletedOrder",
+        url: "http://localhost:5000/customer/auth/markCompletedOrder",
         headers: {
           Authorization: "bearer " + localStorage.getItem("customerToken"),
           "Content-Type": "application/json",
