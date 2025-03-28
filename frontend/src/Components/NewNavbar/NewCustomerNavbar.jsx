@@ -90,7 +90,7 @@ export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }
       let config = {
         method: "get",
         maxBodyLength: Infinity,
-        url: `http://localhost:3000/customer/auth/searchprovider?keyword=${keyword}&fav=${fav || false}`,
+        url: `http://localhost:5000/customer/auth/searchprovider?keyword=${keyword}&fav=${fav || false}`,
         headers: {
           Authorization: `Bearer ${localStorage.getItem("customerToken")}`,
         },
