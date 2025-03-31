@@ -1,0 +1,130 @@
+/* WorkerProfile.css */
+
+.profile-section {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .profile-section h1 {
+    font-size: 30px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .profile-photo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .profile-photo img {
+    width: 220px;
+    height: 220px;
+    border-radius: 10%;
+    object-fit: contain;
+    border: 3px solid #007bff;
+  }
+  
+  .profile-photo figcaption {
+    margin-top: 10px;
+    font-size: 25px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .edit-icon {
+    color: rgb(100, 151, 228);
+    font-size: 1.5rem;
+   
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .edit-icon:hover {
+    color: #0056b3;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: left;
+  }
+  
+  label {
+    font-weight: 600;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input,
+  select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  select:disabled, input:read-only {
+    background: #f5f5f5;
+    cursor: not-allowed;
+  }
+  
+  .address-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .button-group button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .button-group button[type="submit"] {
+    background: #28a745;
+    color: #fff;
+  }
+  
+  .button-group button[type="submit"]:hover {
+    background: #218838;
+  }
+  
+  .button-group button:last-child {
+    background: #dc3545;
+    color: #fff;
+  }
+  
+  .button-group button:last-child:hover {
+    background: #c82333;
+  }
+  
+  @media (max-width: 600px) {
+    .profile-section {
+      padding: 15px;
+    }
+    .edit-icon {
+      top: 60px;
+      right: -10px;
+    }
+  }
