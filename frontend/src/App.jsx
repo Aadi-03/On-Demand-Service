@@ -19,6 +19,8 @@ import History from "./Pages/History/History.jsx";
 import Favorites from "./Pages/Favorites/Favorites.jsx";
 import CustomerProfile from "./Pages/Profile/Profile.jsx";
 
+import WorkerProfile from "./Pages/WorkerProfile/WorkerProfile.jsx"
+
 
 const router = createBrowserRouter([
   {
@@ -66,6 +68,10 @@ const router = createBrowserRouter([
   {
     path : "/provider/dashboard",
     element: <WorkerDashboard />
+  },
+  {
+    path:"/provider/dashboard/updateprofile",
+    element:<WorkerProfile/>
   }
 ]);
 

@@ -65,9 +65,9 @@ export default function PrimarySearchAppBar() {
   
   const navigate = useNavigate();
 
-        // const handleHistory = () => {
-        //         navigate('history');
-        // }
+        const updateProfile = () => {
+                navigate('/provider/dashboard/updateprofile');
+        }
        
         const handleGoHome = () => {
                 navigate('/');
@@ -115,7 +115,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       {/* <MenuItem >Profile</MenuItem> */}
-      <MenuItem >Edit Profile</MenuItem>
+      <MenuItem onClick={updateProfile}>Edit Profile</MenuItem>
       {/* <MenuItem onClick={handleHistory}>History</MenuItem> */}
       {/* <MenuItem >Bookmarks</MenuItem> */}
       <MenuItem >Report a Bug</MenuItem>
