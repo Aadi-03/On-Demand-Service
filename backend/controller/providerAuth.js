@@ -147,6 +147,7 @@ router.patch("/updateProfile", async (req, res) => {
         lastName: body.lastName,
         gender:body.gender,
         phoneNumber: body.phoneNumber,
+        dob: body.dob,
         address: {
           update: {
             houseNumber: body.address.houseNumber,
