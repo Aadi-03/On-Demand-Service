@@ -134,6 +134,38 @@ router.patch("/updateStatus", async (req, res) => {
   }
 });
 
+// this route will update the provider profile details
+router.patch("/updateProfile", async (req, res) => {
+  try {
+    const body = req.body;
+    const provider = await prisma.provider.update({
+      where: {
+        id: req.providerId,
+      },
+      data: {
+        firstName: body.firstName,
+        lastName: body.lastName,
+        gender:body.gender,
+        phoneNumber: body.phoneNumber,
+        address: {
+          update: {
+            houseNumber: body.address.houseNumber,
+            streetName: body.address.streetName,
+            state: body.address.state,
+            pincode: body.address.pincode,
+          },
+        },
+      },  
+      include: {
+        address: true,
+      },
+    });
+    res.status(200).json({message:"Profile updated successfully",provider});
+  } catch (error) {
+    res.status(200).json({ error: "Internal Server Error" });
+  }
+});
+
 // this route will mark the order as accepted by the provider and the order will be pending
 router.patch("/acceptOrder",acceptOrder);
 

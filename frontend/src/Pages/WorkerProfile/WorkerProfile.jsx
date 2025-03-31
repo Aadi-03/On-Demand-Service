@@ -4,6 +4,7 @@ import { useState , useEffect } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import "./WorkerProfile.css";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 const WorkerProfile = () => {
   let [edit, setEdit] = useState(false);
   let [formData, setFormData] = useState({});
@@ -39,11 +40,24 @@ const WorkerProfile = () => {
   },[])
 
   function handleChange(e) {
-    let { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    const { name, value } = e.target;
+    
+    // Check if this is an address field
+    if (name === 'houseNumber' || name === 'streetName' || name === 'state' || name === 'pincode') {
+      setFormData((prev) => ({
+        ...prev,
+        address: {
+          ...prev.address,
+          [name]: value
+        }
+      }));
+    } else {
+      // Handle normal fields as before
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   }
 
   function handleEdit() {
@@ -55,8 +69,54 @@ const WorkerProfile = () => {
     setFormData(userData);
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const updatedData = {
+      firstName:formData.firstName,
+      lastName:formData.lastName,
+      dob:formData.dob,
+      phoneNumber:formData.phoneNumber,
+      address:formData.address,
+      gender:formData.gender,
+      workType:formData.workType,
+    }
+    // console.log(updatedData);
+    
+    let config = {
+      method: 'patch',
+      maxBodyLength: Infinity,
+      url: 'http://localhost:5000/provider/auth/updateProfile',
+      headers: { 
+        'Authorization': 'bearer '+localStorage.getItem("providerToken"), 
+        'Content-Type': 'application/json'
+      },
+      data : updatedData
+    };
+    
+    async function makeRequest() {
+      try {
+        const response = await axios.request(config);
+        // console.log(JSON.stringify(response.data));
+        if(response.data.error){
+          toast.error(response.data.error)
+        }else{
+          toast.success("Profile updated successfully")
+          setEdit(!edit);
+          // setFormData(response.data);
+        }
+
+      }
+      catch (error) {
+        console.log(error);
+      }
+    }
+    
+    makeRequest();
+  }
+
   return (
     <>
+      <ToastContainer position="bottom-right" />
       <NewTradesmanNavbar />
       <div className="profile-section">
         <h1>Edit Profile</h1>
@@ -72,7 +132,7 @@ const WorkerProfile = () => {
             onClick={handleEdit}
           />
         </figure>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="name-wrapper">
             <label>First Name: </label>
 
