@@ -38,19 +38,14 @@ def fetch_feedbacks():
             data = d
         else:
             return jsonify({"error": "Failed to fetch data from the server"}), response.status_code
-        
-
-        results = []
+        results = {}
         for provider_id, feedbacks in data.items():
             total_score = 0
             for feedback in feedbacks:
                 sentiment_score = sia.polarity_scores(feedback)
                 total_score += sentiment_score['compound']
             average_score = total_score / (len(feedbacks) if len(feedbacks) > 0 else 1)
-            results.append({
-                "provider_id": provider_id,
-                "average_score": round(average_score, 2)
-            })
+            results[provider_id] = round(average_score, 2)
         return jsonify(results)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
