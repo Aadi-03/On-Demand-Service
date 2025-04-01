@@ -1,7 +1,17 @@
+import React, { useState } from "react";
 import "./HistoryCard.css";
-import { useState } from "react";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import { 
+  FaCalendarAlt, 
+  FaUser, 
+  FaPhone, 
+  FaEnvelope, 
+  FaStar, 
+  FaCheckCircle, 
+  FaTimesCircle 
+} from "react-icons/fa";
+
 const HistoryCard = ({
   order,
   tab,
@@ -17,13 +27,10 @@ const HistoryCard = ({
     const options = { year: "numeric", month: "long", day: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
-  const handleRevoke = () => {
-    console.log("Revoke Request");
-    let data = JSON.stringify({
-      orderId: order.orderId,
-    });
 
-    let config = {
+  const handleRevoke = () => {
+    const data = JSON.stringify({ orderId: order.orderId });
+    const config = {
       method: "delete",
       maxBodyLength: Infinity,
       url: "http://localhost:5000/customer/auth/deleteOrder",
@@ -37,7 +44,6 @@ const HistoryCard = ({
     async function makeRequest() {
       try {
         const response = await axios.request(config);
-        // console.log(JSON.stringify(response.data));
         if (response.data.error) {
           toast.error(response.data.error);
         } else {
@@ -46,71 +52,64 @@ const HistoryCard = ({
             setUnaccepted((prev) =>
               prev.filter((item) => item.orderId !== order.orderId)
             );
-            // setRejected((prev) => [...prev, order]);
-            setRejected((prev) => [ order,...prev]);
+            setRejected((prev) => [order, ...prev]);
           } else if (tab === "pending") {
             setPending((prev) =>
               prev.filter((item) => item.orderId !== order.orderId)
             );
-            setRejected((prev) => [ order,...prev]);
+            setRejected((prev) => [order, ...prev]);
           }
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
-
     makeRequest();
   };
 
   return (
-    <div className={"historycard " + tab}>
+    <div className={`historycard ${tab}`}>
       {!showFeedback && (
         <div className="history-details">
           <div className="order-details">
             <div className="detail">
-              <p>
-                <b>Task ID : </b>
-                {order.orderId}
-              </p>
+              <FaCalendarAlt className="detail-icon" />
+              <p><b>Task ID:</b> {order.orderId}</p>
             </div>
             <div className="detail">
-              <p>
-                {" "}
-                <b>Date : </b>
-                {formatDate(order.orderDate)}
-              </p>
+              <FaCalendarAlt className="detail-icon" />
+              <p><b>Date:</b> {formatDate(order.orderDate)}</p>
             </div>
           </div>
 
           <h3>Task Details</h3>
           <div className="task-detail">
             <div className="detail">
-              <b>Title : </b>
+              <b>Title:</b>
               <p>{order.orderTitle}</p>
             </div>
             <div className="detail">
-              <b>Description : </b>
-              <p>{order.orderDescription}</p>
+              <b>Description:</b>
+              <p className="description">{order.orderDescription}</p>
             </div>
           </div>
 
           <h3>Worker Details</h3>
           <div className="worker-details">
             <div className="detail">
-              <b>Name : </b>
-              <p>{order.providerName}</p>
+              <FaUser className="detail-icon" />
+              <p><b>Name:</b> {order.providerName}</p>
             </div>
             <div className="detail">
-              <b>Phone : </b>
-              <p>{order.providerPhone}</p>
+              <FaPhone className="detail-icon" />
+              <p><b>Phone:</b> {order.providerPhone}</p>
             </div>
             <div className="detail">
-              <b>Email : </b>
-              <p>{order.providerEmail}</p>
+              <FaEnvelope className="detail-icon" />
+              <p><b>Email:</b> {order.providerEmail}</p>
             </div>
             <div className="detail">
-              <b>Work Type : </b>
+              <b>Work Type:</b>
               <p>{order.providerWorkType}</p>
             </div>
           </div>
@@ -118,30 +117,29 @@ const HistoryCard = ({
           <h3>Reviews</h3>
           <div className="detail">
             <p>
-              <b>Rating : </b> {order.orderRating} &#127775;
+              <b>Rating:</b> {order.orderRating} <FaStar className="star-icon" />
             </p>
           </div>
           <div className="detail">
-            <b>Feedback : </b>
+            <b>Feedback:</b>
             <p>{order.orderFeedback}</p>
           </div>
         </div>
       )}
+
       {!showFeedback && (
         <div className="history-buttons">
           {["unaccepted", "pending"].includes(tab) && (
             <button onClick={handleRevoke} className="Revoke">
-              Revoke Request
+              <FaTimesCircle className="btn-icon" /> Revoke Request
             </button>
           )}
           {["partialcompleted", "pending"].includes(tab) && (
             <button
               className="Complete"
-              onClick={() => {
-                setShowFeedback(!showFeedback);
-              }}
+              onClick={() => setShowFeedback(!showFeedback)}
             >
-              Complete
+              <FaCheckCircle className="btn-icon" /> Complete
             </button>
           )}
         </div>
@@ -174,19 +172,17 @@ const Feedback = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      const rating = document.querySelector(
-        'input[name="rating"]:checked'
-      ).value;
+      const ratingInput = document.querySelector('input[name="rating"]:checked');
+      if (!ratingInput) throw new Error("No rating provided");
+      const rating = ratingInput.value;
       const feedback =
         document.querySelector('textarea[name="comment"]').value ||
         "No feedback provided";
-      console.log(order);
       let data = JSON.stringify({
         orderId: order.orderId,
         rating: rating,
         feedback: feedback,
       });
-
       let config = {
         method: "patch",
         maxBodyLength: Infinity,
@@ -201,7 +197,6 @@ const Feedback = ({
       async function makeRequest() {
         try {
           const response = await axios.request(config);
-          //   console.log(JSON.stringify(response.data));
           if (response.data.error) {
             toast.error(response.data.error);
           } else {
@@ -212,26 +207,25 @@ const Feedback = ({
               setPending((prev) =>
                 prev.filter((item) => item.orderId !== order.orderId)
               );
-              // setCompleted((prev) => [...prev, order]);
-              setCompleted((prev) => [ order,...prev]);
+              setCompleted((prev) => [order, ...prev]);
             } else if (tab === "partialcompleted") {
               setpartialCompleted((prev) =>
                 prev.filter((item) => item.orderId !== order.orderId)
               );
-              setCompleted((prev) => [ order,...prev]);
+              setCompleted((prev) => [order, ...prev]);
             }
           }
         } catch (error) {
-          console.log(error);
+          console.error(error);
         }
       }
-
       makeRequest();
       setShowFeedback(false);
     } catch (error) {
       toast.info("Please provide a rating");
     }
   };
+
   return (
     <div className="feedback-container">
       <form>

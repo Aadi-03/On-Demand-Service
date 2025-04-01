@@ -18,6 +18,8 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios';
 
 import dashboardIcon from "../../assets/dashboard4.png";
+
+import { LuLayoutDashboard } from "react-icons/lu";
 import { ToastContainer, toast } from 'react-toastify';
 
 
@@ -272,7 +274,7 @@ export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <img src={dashboardIcon}  alt="" style={{ height: '1.58rem', cursor: "Pointer",position:"relative",top:"1rem" }} onClick={handleDashboard} />
+            <LuLayoutDashboard  onClick={handleDashboard} style={{cursor: "Pointer", position: "relative", top: "0.9rem", fontSize: "1.8rem" }}/>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge
                 badgeContent={4}

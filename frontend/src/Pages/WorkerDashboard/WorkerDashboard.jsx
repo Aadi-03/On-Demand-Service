@@ -283,7 +283,7 @@ const WorkerDashboard = () => {
               </div>
               <div className="worker-detail">
                 <b>Rating</b>
-                <p>{profileData.rating} &#127775;</p>
+                <p>{profileData.rating?.toFixed(2)} &#127775;</p>
               </div>
             </div>
           )}

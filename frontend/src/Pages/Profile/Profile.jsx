@@ -117,7 +117,7 @@ const CustomerProfile = () => {
     }
 
     return (
-        <>
+        <div className="customer-profile-page">
             <NewCustomerNavbar />
             <div className="customer-profile-container">
                 <div className="customer-profile-header">
@@ -273,7 +273,7 @@ const CustomerProfile = () => {
                 </div>
             </div>
             <Footer />
-        </>
+        </div>
     );
 };
 

@@ -1,8 +1,10 @@
 /* Modern Customer Profile - Scoped Styles */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
+.customer-profile-page{
+  height: 100vh;
+}
 .customer-profile-container {
-  max-width: 1100px;
+  max-width: 70%;
   margin: 40px auto;
   padding: 0 20px;
   font-family: 'Inter', sans-serif;
@@ -11,6 +13,7 @@
 .customer-profile-header {
   text-align: center;
   margin-bottom: 40px;
+  
 }
 
 .customer-profile-title {
@@ -37,22 +40,24 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   position: relative;
+  margin-bottom: 40px;
 }
 
 .customer-profile-banner {
-  height: 180px;
+  height: 250px;
   background-image: url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&w=1000&q=80');
   background-size: cover;
   background-position: center;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 .customer-profile-avatar {
-  position: absolute;
-  bottom: -60px;
-  left: 50px;
-  width: 120px;
-  height: 120px;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
   border: 5px solid white;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);

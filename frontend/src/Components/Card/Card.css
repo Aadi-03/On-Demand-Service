@@ -1,5 +1,9 @@
+.provider-complete-card-holder{
+    max-height: 320px;
+}
+
 .card {
-        height: 320px;
+        max-height: 320px;
         width: 240px;
         border-radius: 10px;
         display: flex;
@@ -9,9 +13,7 @@
         background-color: #fff;
         transition: box-shadow 0.3s ease;
         overflow: hidden; /* Prevent scrollbars from appearing */
-    }
-    .card--no-distance {
-        height: 340px; /* Adjust the value as needed */
+        
     }
     
     .image {
