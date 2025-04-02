@@ -1,18 +1,23 @@
 import React from "react";
 import "./SignInTradesman.css";
-
-import Navbar from "../../Components/Navbar/Navbar";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import NewNavbar from "../../Components/NewNavbar/NewNavbar.jsx";
 import Footer from "../../Components/Footer/Footer";
-
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-const SignInTradesman = () => {
-  const location = useLocation();
-  console.log(location);
+import { FaTools, FaLock, FaEnvelope, FaArrowRight } from "react-icons/fa";
 
+const SignInTradesman = () => {
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  
   useEffect(() => {
     if(localStorage.getItem("providerToken")){
       navigate('/provider/dashboard',{
@@ -22,24 +27,27 @@ const SignInTradesman = () => {
       });
     }
     
-    // Check if we have an error message in location state
     if (location.state?.error) {
-      // Display the error toast
       toast.error(location.state.error);
-
-      // Optional: Clear the state so the message doesn't show again on refresh
       window.history.replaceState({}, document.title);
     }
-  }, [location]);
-  const [data, setData] = useState({
-    email: "",
-    password: "",
-  });
-
-  const navigate = useNavigate();
+  }, [location, navigate]);
 
   async function handleClick(e) {
     e.preventDefault();
+    
+    if (!data.email.trim()) {
+      toast.error("Please enter your email");
+      return;
+    }
+    
+    if (!data.password) {
+      toast.error("Please enter your password");
+      return;
+    }
+    
+    setIsSubmitting(true);
+    
     let newData = JSON.stringify({
       email: data.email,
       password: data.password,
@@ -55,49 +63,87 @@ const SignInTradesman = () => {
       data: newData,
     };
 
-    async function makeRequest() {
-      try {
-        const response = await axios.request(config);
-        console.log(JSON.stringify(response.data));
-        if (response.data.error) {
-          toast.error(response.data.error);
-        } else {
-          // alert("Customer signed in successfully");
-          localStorage.setItem("providerToken", response.data.token);
-          navigate("/provider/dashboard",{state:{success:"You have signed in successfully"}});
-        }
-      } catch (error) {
-        console.log(error);
+    try {
+      const response = await axios.request(config);
+      
+      if (response.data.error) {
+        toast.error(response.data.error);
+      } else {
+        localStorage.setItem("providerToken", response.data.token);
+        navigate("/provider/dashboard", {state:{success:"You have signed in successfully"}});
       }
+    } catch (error) {
+      console.log(error);
+      toast.error("An error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
-    makeRequest();
   }
+
   return (
     <>
-      {/* <Navbar /> */}
       <NewNavbar />
-      <ToastContainer position="bottom-right"/>
-      <div className="signin-tradesman-wrapper">
-        <div className="email-wrapper">
-          <label>Email :</label>
-          <input
-            type="text"
-            placeholder="email"
-            onChange={(e) => {
-              setData({ ...data, email: e.target.value });
-            }}
-          />
-        </div>
-        <div className="password-wrapper">
-            <label >Password: </label>
-            <input type="password" placeholder='password' onChange={(e)=>{
-              setData({...data,password:e.target.value})
-            }} />
-        </div>
-        <div>
-          <button onClick={handleClick}> Sign In</button>
+      <ToastContainer position="bottom-right" autoClose={5000} theme="colored" />
+      
+      <div className="signin-tradesman-page">
+        <div className="signin-tradesman-container">
+          <div className="signin-card">
+            <div className="signin-card-header">
+              <div className="signin-card-icon">
+                <FaTools />
+              </div>
+              <h2>Professional Sign In</h2>
+              <p>Access your service provider account</p>
+            </div>
+            
+            <form className="signin-form" onSubmit={handleClick}>
+              <div className="form-group">
+                <label htmlFor="email">Email Address</label>
+                <input 
+                  type="email" 
+                  className="form-control" 
+                  id="email"
+                  placeholder="Enter your email" 
+                  value={data.email}
+                  onChange={(e) => setData({...data, email: e.target.value})}
+                />
+                <div className="form-icon">
+                  <FaEnvelope />
+                </div>
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <input 
+                  type="password" 
+                  className="form-control" 
+                  id="password" 
+                  placeholder="Enter your password"
+                  value={data.password}
+                  onChange={(e) => setData({...data, password: e.target.value})}
+                />
+                <div className="form-icon">
+                  <FaLock />
+                </div>
+                <a href="#!" className="forgot-password">Forgot password?</a>
+              </div>
+              
+              <button 
+                type="submit" 
+                className="submit-button"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Signing In...' : 'Sign In'} {!isSubmitting && <FaArrowRight style={{marginLeft: '5px'}} />}
+              </button>
+            </form>
+          </div>
+          
+          <div className="signin-footer">
+            <p>Don't have an account? <Link to="/signuptradesman">Register as Professional</Link></p>
+          </div>
         </div>
       </div>
+      
       <Footer />
     </>
   );
