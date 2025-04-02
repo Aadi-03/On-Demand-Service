@@ -1,44 +1,52 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import "./SignIn.css";
-import SignInCustomer from './SignInCustomer.jsx';
-import SignInTradesman from './SignInTradesman.jsx';
-import customer from'../../assets/LandingPageImages/customer-logo.jpeg';
-import service_provider from'../../assets/LandingPageImages/service-provider-logo.png';
-
-import Navbar from '../../Components/Navbar/Navbar.jsx';
 import NewNavbar from '../../Components/NewNavbar/NewNavbar.jsx';
 import Footer from '../../Components/Footer/Footer.jsx';
-
+import { FaUser, FaTools, FaChevronRight } from 'react-icons/fa';
 
 const SignIn = () => {
   return (
     <>
-    {/* <Navbar /> */}
-    <NewNavbar />
-    <div className="signin-wrapper">
-      <div className='signin-container'>
-        <h1>SignIn</h1>
+      <NewNavbar />
+      <div className="signin-wrapper">
+        <div className='signin-container'>
+          <h1>Sign In</h1>
 
-        <div className="buttons">
-          <Link to="/signincustomer">
-          <figure>
-            <img src={customer} alt="" />
-            <figcaption>Customer SignIn</figcaption>
-          </figure>
-          </Link>
+          <div className="buttons">
+            <Link to="/signincustomer" className="signin-button button-customer">
+              <div className="button-icon">
+                <FaUser size={20} />
+              </div>
+              <div className="button-content">
+                <div className="button-title">Customer</div>
+                <div className="button-subtitle">Book services & track your requests</div>
+              </div>
+              <div className="button-arrow">
+                <FaChevronRight />
+              </div>
+            </Link>
 
-          <Link to="/signintradesman">
-          <figure>
-            <img src={service_provider} alt="" />
-            <figcaption>Tradesman SignIn</figcaption>
-          </figure>
-          </Link>
+            <Link to="/signintradesman" className="signin-button button-tradesman">
+              <div className="button-icon">
+                <FaTools size={20} />
+              </div>
+              <div className="button-content">
+                <div className="button-title">Professional</div>
+                <div className="button-subtitle">Manage jobs & grow your business</div>
+              </div>
+              <div className="button-arrow">
+                <FaChevronRight />
+              </div>
+            </Link>
+          </div>
+
+          <div className="signin-footer">
+            <p>Don't have an account? <Link to='/signup'>Sign Up</Link></p>
+          </div>
         </div>
-        <p>Don't have an account? <Link to = '/signup'>Sign Up </Link></p>
       </div>
-    </div>
-    <Footer />
+      <Footer />
     </>
   );
 }
