@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import "./HistoryCard.css";
 import axios from "axios";
-import { toast } from "react-toastify";
-import { 
-  FaCalendarAlt, 
-  FaUser, 
-  FaPhone, 
-  FaEnvelope, 
-  FaStar, 
-  FaCheckCircle, 
-  FaTimesCircle 
+import { toast, ToastContainer } from "react-toastify";
+import {
+  FaCalendarAlt,
+  FaUser,
+  FaPhone,
+  FaEnvelope,
+  FaStar,
+  FaCheckCircle,
+  FaTimesCircle
 } from "react-icons/fa";
 
 const HistoryCard = ({
@@ -68,94 +68,97 @@ const HistoryCard = ({
   };
 
   return (
-    <div className={`historycard ${tab}`}>
-      {!showFeedback && (
-        <div className="history-details">
-          <div className="order-details">
+    <>
+      <ToastContainer position="bottom-right" autoClose={3000} />
+      <div className={`historycard ${tab}`}>
+        {!showFeedback && (
+          <div className="history-details">
+            <div className="order-details">
+              <div className="detail">
+                <FaCalendarAlt className="detail-icon" />
+                <p><b>Task ID:</b> {order.orderId}</p>
+              </div>
+              <div className="detail">
+                <FaCalendarAlt className="detail-icon" />
+                <p><b>Date:</b> {formatDate(order.orderDate)}</p>
+              </div>
+            </div>
+
+            <h3>Task Details</h3>
+            <div className="task-detail">
+              <div className="detail">
+                <b>Title:</b>
+                <p>{order.orderTitle}</p>
+              </div>
+              <div className="detail">
+                <b>Description:</b>
+                <p className="description">{order.orderDescription}</p>
+              </div>
+            </div>
+
+            <h3>Worker Details</h3>
+            <div className="worker-details">
+              <div className="detail">
+                <FaUser className="detail-icon" />
+                <p><b>Name:</b> {order.providerName}</p>
+              </div>
+              <div className="detail">
+                <FaPhone className="detail-icon" />
+                <p><b>Phone:</b> {order.providerPhone}</p>
+              </div>
+              <div className="detail">
+                <FaEnvelope className="detail-icon" />
+                <p><b>Email:</b> {order.providerEmail}</p>
+              </div>
+              <div className="detail">
+                <b>Work Type:</b>
+                <p>{order.providerWorkType}</p>
+              </div>
+            </div>
+
+            <h3>Reviews</h3>
             <div className="detail">
-              <FaCalendarAlt className="detail-icon" />
-              <p><b>Task ID:</b> {order.orderId}</p>
+              <p>
+                <b>Rating:</b> {order.orderRating} <FaStar className="star-icon" />
+              </p>
             </div>
             <div className="detail">
-              <FaCalendarAlt className="detail-icon" />
-              <p><b>Date:</b> {formatDate(order.orderDate)}</p>
+              <b>Feedback:</b>
+              <p>{order.orderFeedback}</p>
             </div>
           </div>
+        )}
 
-          <h3>Task Details</h3>
-          <div className="task-detail">
-            <div className="detail">
-              <b>Title:</b>
-              <p>{order.orderTitle}</p>
-            </div>
-            <div className="detail">
-              <b>Description:</b>
-              <p className="description">{order.orderDescription}</p>
-            </div>
+        {!showFeedback && (
+          <div className="history-buttons">
+            {["unaccepted", "pending"].includes(tab) && (
+              <button onClick={handleRevoke} className="Revoke">
+                <FaTimesCircle className="btn-icon" /> Revoke Request
+              </button>
+            )}
+            {["partialcompleted", "pending"].includes(tab) && (
+              <button
+                className="Complete"
+                onClick={() => setShowFeedback(!showFeedback)}
+              >
+                <FaCheckCircle className="btn-icon" /> Complete
+              </button>
+            )}
           </div>
+        )}
 
-          <h3>Worker Details</h3>
-          <div className="worker-details">
-            <div className="detail">
-              <FaUser className="detail-icon" />
-              <p><b>Name:</b> {order.providerName}</p>
-            </div>
-            <div className="detail">
-              <FaPhone className="detail-icon" />
-              <p><b>Phone:</b> {order.providerPhone}</p>
-            </div>
-            <div className="detail">
-              <FaEnvelope className="detail-icon" />
-              <p><b>Email:</b> {order.providerEmail}</p>
-            </div>
-            <div className="detail">
-              <b>Work Type:</b>
-              <p>{order.providerWorkType}</p>
-            </div>
-          </div>
-
-          <h3>Reviews</h3>
-          <div className="detail">
-            <p>
-              <b>Rating:</b> {order.orderRating} <FaStar className="star-icon" />
-            </p>
-          </div>
-          <div className="detail">
-            <b>Feedback:</b>
-            <p>{order.orderFeedback}</p>
-          </div>
-        </div>
-      )}
-
-      {!showFeedback && (
-        <div className="history-buttons">
-          {["unaccepted", "pending"].includes(tab) && (
-            <button onClick={handleRevoke} className="Revoke">
-              <FaTimesCircle className="btn-icon" /> Revoke Request
-            </button>
-          )}
-          {["partialcompleted", "pending"].includes(tab) && (
-            <button
-              className="Complete"
-              onClick={() => setShowFeedback(!showFeedback)}
-            >
-              <FaCheckCircle className="btn-icon" /> Complete
-            </button>
-          )}
-        </div>
-      )}
-
-      {showFeedback && (
-        <Feedback
-          setShowFeedback={setShowFeedback}
-          setCompleted={setCompleted}
-          setpartialCompleted={setpartialCompleted}
-          setPending={setPending}
-          tab={tab}
-          order={order}
-        />
-      )}
-    </div>
+        {showFeedback && (
+          <Feedback
+            setShowFeedback={setShowFeedback}
+            setCompleted={setCompleted}
+            setpartialCompleted={setpartialCompleted}
+            setPending={setPending}
+            tab={tab}
+            order={order}
+          />
+        )}
+      </div>
+    </>
   );
 };
 
@@ -193,14 +196,28 @@ const Feedback = ({
         },
         data: data,
       };
+      
+      let feedback_config ={
+        method: "post",
+        maxBodyLength: Infinity,
+        url: "http://localhost:3000/predict",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: data,
+      }
+
 
       async function makeRequest() {
         try {
+          const feedback_response = await axios.request(feedback_config);
+          const requestData = JSON.parse(config.data);
+          requestData.rating = feedback_response.data.score;
+          config.data = JSON.stringify(requestData);
           const response = await axios.request(config);
           if (response.data.error) {
             toast.error(response.data.error);
           } else {
-            toast.success("Feedback Submitted Successfully");
             order.orderRating = rating;
             order.orderFeedback = feedback;
             if (tab === "pending") {
