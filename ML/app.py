@@ -21,8 +21,7 @@ def fetch_feedbacks():
         rating = response.get('rating')
         sentiment = sia.polarity_scores(feedback)
         feedback_score = sentiment["compound"]
-        normalise_rating = int(rating) / 5
-        total_score = 0.6*normalise_rating + 0.4*feedback_score
+        total_score = (int(rating) + feedback_score*5)/2
         print(total_score)
         return jsonify({"score" : str(total_score)}),200
     except Exception as e:

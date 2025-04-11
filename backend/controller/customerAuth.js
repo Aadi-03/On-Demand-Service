@@ -74,6 +74,8 @@ router.get("/bulkprovider", async (req, res) => {
       rating = 0;
     } else {
       rating = Math.round(rating * 100) / 100;
+      rating = Math.max(rating, 0); // Ensure rating is not negative
+      rating = Math.min(rating, 5); // Ensure rating does not exceed 5
     }
     const { houseNumber, streetName, state, country, pincode } =
       provider.address;
@@ -156,6 +158,8 @@ router.get("/filterprovider", async (req, res) => {
         star = 0;
       } else {
         star = Math.round(star * 100) / 100;
+        star = Math.max(star, 0); // Ensure rating is not negative
+        star = Math.min(star, 5); // Ensure rating does not exceed 5
       }
       return star >= rating;
     });
@@ -169,6 +173,8 @@ router.get("/filterprovider", async (req, res) => {
       rating = 0;
     } else {
       rating = Math.round(rating * 100) / 100;
+      rating = Math.max(rating, 0); // Ensure rating is not negative
+      rating = Math.min(rating, 5); // Ensure rating does not exceed 5
     }
     const { houseNumber, streetName, state, country, pincode } =
       provider.address;
@@ -254,6 +260,8 @@ router.get("/searchprovider", async (req, res) => {
         rating = 0;
       } else {
         rating = Math.round(rating * 100) / 100;
+        rating = Math.max(rating, 0); // Ensure rating is not negative
+        rating = Math.min(rating, 5); // Ensure rating does not exceed 5
       }
       const { houseNumber, streetName, state, country, pincode } =
         provider.address;
@@ -377,6 +385,8 @@ router.get("/favoriteprovider", async (req, res) => {
         rating = 0;
       } else {
         rating = Math.round(rating * 100) / 100;
+        rating = Math.max(rating, 0); // Ensure rating is not negative
+        rating = Math.min(rating, 5); // Ensure rating does not exceed 5
       }
       return {
         providerId: customer.provider.id,
