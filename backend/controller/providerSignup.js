@@ -2,11 +2,14 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 import { getJwt } from "../utils/getJwt.js";
 import bcrypt from "bcrypt";
+import { uploadToCloudinary } from "../utils/config.js";
 
 export const providerSignup = async (req, res) => {
+
+
   try {
     // Extract provider details from the request body
-    const {
+    let {
       firstName,
       lastName,
       dob,
@@ -25,6 +28,8 @@ export const providerSignup = async (req, res) => {
       workType,
       aadharNumber,
     } = req.body;
+
+    
 
     // Validate mandatory fields
     if (
@@ -49,6 +54,8 @@ export const providerSignup = async (req, res) => {
         .json({ error: "All mandatory fields must be provided" });
     }
 
+    latitude=Number.parseFloat(latitude);
+    longitude=Number.parseFloat(longitude);
 
     // Check if the email is already registered
     const existingProviderByEmail = await prisma.provider.findUnique({
@@ -89,6 +96,19 @@ export const providerSignup = async (req, res) => {
       }
 
 
+  //Checking image URL
+    let image;
+
+    if (req?.file) {
+      try {
+        const cloudinaryUrl = await uploadToCloudinary(req.file.path);
+        image = cloudinaryUrl.secure_url;
+        // console.log(image);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
     // Create or fetch the address
     const address = await prisma.address.create({
       data: {
@@ -118,6 +138,7 @@ export const providerSignup = async (req, res) => {
         addressId: address.id,
         workType,
         aadharNumber,
+        photoLink:image
       },
       include: {
         address: true,
