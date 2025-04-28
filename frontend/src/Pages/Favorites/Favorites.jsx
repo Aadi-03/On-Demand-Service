@@ -152,6 +152,7 @@ const Favorites = () => {
                   phoneNo={provider.providerPhone}
                   status = {provider.providerStatus}
                   onClick={() => handleCardClick(provider)}
+                  image={provider.photoLink || (provider.providerGender === 'Male' ? "https://randomuser.me/api/portraits/men/9.jpg" : "https://randomuser.me/api/portraits/women/19.jpg")}
                 />
               </div>
             ))

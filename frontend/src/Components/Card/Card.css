@@ -17,11 +17,19 @@
     }
     
     .image {
-        background-color: #d1e7dd;
+        /* background-color: #d1e7dd; */
         height: 200px;
         width: 200px;
         border-radius: 10px;
-        margin-top: 15px;
+        margin-top: 5px;
+    }
+    .image img {
+        /* background-color: #d1e7dd; */
+        height: 200px;
+        width: 200px;
+        border-radius: 10px;
+        margin-top: 5px; 
+        object-fit: cover; /* Ensure the image covers the area without distortion */ 
     }
     
     .details {

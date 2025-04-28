@@ -350,6 +350,7 @@ const UserDashboard = () => {
               </>
             ) : providerData.length > 0 ? (
               providerData.map((provider, index) => (
+                
                 <Card
                   key={index}
                   providerId={provider.providerId}
@@ -360,8 +361,11 @@ const UserDashboard = () => {
                   rating={provider.providerRating}
                   phoneNo={provider.providerPhone}
                   status = {provider.providerStatus}
+                  image={provider.photoLink || (provider.providerGender === 'Male' ? "https://randomuser.me/api/portraits/men/9.jpg" : "https://randomuser.me/api/portraits/women/19.jpg")}
                   onClick={() => handleCardClick(provider)}
-                />
+                  />
+                
+                
               ))
             ) : (
               <p>No providers found</p>
@@ -380,6 +384,7 @@ const UserDashboard = () => {
             providerId={cardData.providerId}
             favList={favoriteList}
             setfavoriteList={setfavoriteList}
+            image={cardData.photoLink || (cardData.providerGender === 'Male' ? "https://randomuser.me/api/portraits/men/9.jpg" : "https://randomuser.me/api/portraits/women/19.jpg")}
           />
         )}
       </div>
@@ -399,7 +404,8 @@ const RightComponent = ({
   feedback,
   providerId,
   favList,
-  setfavoriteList
+  setfavoriteList,
+  image
 }) => {
 
 
@@ -462,7 +468,7 @@ const RightComponent = ({
           className="bookmark"
           onClick={() => { handleBookmark(providerId, favList, name) }}
         />
-        <img src="" alt="" className="profileimage" />
+        <img src={image} alt="Profile Image" className="profileimage" />
         <p className="Name">{name}</p>
 
         <div className="details-container">

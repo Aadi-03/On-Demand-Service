@@ -85,7 +85,7 @@ router.get("/bulkprovider", async (req, res) => {
       providerName: provider.firstName + " " + provider.lastName,
       providerAge:
         new Date().getFullYear() - new Date(provider.dob).getFullYear(),
-      ProviderGender: provider.gender,
+      providerGender: provider.gender,
       providerPhone: provider.phoneNumber,
       providerWorkType: provider.workType,
       providerStatus: provider.available,
@@ -99,10 +99,14 @@ router.get("/bulkprovider", async (req, res) => {
       providerFeedback: provider.feedbacks,
       providerAddress: formattedAddress,
       providerEmail: provider.email,
+      photoLink: provider.photoLink,
     };
   });
+  newProvider.forEach(provider => {
+    provider.providerNewDistanceInKm = provider.providerDistanceInKm - (2 * provider.providerRating);
+  });
   // sort the provider by distance
-  newProvider.sort((a, b) => a.providerDistanceInKm - b.providerDistanceInKm);
+  newProvider.sort((a, b) => a.providerNewDistanceInKm - b.providerNewDistanceInKm);
   res.status(200).json({
     provider: newProvider,
   });
@@ -184,7 +188,7 @@ router.get("/filterprovider", async (req, res) => {
       providerName: provider.firstName + " " + provider.lastName,
       providerAge:
         new Date().getFullYear() - new Date(provider.dob).getFullYear(),
-      ProviderGender: provider.gender,
+      providerGender: provider.gender,
       providerPhone: provider.phoneNumber,
       providerWorkType: provider.workType,
       providerStatus: provider.available,
@@ -198,10 +202,14 @@ router.get("/filterprovider", async (req, res) => {
       providerFeedback: provider.feedbacks,
       providerAddress: formattedAddress,
       providerEmail: provider.email,
+      photoLink: provider.photoLink,
     };
   });
   // sort the provider by distance
-  newProvider.sort((a, b) => a.providerDistanceInKm - b.providerDistanceInKm);
+  newProvider.forEach(provider => {
+    provider.providerNewDistanceInKm = provider.providerDistanceInKm - (2 * provider.providerRating);
+  });
+  newProvider.sort((a, b) => a.providerNewDistanceInKm - b.providerNewDistanceInKm);
   res.status(200).json({
     provider: newProvider,
   });
@@ -271,7 +279,7 @@ router.get("/searchprovider", async (req, res) => {
         providerName: provider.firstName + " " + provider.lastName,
         providerAge:
           new Date().getFullYear() - new Date(provider.dob).getFullYear(),
-        ProviderGender: provider.gender,
+        providerGender: provider.gender,
         providerPhone: provider.phoneNumber,
         providerWorkType: provider.workType,
         providerStatus: provider.available,
@@ -285,10 +293,14 @@ router.get("/searchprovider", async (req, res) => {
         providerFeedback: provider.feedbacks,
         providerAddress: formattedAddress,
         providerEmail: provider.email,
+        photoLink: provider.photoLink,
       };
     });
     // sort the provider by distance
-    newProvider.sort((a, b) => a.providerDistanceInKm - b.providerDistanceInKm);
+    newProvider.forEach(provider => {
+      provider.providerNewDistanceInKm = provider.providerDistanceInKm - (2 * provider.providerRating);
+    });
+    newProvider.sort((a, b) => a.providerNewDistanceInKm - b.providerNewDistanceInKm);
     res.status(200).json({
       provider: newProvider,
     });
@@ -395,13 +407,14 @@ router.get("/favoriteprovider", async (req, res) => {
         providerAge:
           new Date().getFullYear() -
           new Date(customer.provider.dob).getFullYear(),
-        ProviderGender: customer.provider.gender,
+        providerGender: customer.provider.gender,
         providerPhone: customer.provider.phoneNumber,
         providerWorkType: customer.provider.workType,
         providerStatus: customer.provider.available,
         providerAddress: formattedAddress,
         providerEmail: customer.provider.email,
         providerRating: rating,
+        photoLink: customer.provider.photoLink,
       };
     });
 
