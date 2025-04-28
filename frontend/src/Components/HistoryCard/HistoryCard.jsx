@@ -211,6 +211,9 @@ const Feedback = ({
       async function makeRequest() {
         try {
           const feedback_response = await axios.request(feedback_config);
+          const requestData = JSON.parse(config.data);
+          requestData.rating = feedback_response.data.score;
+          config.data = JSON.stringify(requestData);
           const response = await axios.request(config);
           if (response.data.error) {
             toast.error(response.data.error);

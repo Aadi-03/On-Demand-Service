@@ -2,11 +2,11 @@ from flask import Flask, jsonify
 import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
 from flask_cors import CORS
-from environs import Env
+# from environs import Env
 from flask import request
 
-env = Env()
-env.read_env()
+# env = Env()
+# env.read_env()
 
 app = Flask(__name__)
 CORS(app) 

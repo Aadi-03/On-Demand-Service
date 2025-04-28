@@ -18,6 +18,8 @@ import { toast, ToastContainer } from "react-toastify";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
+
+// import ImageSlider from "../../Components/Slider/Slider.jsx";
 const LandingPage = () => {
   const location=useLocation();
   useEffect(()=>{
@@ -37,6 +39,7 @@ const LandingPage = () => {
     <>
       {/* <Navbar/> */}
       <NewNavbar/>
+      {/* <ImageSlider/> */}
       <ToastContainer position="bottom-right"/>
       <hr className="horizontal-rule" />
 
