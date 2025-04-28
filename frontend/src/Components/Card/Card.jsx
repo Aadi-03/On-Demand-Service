@@ -6,16 +6,20 @@ import { ToastContainer, toast } from 'react-toastify';
 import axios from "axios";
 import available from '../../assets/available.png';
 import unavailable from '../../assets/unavailable.png';
-const Card = ({ providerId,name, age, distance, workType, rating, phoneNo, status, onClick }) => {
+const Card = ({ providerId,name, age, distance, workType, rating, phoneNo, status, onClick,image }) => {
     const [open,setOpen]=React.useState(false)
     const cardClass = distance ? "card" : "card card--no-distance";
+    // console.log(image);
+    
     return (
         <>
             <div className="provider-complete-card-holder">
                 <img src= {(status) ? available : unavailable} alt="" className="providerStatus" />
                 <div className="provider-card-container">
                     <div className={cardClass} onClick={onClick}>
-                        <div className="image"></div>
+                        <div className="image">
+                            <img src={image} alt={name} loading="lazy" />
+                        </div>
                         <div className="details">
                             <div className="name-age">
                                 <span className="name">{name}</span>
