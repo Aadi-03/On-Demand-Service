@@ -17,6 +17,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios';
 
+import { TbMessageChatbot } from "react-icons/tb";
+
 import dashboardIcon from "../../assets/dashboard4.png";
 
 import { LuLayoutDashboard } from "react-icons/lu";
@@ -274,22 +276,9 @@ export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <LuLayoutDashboard  onClick={handleDashboard} style={{cursor: "Pointer", position: "relative", top: "0.9rem", fontSize: "1.8rem" }}/>
+            <LuLayoutDashboard  onClick={handleDashboard} style={{cursor: "Pointer", position: "relative", top: "0.9rem", fontSize: "1.8rem" , marginRight : "1rem" }}/>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge
-                badgeContent={4}
-                color="error"
-                sx={{
-                  '& .MuiBadge-badge': {
-                    top: 10,  // Adjust vertical alignment
-                    right: 10.5, // Adjust horizontal alignment
-                    fontSize: '0.6rem', // Optional: Adjust text size
-                    minWidth: '18px', // Adjust badge width
-                    height: '18px', // Adjust badge height
-                  },
-                }}>
-                <MailIcon sx={{ fontSize: 32 }} />
-              </Badge>
+            <TbMessageChatbot style={{ fontSize : "2rem" }}/>
             </IconButton>
             <IconButton
               size="large"

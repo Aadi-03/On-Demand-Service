@@ -298,14 +298,16 @@ const SignUpTradesman = () => {
                 </div>
               </div>
 
-              <div>
+              <div className="image-upload-container">
                 <label htmlFor="photoLink">Profile Image : </label>
-                <input
-                  type="file"
-                  id="photoLink"
-                  name="photoLink"
-                  onChange={handleChange}
-                />
+                <div className="image-upload">
+                  <input
+                    type="file"
+                    id="photoLink"
+                    name="photoLink"
+                    onChange={handleChange}
+                  />
+                </div>
               </div>
 
               <h3 className="signup-section-title">Address Information</h3>

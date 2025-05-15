@@ -12,6 +12,7 @@ import {
   FaExclamationTriangle 
 } from 'react-icons/fa';
 import './History.css';
+import ChatBox from '../../Components/Chatbox/Chatbox.jsx';
 
 const History = () => {
   const [history, setHistory] = useState([]);

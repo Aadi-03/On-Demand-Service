@@ -11,6 +11,10 @@ import {
   FaCheckCircle,
   FaTimesCircle
 } from "react-icons/fa";
+import { IoIosChatbubbles } from "react-icons/io";
+import ChatBox from "../Chatbox/Chatbox";
+
+
 
 const HistoryCard = ({
   order,
@@ -22,6 +26,7 @@ const HistoryCard = ({
   setRejected,
 }) => {
   const [showFeedback, setShowFeedback] = useState(false);
+  const [showChat, setShowChat] = useState(false);
 
   const formatDate = (dateString) => {
     const options = { year: "numeric", month: "long", day: "numeric" };
@@ -129,23 +134,30 @@ const HistoryCard = ({
           </div>
         )}
 
-        {!showFeedback && (
-          <div className="history-buttons">
-            {["unaccepted", "pending"].includes(tab) && (
-              <button onClick={handleRevoke} className="Revoke">
-                <FaTimesCircle className="btn-icon" /> Revoke Request
-              </button>
-            )}
-            {["partialcompleted", "pending"].includes(tab) && (
-              <button
-                className="Complete"
-                onClick={() => setShowFeedback(!showFeedback)}
-              >
-                <FaCheckCircle className="btn-icon" /> Complete
-              </button>
-            )}
-          </div>
-        )}
+        <div className="history-buttons">
+          {["unaccepted", "pending"].includes(tab) && !showFeedback && (
+            <button onClick={handleRevoke} className="Revoke">
+              <FaTimesCircle className="btn-icon" /> Revoke Request
+            </button>
+          )}
+          {["partialcompleted", "pending"].includes(tab) && !showFeedback && (
+            <button
+              className="Complete"
+              onClick={() => setShowFeedback(!showFeedback)}
+            >
+              <FaCheckCircle className="btn-icon" /> Complete
+            </button>
+          )}
+          {["pending", "partialcompleted"].includes(tab) && !showFeedback && (
+            <button
+              className="Chat"
+              onClick={() =>
+                setShowChat(!showChat)
+              }
+            ><IoIosChatbubbles className="btn-icon" />Chat With Worker</button>
+          )}
+        </div>
+
 
         {showFeedback && (
           <Feedback
@@ -158,6 +170,11 @@ const HistoryCard = ({
           />
         )}
       </div>
+      {showChat && (
+        <Chatwindow
+          setShowChat={setShowChat}
+        />
+      )}
     </>
   );
 };
@@ -196,8 +213,8 @@ const Feedback = ({
         },
         data: data,
       };
-      
-      let feedback_config ={
+
+      let feedback_config = {
         method: "post",
         maxBodyLength: Infinity,
         url: "http://localhost:3000/predict",
@@ -264,3 +281,17 @@ const Feedback = ({
     </div>
   );
 };
+
+
+const Chatwindow = ({ setShowChat }) => {
+  return (
+    <div className="chat-window">
+      <h2>Chat with worker</h2>
+      <ChatBox/>
+      <button className="Close" onClick={() => setShowChat(false)}>
+        <FaTimesCircle className="btn-icon" />
+      </button>
+
+    </div>
+  );
+}

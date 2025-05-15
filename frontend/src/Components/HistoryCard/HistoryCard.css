@@ -8,6 +8,7 @@
   max-width: 800px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .historycard:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
@@ -19,6 +20,7 @@
   border-bottom: 1px solid #e0e0e0;
   margin-bottom: 15px;
 }
+
 .history-details h3 {
   margin: 15px 0 10px;
   color: #0052cc;
@@ -26,6 +28,7 @@
   padding-bottom: 5px;
   position: relative;
 }
+
 .history-details h3::before {
   content: "";
   position: absolute;
@@ -46,6 +49,7 @@
   gap: 10px;
   margin: 10px 0;
 }
+
 .detail {
   display: flex;
   align-items: center;
@@ -56,13 +60,16 @@
   color: #333;
 
 }
+
 .detail b {
   font-weight: 600;
   min-width: fit-content;
 }
+
 .detail p {
   margin: 0;
 }
+
 .detail-icon {
   color: #0052cc;
 }
@@ -79,6 +86,7 @@
   gap: 10px;
   margin-top: 15px;
 }
+
 .history-buttons button {
   padding: 10px 20px;
   border: none;
@@ -90,19 +98,28 @@
   align-items: center;
   gap: 5px;
 }
+
 .history-buttons button.Revoke {
   background: #dc3545;
   color: #fff;
 }
+
 .history-buttons button.Revoke:hover {
   background: #c82333;
 }
+
 .history-buttons button.Complete {
   background: #28a745;
   color: #fff;
 }
+
 .history-buttons button.Complete:hover {
   background: #218838;
+}
+
+.history-buttons button.Chat {
+  background: #007bff;
+  color: #fff;
 }
 
 /* Feedback Form Styles */
@@ -115,11 +132,13 @@
   max-width: 500px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+
 .feedback-container form {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
+
 .feedback-container p {
   font-size: 1rem;
   font-weight: bold;
@@ -133,22 +152,26 @@
   justify-content: center;
   gap: 10px;
   transform: scaleX(-1);
-  
+
 }
+
 .star-rating label {
   cursor: pointer;
   transition: color 0.2s ease-in-out;
   font-size: 28px;
   color: #ccc;
 }
+
 .star-rating label:hover,
-.star-rating label:hover ~ label {
+.star-rating label:hover~label {
   color: #ffc107;
 }
+
 .star-rating label:has(input:checked) .star,
-.star-rating label:has(input:checked) ~ label .star {
+.star-rating label:has(input:checked)~label .star {
   color: #ffc107;
 }
+
 .star-rating input {
   display: none;
 }
@@ -163,6 +186,7 @@
   height: 100px;
   overflow: auto;
 }
+
 .feedback-container button {
   background: #e0f7fa;
   border: 1px solid #00acc1;
@@ -172,6 +196,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
+
 .feedback-container button:hover {
   background: #b2ebf2;
 }
@@ -180,7 +205,50 @@
 .btn-icon {
   font-size: 1.2rem;
 }
+
 .star-icon {
   color: #ffc107;
   margin-left: 5px;
+}
+
+
+
+.chat-window {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1000;
+  transition: all 0.3s ease;
+
+  h2{
+    margin: 0;
+    padding: 10px;
+    background-color: #0052cc;
+    color: white;
+    width: 800px;
+    border-radius: 10px 10px 0px 0px;
+  }
+
+  .Close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: red;
+    cursor: pointer;
+    border: none;
+    background-color: white;
+
+    .btn-icon {
+      height: 35px;
+      width: 35px;
+    }
+
+  }
 }
