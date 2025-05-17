@@ -10,7 +10,10 @@ import {
   FaCalendarAlt, FaLock, FaVenusMars, FaCity, FaGlobeAsia
 } from "react-icons/fa";
 
+import { useTranslation } from "react-i18next";
+
 const SignUpCustomer = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
@@ -93,7 +96,7 @@ const SignUpCustomer = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Registration failed. Please try again.");
+      toast.error(t("Registration failed. Please try again."));
     }
   };
 
@@ -105,21 +108,21 @@ const SignUpCustomer = () => {
       <div className="signup-page">
         <div className="signup-container">
           <div className="signup-header">
-            <h1 className="signup-title">Create Your Customer Account</h1>
-            <p className="signup-subtitle">Join our platform to access reliable home services provided by trusted professionals in your area.</p>
+            <h1 className="signup-title">{t("Create Your Customer Account")}</h1>
+            <p className="signup-subtitle">{t("Join our platform to access reliable home services provided by trusted professionals in your area.")}</p>
           </div>
           
           <div className="signup-form-container">
             <form className="signup-customer-wrapper" onSubmit={handleSubmit}>
-              <h3 className="signup-section-title">Personal Information</h3>
+              <h3 className="signup-section-title">{t("Personal Information")}</h3>
               
               <div className="form-field">
-                <label htmlFor="firstName">First Name</label>
+                <label htmlFor="firstName">{t("First Name")}</label>
                 <input 
                   type="text" 
                   id="firstName"
                   name="firstName" 
-                  placeholder="Enter your first name" 
+                  placeholder={t("Enter your first name")} 
                   value={formData.firstName} 
                   onChange={handleChange} 
                   required 
@@ -128,12 +131,12 @@ const SignUpCustomer = () => {
               </div>
               
               <div className="form-field">
-                <label htmlFor="lastName">Last Name</label>
+                <label htmlFor="lastName">{t("Last Name")}</label>
                 <input 
                   type="text" 
                   id="lastName"
                   name="lastName" 
-                  placeholder="Enter your last name" 
+                  placeholder={t("Enter your last name")} 
                   value={formData.lastName} 
                   onChange={handleChange} 
                   required 
@@ -142,12 +145,12 @@ const SignUpCustomer = () => {
               </div>
               
               <div className="form-field">
-                <label htmlFor="email">Email Address</label>
+                <label htmlFor="email">{t("Email Address")}</label>
                 <input 
                   type="email" 
                   id="email"
                   name="email" 
-                  placeholder="Enter your email" 
+                  placeholder={t("Enter your email")} 
                   value={formData.email} 
                   onChange={handleChange} 
                   required 
@@ -156,12 +159,12 @@ const SignUpCustomer = () => {
               </div>
               
               <div className="form-field">
-                <label htmlFor="mobileNo">Mobile Number</label>
+                <label htmlFor="mobileNo">{t("Mobile Number")}</label>
                 <input 
                   type="tel" 
                   id="mobileNo"
                   name="mobileNo" 
-                  placeholder="Enter your mobile number" 
+                  placeholder={t("Enter your mobile number")} 
                   value={formData.mobileNo} 
                   onChange={handleChange} 
                   required 
@@ -170,7 +173,7 @@ const SignUpCustomer = () => {
               </div>
               
               <div className="form-field">
-                <label htmlFor="dob">Date of Birth</label>
+                <label htmlFor="dob">{t("Date of Birth")}</label>
                 <input 
                   type="date" 
                   id="dob"
@@ -185,7 +188,7 @@ const SignUpCustomer = () => {
               </div>
               
               <div className="form-field">
-                <label htmlFor="gender">Gender</label>
+                <label htmlFor="gender">{t("Gender")}</label>
                 <select 
                   id="gender"
                   name="gender" 
@@ -193,23 +196,23 @@ const SignUpCustomer = () => {
                   onChange={handleChange}
                   required
                 >
-                  <option value="">Select Gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Others">Prefer not to say</option>
+                  <option value="">{t("Select Gender")}</option>
+                  <option value="Male">{t("Male")}</option>
+                  <option value="Female">{t("Female")}</option>
+                  <option value="Others">{t("Prefer not to say")}</option>
                 </select>
                 <div className="form-field-icon"><FaVenusMars /></div>
               </div>
               
-              <h3 className="signup-section-title">Address Information</h3>
+              <h3 className="signup-section-title">{t("Address Information")}</h3>
               
               <div className="form-field">
-                <label htmlFor="houseNumber">House Number</label>
+                <label htmlFor="houseNumber">{t("House Number")}</label>
                 <input 
                   type="text" 
                   id="houseNumber"
                   name="houseNumber" 
-                  placeholder="Enter house number" 
+                  placeholder={t("Enter house number")} 
                   value={formData.houseNumber} 
                   onChange={handleChange} 
                   required 
@@ -218,12 +221,12 @@ const SignUpCustomer = () => {
               </div>
               
               <div className="form-field">
-                <label htmlFor="streetName">Street Name</label>
+                <label htmlFor="streetName">{t("Street Name")}</label>
                 <input 
                   type="text" 
                   id="streetName"
                   name="streetName" 
-                  placeholder="Enter street name" 
+                  placeholder={t("Enter street name")} 
                   value={formData.streetName} 
                   onChange={handleChange} 
                   required 
@@ -232,12 +235,12 @@ const SignUpCustomer = () => {
               </div>
               
               <div className="form-field">
-                <label htmlFor="pincode">PIN Code</label>
+                <label htmlFor="pincode">{t("PIN Code")}</label>
                 <input 
                   type="text" 
                   id="pincode"
                   name="pincode" 
-                  placeholder="Enter pincode" 
+                  placeholder={t("Enter pincode")} 
                   value={formData.pincode} 
                   onChange={handleChange} 
                   required 
@@ -246,7 +249,7 @@ const SignUpCustomer = () => {
               </div>
               
               <div className="form-field">
-                <label htmlFor="state">State</label>
+                <label htmlFor="state">{t("State")}</label>
                 <select 
                   id="state"
                   name="state" 
@@ -254,70 +257,70 @@ const SignUpCustomer = () => {
                   onChange={handleChange}
                   required
                 >
-                  <option value="">Select State</option>
-                  <option value="AN">Andaman and Nicobar Islands</option>
-                  <option value="AP">Andhra Pradesh</option>
-                  <option value="AR">Arunachal Pradesh</option>
-                  <option value="AS">Assam</option>
-                  <option value="BR">Bihar</option>
-                  <option value="CH">Chandigarh</option>
-                  <option value="CT">Chhattisgarh</option>
-                  <option value="DN">Dadra and Nagar Haveli</option>
-                  <option value="DD">Daman and Diu</option>
-                  <option value="DL">Delhi</option>
-                  <option value="GA">Goa</option>
-                  <option value="GJ">Gujarat</option>
-                  <option value="HR">Haryana</option>
-                  <option value="HP">Himachal Pradesh</option>
-                  <option value="JK">Jammu and Kashmir</option>
-                  <option value="JH">Jharkhand</option>
-                  <option value="KA">Karnataka</option>
-                  <option value="KL">Kerala</option>
-                  <option value="LA">Ladakh</option>
-                  <option value="LD">Lakshadweep</option>
-                  <option value="MP">Madhya Pradesh</option>
-                  <option value="MH">Maharashtra</option>
-                  <option value="MN">Manipur</option>
-                  <option value="ML">Meghalaya</option>
-                  <option value="MZ">Mizoram</option>
-                  <option value="NL">Nagaland</option>
-                  <option value="OR">Odisha</option>
-                  <option value="PY">Puducherry</option>
-                  <option value="PB">Punjab</option>
-                  <option value="RJ">Rajasthan</option>
-                  <option value="SK">Sikkim</option>
-                  <option value="TN">Tamil Nadu</option>
-                  <option value="TG">Telangana</option>
-                  <option value="TR">Tripura</option>
-                  <option value="UP">Uttar Pradesh</option>
-                  <option value="UT">Uttarakhand</option>
-                  <option value="WB">West Bengal</option>
+                  <option value="">{t("Select State")}</option>
+                  <option value="AN">{t("Andaman and Nicobar Islands")}</option>
+                  <option value="AP">{t("Andhra Pradesh")}</option>
+                  <option value="AR">{t("Arunachal Pradesh")}</option>
+                  <option value="AS">{t("Assam")}</option>
+                  <option value="BR">{t("Bihar")}</option>
+                  <option value="CH">{t("Chandigarh")}</option>
+                  <option value="CT">{t("Chhattisgarh")}</option>
+                  <option value="DN">{t("Dadra and Nagar Haveli")}</option>
+                  <option value="DD">{t("Daman and Diu")}</option>
+                  <option value="DL">{t("Delhi")}</option>
+                  <option value="GA">{t("Goa")}</option>
+                  <option value="GJ">{t("Gujarat")}</option>
+                  <option value="HR">{t("Haryana")}</option>
+                  <option value="HP">{t("Himachal Pradesh")}</option>
+                  <option value="JK">{t("Jammu and Kashmir")}</option>
+                  <option value="JH">{t("Jharkhand")}</option>
+                  <option value="KA">{t("Karnataka")}</option>
+                  <option value="KL">{t("Kerala")}</option>
+                  <option value="LA">{t("Ladakh")}</option>
+                  <option value="LD">{t("Lakshadweep")}</option>
+                  <option value="MP">{t("Madhya Pradesh")}</option>
+                  <option value="MH">{t("Maharashtra")}</option>
+                  <option value="MN">{t("Manipur")}</option>
+                  <option value="ML">{t("Meghalaya")}</option>
+                  <option value="MZ">{t("Mizoram")}</option>
+                  <option value="NL">{t("Nagaland")}</option>
+                  <option value="OR">{t("Odisha")}</option>
+                  <option value="PY">{t("Puducherry")}</option>
+                  <option value="PB">{t("Punjab")}</option>
+                  <option value="RJ">{t("Rajasthan")}</option>
+                  <option value="SK">{t("Sikkim")}</option>
+                  <option value="TN">{t("Tamil Nadu")}</option>
+                  <option value="TG">{t("Telangana")}</option>
+                  <option value="TR">{t("Tripura")}</option>
+                  <option value="UP">{t("Uttar Pradesh")}</option>
+                  <option value="UT">{t("Uttarakhand")}</option>
+                  <option value="WB">{t("West Bengal")}</option>
                 </select>
                 <div className="form-field-icon"><FaCity /></div>
               </div>
               
               <div className="form-field">
-                <label htmlFor="country">Country</label>
+                <label htmlFor="country">{t("Country")}</label>
                 <input 
                   type="text" 
                   id="country"
                   name="country" 
-                  value="India" 
+                  value={t("India")} 
                   readOnly 
                   className="readonly-input"
                 />
                 <div className="form-field-icon"><FaGlobeAsia /></div>
               </div>
               
-              <h3 className="signup-section-title">Security</h3>
+              <h3 className="signup-section-title">{t("Security")}</h3>
               
               <div className="form-field full-width">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">{t("Password")}</label>
                 <input 
                   type="password" 
                   id="password"
                   name="password" 
-                  placeholder="Create a secure password" 
+                  placeholder={t("Create a secure password")} 
                   value={formData.password} 
                   onChange={handleChange} 
                   required 
@@ -326,13 +329,13 @@ const SignUpCustomer = () => {
               </div>
               
               <div className="submit-button-container">
-                <button type="submit" className="submit-button">Create Account</button>
+                <button type="submit" className="submit-button">{t("Create Account")}</button>
               </div>
             </form>
           </div>
           
           <div className="signup-footer">
-            <p>Already have an account? <Link to="/signincustomer">Sign in</Link></p>
+            <p>{t("Already have an account?")} <Link to="/signincustomer">{t("Sign in")}</Link></p>
           </div>
         </div>
       </div>

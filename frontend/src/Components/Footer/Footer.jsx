@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import logo from "../../assets/LandingPageImages/Company-Logo.png";
 import facebook from "../../assets/LandingPageImages/facebook.png";
 import instagram from "../../assets/LandingPageImages/instagram.png";
@@ -8,41 +9,42 @@ import linkedin from "../../assets/LandingPageImages/linkedin.png";
 import "./Footer.css";
 
 const Footer = () => {
+  const { t } = useTranslation();
+
   return (
     <footer>
       <div className="image-container">
-        <img src={logo} alt="Company Logo" />
+        <img src={logo} alt={t("Company Logo")} />
       </div>
       <div className="content">
         <div className="container">
-          <h1>Company</h1>
-          <p>About Us</p>
-          <p>Terms & Condition</p>
-          <p>Privacy Policy</p>
+          <h1>{t("Company")}</h1>
+          <p>{t("About Us")}</p>
+          <p>{t("Terms & Condition")}</p>
+          <p>{t("Privacy Policy")}</p>
         </div>
         <div className="container">
-          <h1>For Customer</h1>
-          <p>Contact Us</p>
-          <p>On Demad Service Reviews</p>
+          <h1>{t("For Customer")}</h1>
+          <p>{t("Contact Us")}</p>
+          <p>{t("On Demad Service Reviews")}</p>
         </div>
         <div className="container">
-          <h1>For Professionals</h1>
-          <p>Register as a Professional</p>
+          <h1>{t("For Professionals")}</h1>
+          <p>{t("Register as a Professional")}</p>
         </div>
         <div className="container">
-          <h1>Social Links</h1>
+          <h1>{t("Social Links")}</h1>
           <div className="links">
-            <a href=""><img src={twitter} alt="" /></a>
-            <a href=""><img src={instagram} alt="" /></a>
-            <a href=""><img src={facebook} alt="" /></a>
-            <a href=""><img src={linkedin} alt="" /></a>
+            <a href=""><img src={twitter} alt={t("Twitter")} /></a>
+            <a href=""><img src={instagram} alt={t("Instagram")} /></a>
+            <a href=""><img src={facebook} alt={t("Facebook")} /></a>
+            <a href=""><img src={linkedin} alt={t("LinkedIn")} /></a>
           </div>
         </div>
       </div>
       <div className="copyright">
-        Copyright © 2024 All Rights Reserved
+        {t("Copyright © 2024 All Rights Reserved")}
       </div>
-      
     </footer>
   );
 };

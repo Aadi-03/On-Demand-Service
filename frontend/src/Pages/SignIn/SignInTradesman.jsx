@@ -7,8 +7,9 @@ import Footer from "../../Components/Footer/Footer";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { FaTools, FaLock, FaEnvelope, FaArrowRight } from "react-icons/fa";
-
+import { useTranslation } from "react-i18next";
 const SignInTradesman = () => {
+  const { t } = useTranslation();
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -92,13 +93,13 @@ const SignInTradesman = () => {
               <div className="signin-card-icon">
                 <FaTools />
               </div>
-              <h2>Professional Sign In</h2>
-              <p>Access your service provider account</p>
+              <h2>{t("Professional Sign In")}</h2>
+              <p>{t("Access your service provider account")}</p>
             </div>
             
             <form className="signin-form" onSubmit={handleClick}>
               <div className="form-group">
-                <label htmlFor="email">Email Address</label>
+                <label htmlFor="email">{t("Email Address")}</label>
                 <input 
                   type="email" 
                   className="form-control" 
@@ -113,7 +114,7 @@ const SignInTradesman = () => {
               </div>
               
               <div className="form-group">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">{t("Password")}</label>
                 <input 
                   type="password" 
                   className="form-control" 
@@ -125,7 +126,7 @@ const SignInTradesman = () => {
                 <div className="form-icon">
                   <FaLock />
                 </div>
-                <a href="#!" className="forgot-password">Forgot password?</a>
+                <a href="#!" className="forgot-password">{t("Forgot password?")}</a>
               </div>
               
               <button 
@@ -133,13 +134,13 @@ const SignInTradesman = () => {
                 className="submit-button"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Signing In...' : 'Sign In'} {!isSubmitting && <FaArrowRight style={{marginLeft: '5px'}} />}
+                {isSubmitting ? t('Signing In...') : t('Sign In')} {!isSubmitting && <FaArrowRight style={{marginLeft: '5px'}} />}
               </button>
             </form>
           </div>
           
           <div className="signin-footer">
-            <p>Don't have an account? <Link to="/signuptradesman">Register as Professional</Link></p>
+            <p>{t("Don't have an account?")} <Link to="/signuptradesman">{t("Register as Professional")}</Link></p>
           </div>
         </div>
       </div>

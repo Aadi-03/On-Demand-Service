@@ -16,7 +16,9 @@ import Navbar from "../../Components/Navbar/Navbar.jsx";
 import NewNavbar from "../../Components/NewNavbar/NewNavbar.jsx";
 import { toast, ToastContainer } from "react-toastify";
 import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect , useState} from "react";
+
+import { useTranslation } from "react-i18next";
 
 
 // import ImageSlider from "../../Components/Slider/Slider.jsx";
@@ -33,8 +35,36 @@ const LandingPage = () => {
 
   },[location])
   
+  const languages = [
+    { value: "", text: "Options" },
+    { value: "en", text: "English" },
+    { value: "hi", text: "Hindi" },
+    { value: "bn", text: "Bengali" },
+    { value: "ta", text: "Tamil" },
+    { value: "gu", text: "Gujarati" },
+    { value: "kn", text: "Kannada" },
+    { value: "mr", text: "Marathi" }
+];
+
+const { t, i18n } = useTranslation();
+
+    // Initialize state with the current language
+    const [lang, setLang] = useState(i18n.language || "en");
+
+    // This function changes the language
+    const handleChange = (e) => {
+        const selectedLang = e.target.value;
+        setLang(selectedLang);
+        
+        // Change language through i18n instead of page reload
+        if (selectedLang) {
+            i18n.changeLanguage(selectedLang);
+        }
+    };
+
 
   return (
+
 
     <>
       {/* <Navbar/> */}
@@ -44,31 +74,43 @@ const LandingPage = () => {
       <hr className="horizontal-rule" />
 
       <div className="Landing-Page">
+        <select className = "language-selector" value={lang} onChange={handleChange}>
+                {languages.map((item) => {
+                    return (
+                        <option
+                            key={item.value}
+                            value={item.value}
+                        >
+                            {item.text}
+                        </option>
+                    );
+                })}
+            </select>
         <div className="info-services">
           <div className="text">
-            <h1>Find the best services near you</h1>
-            <p>Fast , Reliable , On-Demand</p>
+            <h1>{t("Find the best services near you")}</h1>
+            <p>{t("Fast , Reliable , On-Demand")}</p>
           </div>
 
           <div className="services">
-            <p>What are you looking for?</p>
+            <p>{t("What are you looking for?")}</p>
             <div className="services-logo">
               <figure>
                 <img src={plumberlogo} alt="" />
-                <figcaption>Plumber</figcaption>
+                <figcaption>{t("Plumber")}</figcaption>
               </figure>
               <figure>
                 <img src={electricianlogo} alt="" />
-                <figcaption>Electrician</figcaption>
+                <figcaption>{t("Electrician")}</figcaption>
 
               </figure>
               <figure>
                 <img src={mechaniclogo} alt="" />
-                <figcaption>Mechanic</figcaption>
+                <figcaption>{t("Mechanic")}</figcaption>
               </figure>
               <figure>
                 <img src={carpenterlogo} alt="" />
-                <figcaption>Carpenter</figcaption>
+                <figcaption>{t("Carpenter")}</figcaption>
               </figure>
             </div>
           </div>

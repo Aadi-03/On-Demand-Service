@@ -7,8 +7,10 @@ import NewNavbar from "../../Components/NewNavbar/NewNavbar.jsx";
 import Footer from "../../Components/Footer/Footer";
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const SignInCustomer = () => {
+  const { t } = useTranslation();
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -92,18 +94,18 @@ const SignInCustomer = () => {
               <div className="signin-card-icon">
                 <FaHome />
               </div>
-              <h2>Welcome Back</h2>
-              <p>Sign in to access your customer account</p>
+              <h2>{t("Welcome Back")}</h2>
+              <p>{t("Sign in to access your customer account")}</p>
             </div>
             
             <form className="signin-form" onSubmit={handleClick}>
               <div className="form-group">
-                <label htmlFor="email">Email Address</label>
+                <label htmlFor="email">{t("Email Address")}</label>
                 <input 
                   type="email" 
                   className="form-control" 
                   id="email"
-                  placeholder="Enter your email" 
+                  placeholder={t("Enter your email")} 
                   value={data.email}
                   onChange={(e) => setData({...data, email: e.target.value})}
                 />
@@ -113,19 +115,19 @@ const SignInCustomer = () => {
               </div>
               
               <div className="form-group">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">{t("Password")}</label>
                 <input 
                   type="password" 
                   className="form-control" 
                   id="password" 
-                  placeholder="Enter your password"
+                  placeholder={t("Enter your password")}
                   value={data.password}
                   onChange={(e) => setData({...data, password: e.target.value})}
                 />
                 <div className="form-icon">
                   <FaLock />
                 </div>
-                <a href="#!" className="forgot-password">Forgot password?</a>
+                <a href="#!" className="forgot-password">{t("Forgot password?")}</a>
               </div>
               
               <button 
@@ -133,13 +135,13 @@ const SignInCustomer = () => {
                 className="submit-button"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'Signing In...' : 'Sign In'} {!isSubmitting && <FaArrowRight style={{marginLeft: '5px'}} />}
+                {isSubmitting ? t('Signing In...') : t('Sign In')} {!isSubmitting && <FaArrowRight style={{marginLeft: '5px'}} />}
               </button>
             </form>
           </div>
           
           <div className="signin-footer">
-            <p>Don't have an account? <Link to="/signupcustomer">Register as Customer</Link></p>
+            <p>{t("Don't have an account?")} <Link to="/signupcustomer">{t("Register as Customer")}</Link></p>
           </div>
         </div>
       </div>
