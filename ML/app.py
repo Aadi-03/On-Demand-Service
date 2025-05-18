@@ -3,6 +3,7 @@ from flask_cors import CORS
 import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
 import translator  # Import from translator.py
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -35,6 +36,19 @@ def translate():
 
         translated_text = translator.translate_text(text, from_lang, to_lang)
         return jsonify({"translated_text": translated_text}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/update-translations', methods=['POST'])
+def update_translations():
+    try:
+        response = request.get_json()
+        translated_text = json.loads(response.get("translated_data", "{}"))
+        lang = response.get("lang")
+        with open(f"../frontend/public/locales/{lang}/translation.json", "w", encoding="utf-8") as f:
+            json.dump(translated_text, f, ensure_ascii=False, indent=4)
+        
+        return jsonify({"message": "Translations updated successfully"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
