@@ -29,6 +29,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import logo from "../../assets/LandingPageImages/Company-Logo.png";
 
+
+import { useTranslation } from 'react-i18next';
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -70,6 +73,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }) {
+
+  const {t}=useTranslation();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -182,12 +188,12 @@ export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleProfile}>Profile</MenuItem>
+      <MenuItem onClick={handleProfile}>{t("Profile")}</MenuItem>
       {/* <MenuItem >Edit Profile</MenuItem> */}
-      <MenuItem onClick={handleHistory}>History</MenuItem>
-      <MenuItem onClick={handleFavorites}>Favorites</MenuItem>
+      <MenuItem onClick={handleHistory}>{t("History")}</MenuItem>
+      <MenuItem onClick={handleFavorites}>{t("Favorites")}</MenuItem>
       <MenuItem>Report a Bug</MenuItem>
-      <MenuItem onClick={handleLogout} sx={{ color: 'red' }}>LogOut</MenuItem>
+      <MenuItem onClick={handleLogout} sx={{ color: 'red' }}>{t("LogOut")}</MenuItem>
     </Menu>
   );
 

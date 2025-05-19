@@ -14,6 +14,8 @@ import {
 import { IoIosChatbubbles } from "react-icons/io";
 import ChatBox from "../Chatbox/Chatbox";
 
+import { useTranslation } from "react-i18next";
+
 
 
 const HistoryCard = ({
@@ -25,6 +27,9 @@ const HistoryCard = ({
   setCompleted,
   setRejected,
 }) => {
+
+  const {t}=useTranslation();
+
   const [showFeedback, setShowFeedback] = useState(false);
   const [showChat, setShowChat] = useState(false);
 
@@ -81,54 +86,54 @@ const HistoryCard = ({
             <div className="order-details">
               <div className="detail">
                 <FaCalendarAlt className="detail-icon" />
-                <p><b>Task ID:</b> {order.orderId}</p>
+                <p><b>{t("Task ID")}:</b> {order.orderId}</p>
               </div>
               <div className="detail">
                 <FaCalendarAlt className="detail-icon" />
-                <p><b>Date:</b> {formatDate(order.orderDate)}</p>
+                <p><b>{t("Date")}:</b> {formatDate(order.orderDate)}</p>
               </div>
             </div>
 
-            <h3>Task Details</h3>
+            <h3>{t("Task Details")}</h3>
             <div className="task-detail">
               <div className="detail">
-                <b>Title:</b>
+                <b>{t("Title")}:</b>
                 <p>{order.orderTitle}</p>
               </div>
               <div className="detail">
-                <b>Description:</b>
+                <b>{t("Description")}:</b>
                 <p className="description">{order.orderDescription}</p>
               </div>
             </div>
 
-            <h3>Worker Details</h3>
+            <h3>{t("Worker Details")}</h3>
             <div className="worker-details">
               <div className="detail">
                 <FaUser className="detail-icon" />
-                <p><b>Name:</b> {order.providerName}</p>
+                <p><b>{t("Name")}:</b> {order.providerName}</p>
               </div>
               <div className="detail">
                 <FaPhone className="detail-icon" />
-                <p><b>Phone:</b> {order.providerPhone}</p>
+                <p><b>{t("Phone")}:</b> {order.providerPhone}</p>
               </div>
               <div className="detail">
                 <FaEnvelope className="detail-icon" />
-                <p><b>Email:</b> {order.providerEmail}</p>
+                <p><b>{t("Email")}:</b> {order.providerEmail}</p>
               </div>
               <div className="detail">
-                <b>Work Type:</b>
+                <b>{t("Work Type")}:</b>
                 <p>{order.providerWorkType}</p>
               </div>
             </div>
 
-            <h3>Reviews</h3>
+            <h3>{t("Reviews")}</h3>
             <div className="detail">
               <p>
-                <b>Rating:</b> {order.orderRating} <FaStar className="star-icon" />
+                <b>{t("Rating")}:</b> {order.orderRating} <FaStar className="star-icon" />
               </p>
             </div>
             <div className="detail">
-              <b>Feedback:</b>
+              <b>{t("Feedback")}:</b>
               <p>{order.orderFeedback}</p>
             </div>
           </div>
@@ -137,7 +142,7 @@ const HistoryCard = ({
         <div className="history-buttons">
           {["unaccepted", "pending"].includes(tab) && !showFeedback && (
             <button onClick={handleRevoke} className="Revoke">
-              <FaTimesCircle className="btn-icon" /> Revoke Request
+              <FaTimesCircle className="btn-icon" /> {t("Revoke Request")}
             </button>
           )}
           {["partialcompleted", "pending"].includes(tab) && !showFeedback && (
@@ -145,7 +150,7 @@ const HistoryCard = ({
               className="Complete"
               onClick={() => setShowFeedback(!showFeedback)}
             >
-              <FaCheckCircle className="btn-icon" /> Complete
+              <FaCheckCircle className="btn-icon" /> {t("Complete")}
             </button>
           )}
           {["pending", "partialcompleted"].includes(tab) && !showFeedback && (
@@ -154,10 +159,9 @@ const HistoryCard = ({
               onClick={() =>
                 setShowChat(!showChat)
               }
-            ><IoIosChatbubbles className="btn-icon" />Chat With Worker</button>
+            ><IoIosChatbubbles className="btn-icon" />{t("Chat With Worker")}</button>
           )}
         </div>
-
 
         {showFeedback && (
           <Feedback
@@ -260,10 +264,12 @@ const Feedback = ({
     }
   };
 
+  const { t } = useTranslation();
+
   return (
     <div className="feedback-container">
       <form>
-        <p>Please rate our service out of 5</p>
+        <p>{t("Please rate our service out of 5")}</p>
         <div className="star-rating">
           {[...Array(5)].map((_, index) => (
             <label key={index}>
@@ -272,10 +278,10 @@ const Feedback = ({
             </label>
           ))}
         </div>
-        <p>Please give a Feedback below</p>
-        <textarea name="comment" placeholder="Give your feedback"></textarea>
+        <p>{t("Please give a Feedback below")}</p>
+        <textarea name="comment" placeholder={t("Give your feedback")}></textarea>
         <button type="submit" onClick={handleSubmit}>
-          Send Feedback
+          {t("Send Feedback")}
         </button>
       </form>
     </div>
@@ -284,9 +290,10 @@ const Feedback = ({
 
 
 const Chatwindow = ({ setShowChat }) => {
+  const {t}=useTranslation();
   return (
     <div className="chat-window">
-      <h2>Chat with worker</h2>
+      <h2>{t("Chat with worker")}</h2>
       <ChatBox/>
       <button className="Close" onClick={() => setShowChat(false)}>
         <FaTimesCircle className="btn-icon" />

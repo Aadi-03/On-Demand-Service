@@ -18,9 +18,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import axios from "axios";
 
+import { useTranslation } from "react-i18next";
+
 const UserDashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const {t}=useTranslation();
 
   const [providerData, setProviderData] = useState([]);
   const [favoriteList, setfavoriteList] = useState([]);
@@ -270,16 +274,16 @@ const UserDashboard = () => {
       <ToastContainer position="bottom-right" autoClose={5000} theme="light" />
       <div className="user-dashboard">
         <div className="left">
-          <p>Filters</p>
+          <p>{t("Filters")}</p>
           <form onSubmit={handleSubmit}>
             {/* Services Filter */}
             <div className="filtertype">
-              <h2>Services</h2>
+              <h2>{t("Services")}</h2>
               {["Electrician", "Plumber", "Carpenter", "Mechanic"].map(
                 (service) => (
                   <div className="option" key={service}>
                     <label htmlFor={service}>
-                      {service.charAt(0).toUpperCase() + service.slice(1)}
+                      {t(service.charAt(0).toUpperCase() + service.slice(1))}
                     </label>
                     <input
                       type="checkbox"
@@ -294,7 +298,7 @@ const UserDashboard = () => {
 
             {/* Rating Filter */}
             <div className="filtertype">
-              <h2>Rating (at least)</h2>
+              <h2>{t("Rating (at least)")}</h2>
               {[5, 4, 3, 2, 1].map((rating) => (
                 <div className="option" key={rating}>
                   <label htmlFor={rating}>
@@ -319,24 +323,24 @@ const UserDashboard = () => {
 
             {/* Radius Filter */}
             <div className="filtertype">
-              <h2>Radius</h2>
+              <h2>{t("Radius")}</h2>
               <Slider
                 aria-label="Restricted values"
                 value={filters.distance}
                 onChange={handleDistanceChange}
                 step={null}
                 valueLabelDisplay="auto"
-                marks={marks}
+                marks={marks.map(mark => ({ ...mark, label: t(mark.label) }))}
                 min={0}
                 max={15}
               />
             </div>
 
-            <button type="submit">Apply Filters</button>
+            <button type="submit">{t("Apply Filters")}</button>
           </form>
         </div>
         <div className="center">
-          <div className="heading">Results for Search</div>
+          <div className="heading">{t("Results for Search")}</div>
           <div className="card-container">
             {loading ? (
               // Show skeleton cards while loading
@@ -350,7 +354,6 @@ const UserDashboard = () => {
               </>
             ) : providerData.length > 0 ? (
               providerData.map((provider, index) => (
-                
                 <Card
                   key={index}
                   providerId={provider.providerId}
@@ -360,35 +363,38 @@ const UserDashboard = () => {
                   workType={provider.providerWorkType}
                   rating={provider.providerRating}
                   phoneNo={provider.providerPhone}
-                  status = {provider.providerStatus}
+                  status={provider.providerStatus}
                   image={provider.photoLink || (provider.providerGender === 'Male' ? "https://randomuser.me/api/portraits/men/9.jpg" : "https://randomuser.me/api/portraits/women/19.jpg")}
                   onClick={() => handleCardClick(provider)}
-                  />
-                
-                
+                />
               ))
             ) : (
-              <p>No providers found</p>
+              <p>{t("No providers found")}</p>
             )}
           </div>
         </div>
-        {firsttimeclick && (
-          <RightComponent
-            name={cardData.providerName}
-            address={cardData.providerAddress}
-            email={cardData.providerEmail}
-            workType={cardData.providerWorkType}
-            rating={cardData.providerRating}
-            phoneNo={cardData.providerPhone}
-            feedback={cardData.providerFeedback}
-            providerId={cardData.providerId}
-            favList={favoriteList}
-            setfavoriteList={setfavoriteList}
-            image={cardData.photoLink || (cardData.providerGender === 'Male' ? "https://randomuser.me/api/portraits/men/9.jpg" : "https://randomuser.me/api/portraits/women/19.jpg")}
-          />
-        )}
+        <div className="right-panel">
+          {loading ? (
+            <SkeletonRightComponent />
+          ) : (
+            firsttimeclick && (
+              <RightComponent
+                name={cardData.providerName}
+                address={cardData.providerAddress}
+                email={cardData.providerEmail}
+                workType={cardData.providerWorkType}
+                rating={cardData.providerRating}
+                phoneNo={cardData.providerPhone}
+                feedback={cardData.providerFeedback}
+                providerId={cardData.providerId}
+                favList={favoriteList}
+                setfavoriteList={setfavoriteList}
+                image={cardData.photoLink || (cardData.providerGender === 'Male' ? "https://randomuser.me/api/portraits/men/9.jpg" : "https://randomuser.me/api/portraits/women/19.jpg")}
+              />
+            )
+          )}
+        </div>
       </div>
-
       <Footer />
     </>
   );
@@ -459,6 +465,8 @@ const RightComponent = ({
 
     }
   }
+  const { t } = useTranslation();
+
   return (
     <div className="right">
       <div className="details">
@@ -473,39 +481,39 @@ const RightComponent = ({
 
         <div className="details-container">
           <div className="detail-type">
-            <h1>Contact Information</h1>
+            <h1>{t("Contact Information")}</h1>
             <div className="detail">
-              <p className="detail-heading">Email : </p>
+              <p className="detail-heading">{t("Email")} : </p>
               <a href={`mailto:${email}`}>{email}</a>
             </div>
             <div className="detail">
-              <p className="detail-heading">Phone : </p>
+              <p className="detail-heading">{t("Phone")} : </p>
               <a href={`tel:${phoneNo}`}>{phoneNo}</a>
             </div>
 
             <div className="detail">
-              <p className="detail-heading">Address : </p>
+              <p className="detail-heading">{t("Address")} : </p>
               <p>{address}</p>
             </div>
           </div>
           <div className="detail-type">
-            <h1>Professional Information</h1>
+            <h1>{t("Professional Information")}</h1>
             <div className="detail">
-              <p className="detail-heading">Service : </p>
+              <p className="detail-heading">{t("Service")} : </p>
               <p>{workType}</p>
             </div>
             <div className="detail">
-              <p className="detail-heading">Experience : </p>
-              <p>5 years</p>
+              <p className="detail-heading">{t("Experience")} : </p>
+              <p>5 {t("years")}</p>
             </div>
             <div className="detail">
-              <p className="detail-heading">Rating : </p>
+              <p className="detail-heading">{t("Rating")} : </p>
               <p>{rating} &#127775;</p>
             </div>
           </div>
 
           <div className="detail-type">
-            <h1>Reviews & Feedbacks</h1>
+            <h1>{t("Reviews & Feedbacks")}</h1>
 
             {feedback.length > 0 ? (
               feedback.map((feedback, index) => (
@@ -516,7 +524,7 @@ const RightComponent = ({
                 />
               ))
             ) : (
-              <p>No feedbacks available</p>
+              <p>{t("No feedbacks available")}</p>
             )}
           </div>
         </div>

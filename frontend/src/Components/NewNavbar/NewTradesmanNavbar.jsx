@@ -20,6 +20,9 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import logo from "../../assets/LandingPageImages/Company-Logo.png";
 
+
+import { useTranslation } from 'react-i18next';
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -60,6 +63,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+
+
+  const {t}=useTranslation();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   
@@ -115,11 +122,11 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       {/* <MenuItem >Profile</MenuItem> */}
-      <MenuItem onClick={updateProfile}>Edit Profile</MenuItem>
+      <MenuItem onClick={updateProfile}>{t("Edit Profile")}</MenuItem>
       {/* <MenuItem onClick={handleHistory}>History</MenuItem> */}
       {/* <MenuItem >Bookmarks</MenuItem> */}
-      <MenuItem >Report a Bug</MenuItem>
-      <MenuItem onClick={handleLogout} sx={{ color: 'red' }}>LogOut</MenuItem>
+      <MenuItem >{t("Report a Bug")}</MenuItem>
+      <MenuItem onClick={handleLogout} sx={{ color: 'red' }}>{t("LogOut")}</MenuItem>
     </Menu>
   );
 

@@ -20,6 +20,8 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { useNavigate } from 'react-router-dom';
 import logo from "../../assets/LandingPageImages/Company-Logo.png";
 
+import { useTranslation } from 'react-i18next';
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -61,6 +63,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+
+  const {t}=useTranslation();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   
@@ -114,8 +119,8 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleSignin}>Sign In</MenuItem>
-      <MenuItem onClick={handleSignup}>Sign Up</MenuItem>
+      <MenuItem onClick={handleSignin}>{t("Sign In")}</MenuItem>
+      <MenuItem onClick={handleSignup}>{t("Sign Up")}</MenuItem>
     </Menu>
   );
 
