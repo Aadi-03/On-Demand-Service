@@ -6,7 +6,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import axios from "axios";
 import available from '../../assets/available.png';
 import unavailable from '../../assets/unavailable.png';
+
+import { useTranslation } from "react-i18next";
+
 const Card = ({ providerId,name, age, distance, workType, rating, phoneNo, status, onClick,image }) => {
+
+    const {t}=useTranslation();
+
+
     const [open,setOpen]=React.useState(false)
     const cardClass = distance ? "card" : "card card--no-distance";
     // console.log(image);
@@ -23,9 +30,9 @@ const Card = ({ providerId,name, age, distance, workType, rating, phoneNo, statu
                         <div className="details">
                             <div className="name-age">
                                 <span className="name">{name}</span>
-                                <span className="age">{age} yrs</span>
+                                <span className="age">{age} {t("yrs")}</span>
                             </div>
-                            {distance && <div className="distance">{distance} km away</div>}
+                            {distance && <div className="distance">{distance} {t("km away")}</div>}
                             <div className="type">
                                 {workType}
                                 <Rating name="half-rating-read" value={rating} precision={0.1} readOnly size="small" />
@@ -36,7 +43,7 @@ const Card = ({ providerId,name, age, distance, workType, rating, phoneNo, statu
                             <span>+91-{phoneNo}</span>
                         </div> */}
                     </div>
-                    <button className="select-worker" onClick={()=>{setOpen(!open)}}>Request Service</button>
+                    <button className="select-worker" onClick={()=>{setOpen(!open)}}>{t("Request Service")}</button>
                 </div>
                 {open && <Input setOpen={setOpen} providerId={providerId} name={name}/>}
             </div>
@@ -45,6 +52,9 @@ const Card = ({ providerId,name, age, distance, workType, rating, phoneNo, statu
 };
 
 const Input = ({setOpen,providerId,name}) => {
+
+    const {t}=useTranslation();
+
     const [title,setTitle]=React.useState();
     const [desc,setDesc]=React.useState();
     const handleSubmit=(e)=>{
@@ -90,13 +100,28 @@ const Input = ({setOpen,providerId,name}) => {
     return (
         <div className="descriptionComponent">
             <div className="description-container">
-                <h3>Enter Description of Task</h3>
+                <h3>{t("Enter Description of Task")}</h3>
                 <form onSubmit={handleSubmit} className="description-form" >
-                    <input type="text" placeholder="Enter the title" onChange={(e)=>setTitle(e.target.value)}/>
-                    <textarea placeholder="Enter Description" onChange={(e)=>setDesc(e.target.value)} name="" id="" cols="30" rows="10"></textarea>
-                    <button type="submit">Submit</button>
+                    <input
+                        type="text"
+                        placeholder={t("Enter the title")}
+                        value={title || ""}
+                        onChange={(e) => setTitle(e.target.value)}
+                        required
+                    />
+                    <textarea
+                        placeholder={t("Enter Description")}
+                        value={desc || ""}
+                        onChange={(e) => setDesc(e.target.value)}
+                        cols="30"
+                        rows="10"
+                        required
+                    ></textarea>
+                    <button type="submit">{t("Submit")}</button>
                 </form>
-                <button className="close-button" onClick={() => { setOpen((c)=>!c) }}>Close</button>
+                <button className="close-button" onClick={() => setOpen(false)}>
+                    {t("Close")}
+                </button>
             </div>
         </div>
     )

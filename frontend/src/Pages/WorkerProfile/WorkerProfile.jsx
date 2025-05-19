@@ -19,7 +19,12 @@ import {
 
 import "./WorkerProfile.css";
 
+import { useTranslation } from "react-i18next";
+
 const WorkerProfile = () => {
+
+const {t}=useTranslation();
+
   const [edit, setEdit] = useState(false);
   const [formData, setFormData] = useState({});
   const [userData, setUserData] = useState({});
@@ -156,10 +161,10 @@ const WorkerProfile = () => {
       <div className="worker-profile-page">
         <div className="profile-container">
           <div className="profile-header">
-            <h1>My Professional Profile</h1>
+            <h1>{t("My Professional Profile")}</h1>
             {!edit && (
               <button className="edit-profile-btn" onClick={handleEdit}>
-                <FaRegEdit /> Edit Profile
+                <FaRegEdit /> {t("Edit Profile")}
               </button>
             )}
           </div>
@@ -178,22 +183,22 @@ const WorkerProfile = () => {
                   {formData.firstName} {formData.lastName}
                 </h2>
                 <div className="profile-occupation">
-                  <FaTools /> {formData.workType || "Professional"}
+                  <FaTools /> {formData.workType || t("Professional")}
                 </div>
                 
                 <div className="profile-badge">
                   <FaStar style={{ marginRight: '5px' }} /> 
-                  {formData.rating ? parseFloat(formData.rating).toFixed(2) : "4.80"} Rating
+                  {formData.rating ? parseFloat(formData.rating).toFixed(2) : "4.80"} {t("Rating")}
                 </div>
                 
                 <div className="profile-stats">
                   <div className="stat-item">
                     <div className="stat-value">{experience}</div>
-                    <div className="stat-label">Experience</div>
+                    <div className="stat-label">{t("Experience")}</div>
                   </div>
                   <div className="stat-item">
                     <div className="stat-value">{jobsCompleted}</div>
-                    <div className="stat-label">Jobs</div>
+                    <div className="stat-label">{t("Jobs")}</div>
                   </div>
                 </div>
               </div>
@@ -203,11 +208,11 @@ const WorkerProfile = () => {
               <form onSubmit={handleSubmit} className="form-container">
                 <div className="form-section">
                   <h3 className="form-section-title">
-                    <FaUser /> Personal Information
+                    <FaUser /> {t("Personal Information")}
                   </h3>
                   <div className="form-row">
                     <div className="form-group">
-                      <label htmlFor="firstName">First Name</label>
+                      <label htmlFor="firstName">{t("First Name")}</label>
                       <input
                         type="text"
                         id="firstName"
@@ -220,7 +225,7 @@ const WorkerProfile = () => {
                     </div>
                     
                     <div className="form-group">
-                      <label htmlFor="lastName">Last Name</label>
+                      <label htmlFor="lastName">{t("Last Name")}</label>
                       <input
                         type="text"
                         id="lastName"
@@ -236,7 +241,7 @@ const WorkerProfile = () => {
                   <div className="form-row">
                     <div className="form-group">
                       <label htmlFor="dob">
-                        <FaCalendarAlt style={{ marginRight: '5px' }} /> Date of Birth
+                        <FaCalendarAlt style={{ marginRight: '5px' }} /> {t("Date of Birth")}
                       </label>
                       <input
                         className={`form-control ${edit ? 'editable' : ''}`}
@@ -253,7 +258,7 @@ const WorkerProfile = () => {
                     
                     <div className="form-group">
                       <label htmlFor="gender">
-                        <FaVenusMars style={{ marginRight: '5px' }} /> Gender
+                        <FaVenusMars style={{ marginRight: '5px' }} /> {t("Gender")}
                       </label>
                       <select
                         id="gender"
@@ -263,10 +268,10 @@ const WorkerProfile = () => {
                         onChange={handleChange}
                         disabled={!edit}
                       >
-                        <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Others">Prefer not to say</option>
+                        <option value="">{t("Select Gender")}</option>
+                        <option value="Male">{t("Male")}</option>
+                        <option value="Female">{t("Female")}</option>
+                        <option value="Others">{t("Prefer not to say")}</option>
                       </select>
                     </div>
                   </div>
@@ -274,11 +279,11 @@ const WorkerProfile = () => {
 
                 <div className="form-section">
                   <h3 className="form-section-title">
-                    <FaPhone /> Contact Details
+                    <FaPhone /> {t("Contact Details")}
                   </h3>
                   <div className="form-row">
                     <div className="form-group">
-                      <label htmlFor="phoneNumber">Phone Number</label>
+                      <label htmlFor="phoneNumber">{t("Phone Number")}</label>
                       <input
                         type="text"
                         id="phoneNumber"
@@ -291,7 +296,7 @@ const WorkerProfile = () => {
                     </div>
                     
                     <div className="form-group">
-                      <label htmlFor="email">Email Address</label>
+                      <label htmlFor="email">{t("Email Address")}</label>
                       <input
                         type="email"
                         id="email"
@@ -306,11 +311,11 @@ const WorkerProfile = () => {
 
                 <div className="form-section">
                   <h3 className="form-section-title">
-                    <FaMapMarkerAlt /> Address Information
+                    <FaMapMarkerAlt /> {t("Address Information")}
                   </h3>
                   <div className="form-row">
                     <div className="form-group">
-                      <label htmlFor="houseNumber">House Number</label>
+                      <label htmlFor="houseNumber">{t("House Number")}</label>
                       <input
                         type="text"
                         id="houseNumber"
@@ -323,7 +328,7 @@ const WorkerProfile = () => {
                     </div>
                     
                     <div className="form-group">
-                      <label htmlFor="streetName">Street Name</label>
+                      <label htmlFor="streetName">{t("Street Name")}</label>
                       <input
                         type="text"
                         id="streetName"
@@ -338,7 +343,7 @@ const WorkerProfile = () => {
 
                   <div className="form-row">
                     <div className="form-group">
-                      <label htmlFor="state">State</label>
+                      <label htmlFor="state">{t("State")}</label>
                       <select
                         id="state"
                         name="state"
@@ -347,49 +352,49 @@ const WorkerProfile = () => {
                         onChange={handleChange}
                         disabled={!edit}
                       >
-                        <option value="">Select state</option>
-                 <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
-                 <option value="Andhra Pradesh">Andhra Pradesh</option>
-                 <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                 <option value="Assam">Assam</option>
-                 <option value="Bihar">Bihar</option>
-                 <option value="Chandigarh">Chandigarh</option>
-                 <option value="Chhattisgarh">Chhattisgarh</option>
-                 <option value="Dadra and Nagar Haveli">Dadra and Nagar Haveli</option>
-                 <option value="Daman and Diu">Daman and Diu</option>
-                 <option value="Delhi">Delhi</option>
-                 <option value="Goa">Goa</option>
-                 <option value="Gujarat">Gujarat</option>
-                 <option value="Haryana">Haryana</option>
-                 <option value="Himachal Pradesh">Himachal Pradesh</option>
-                 <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-                 <option value="Jharkhand">Jharkhand</option>
-                 <option value="Karnataka">Karnataka</option>
-                 <option value="Kerala">Kerala</option>
-                 <option value="Ladakh">Ladakh</option>
-                 <option value="Lakshadweep">Lakshadweep</option>
-                 <option value="Madhya Pradesh">Madhya Pradesh</option>
-                 <option value="Maharashtra">Maharashtra</option>
-                 <option value="Manipur">Manipur</option>
-                 <option value="Meghalaya">Meghalaya</option>
-                 <option value="Mizoram">Mizoram</option>
-                 <option value="Nagaland">Nagaland</option>
-                 <option value="Odisha">Odisha</option>
-                 <option value="Puducherry">Puducherry</option>
-                 <option value="Punjab">Punjab</option>
-                 <option value="Rajasthan">Rajasthan</option>
-                 <option value="Sikkim">Sikkim</option>
-                 <option value="Tamil Nadu">Tamil Nadu</option>
-                 <option value="Telangana">Telangana</option>
-                 <option value="Tripura">Tripura</option>
-                 <option value="Uttar Pradesh">Uttar Pradesh</option>
-                 <option value="Uttarakhand">Uttarakhand</option>
-                 <option value="West Bengal">West Bengal</option>
+                        <option value="">{t("Select state")}</option>
+                        <option value="Andaman and Nicobar Islands">{t("Andaman and Nicobar Islands")}</option>
+                        <option value="Andhra Pradesh">{t("Andhra Pradesh")}</option>
+                        <option value="Arunachal Pradesh">{t("Arunachal Pradesh")}</option>
+                        <option value="Assam">{t("Assam")}</option>
+                        <option value="Bihar">{t("Bihar")}</option>
+                        <option value="Chandigarh">{t("Chandigarh")}</option>
+                        <option value="Chhattisgarh">{t("Chhattisgarh")}</option>
+                        <option value="Dadra and Nagar Haveli">{t("Dadra and Nagar Haveli")}</option>
+                        <option value="Daman and Diu">{t("Daman and Diu")}</option>
+                        <option value="Delhi">{t("Delhi")}</option>
+                        <option value="Goa">{t("Goa")}</option>
+                        <option value="Gujarat">{t("Gujarat")}</option>
+                        <option value="Haryana">{t("Haryana")}</option>
+                        <option value="Himachal Pradesh">{t("Himachal Pradesh")}</option>
+                        <option value="Jammu and Kashmir">{t("Jammu and Kashmir")}</option>
+                        <option value="Jharkhand">{t("Jharkhand")}</option>
+                        <option value="Karnataka">{t("Karnataka")}</option>
+                        <option value="Kerala">{t("Kerala")}</option>
+                        <option value="Ladakh">{t("Ladakh")}</option>
+                        <option value="Lakshadweep">{t("Lakshadweep")}</option>
+                        <option value="Madhya Pradesh">{t("Madhya Pradesh")}</option>
+                        <option value="Maharashtra">{t("Maharashtra")}</option>
+                        <option value="Manipur">{t("Manipur")}</option>
+                        <option value="Meghalaya">{t("Meghalaya")}</option>
+                        <option value="Mizoram">{t("Mizoram")}</option>
+                        <option value="Nagaland">{t("Nagaland")}</option>
+                        <option value="Odisha">{t("Odisha")}</option>
+                        <option value="Puducherry">{t("Puducherry")}</option>
+                        <option value="Punjab">{t("Punjab")}</option>
+                        <option value="Rajasthan">{t("Rajasthan")}</option>
+                        <option value="Sikkim">{t("Sikkim")}</option>
+                        <option value="Tamil Nadu">{t("Tamil Nadu")}</option>
+                        <option value="Telangana">{t("Telangana")}</option>
+                        <option value="Tripura">{t("Tripura")}</option>
+                        <option value="Uttar Pradesh">{t("Uttar Pradesh")}</option>
+                        <option value="Uttarakhand">{t("Uttarakhand")}</option>
+                        <option value="West Bengal">{t("West Bengal")}</option>
                       </select>
                     </div>
                     
                     <div className="form-group">
-                      <label htmlFor="pincode">PIN Code</label>
+                      <label htmlFor="pincode">{t("PIN Code")}</label>
                       <input
                         type="text"
                         id="pincode"
@@ -404,13 +409,13 @@ const WorkerProfile = () => {
 
                   <div className="form-row">
                     <div className="form-group">
-                      <label htmlFor="country">Country</label>
+                      <label htmlFor="country">{t("Country")}</label>
                       <input
                         type="text"
                         id="country"
                         name="country"
                         className="form-control"
-                        value="India"
+                        value={t("India")}
                         readOnly
                       />
                     </div>
@@ -419,11 +424,11 @@ const WorkerProfile = () => {
 
                 <div className="form-section">
                   <h3 className="form-section-title">
-                    <FaBriefcase /> Professional Information
+                    <FaBriefcase /> {t("Professional Information")}
                   </h3>
                   <div className="form-row">
                     <div className="form-group">
-                      <label htmlFor="workType">Specialization</label>
+                      <label htmlFor="workType">{t("Specialization")}</label>
                       <select
                         id="workType"
                         name="workType"
@@ -432,16 +437,16 @@ const WorkerProfile = () => {
                         onChange={handleChange}
                         disabled={!edit}
                       >
-                        <option value="">Select Specialization</option>
-                        <option value="Carpenter">Carpenter</option>
-                        <option value="Plumber">Plumber</option>
-                        <option value="Mechanic">Mechanic</option>
-                        <option value="Electrician">Electrician</option>
+                        <option value="">{t("Select Specialization")}</option>
+                        <option value="Carpenter">{t("Carpenter")}</option>
+                        <option value="Plumber">{t("Plumber")}</option>
+                        <option value="Mechanic">{t("Mechanic")}</option>
+                        <option value="Electrician">{t("Electrician")}</option>
                       </select>
                     </div>
                     
                     <div className="form-group">
-                      <label htmlFor="aadharNumber">Aadhar Card Number</label>
+                      <label htmlFor="aadharNumber">{t("Aadhar Card Number")}</label>
                       <input
                         type="text"
                         id="aadharNumber"
@@ -459,14 +464,14 @@ const WorkerProfile = () => {
                 {edit && (
                   <div className="button-container">
                     <button type="submit" className="btn btn-primary">
-                      <FaSave /> Save Changes
+                      <FaSave /> {t("Save Changes")}
                     </button>
                     <button 
                       type="button" 
                       className="btn btn-danger" 
                       onClick={handleCancel}
                     >
-                      <FaTimes /> Cancel
+                      <FaTimes /> {t("Cancel")}
                     </button>
                   </div>
                 )}

@@ -14,7 +14,12 @@ import {
 import './History.css';
 import ChatBox from '../../Components/Chatbox/Chatbox.jsx';
 
+import { useTranslation } from 'react-i18next';
+
 const History = () => {
+
+const {t}=useTranslation();
+
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('pending');
@@ -76,6 +81,7 @@ const History = () => {
   }, []);
 
   const renderCards = () => {
+    
     if(activeTab === 'all') {
       return (
         <>
@@ -101,7 +107,7 @@ const History = () => {
     <>
       <NewCustomerNavbar />
       <div className="history-page">
-        <h1>History</h1>
+        <h1>{t("History")}</h1>
         <div className="historycontainer">
           {!loading ? (
             <>
@@ -110,37 +116,37 @@ const History = () => {
                   className={`all ${activeTab === 'all' ? 'clicked' : ''}`}
                   onClick={() => setActiveTab('all')}
                 >
-                  <FaListAlt className="tab-icon" /> All
+                  <FaListAlt className="tab-icon" /> {t("All")}
                 </button>
                 <button 
                   className={`partialcompleted ${activeTab === 'partialcompleted' ? 'clicked' : ''}`}
                   onClick={() => setActiveTab('partialcompleted')}
                 >
-                  <FaHourglassHalf className="tab-icon" /> Partial Completed
+                  <FaHourglassHalf className="tab-icon" /> {t("Partial Completed")}
                 </button>
                 <button 
                   className={`pending ${activeTab === 'pending' ? 'clicked' : ''}`}
                   onClick={() => setActiveTab('pending')}
                 >
-                  <FaRegClock className="tab-icon" /> Pending
+                  <FaRegClock className="tab-icon" /> {t("Pending")}
                 </button>
                 <button 
                   className={`unaccepted ${activeTab === 'unaccepted' ? 'clicked' : ''}`}
                   onClick={() => setActiveTab('unaccepted')}
                 >
-                  <FaExclamationTriangle className="tab-icon" /> Unaccepted
+                  <FaExclamationTriangle className="tab-icon" /> {t("Unaccepted")}
                 </button>
                 <button 
                   className={`completed ${activeTab === 'completed' ? 'clicked' : ''}`}
                   onClick={() => setActiveTab('completed')}
                 >
-                  <FaCheck className="tab-icon" /> Completed
+                  <FaCheck className="tab-icon" /> {t("Completed")}
                 </button>
                 <button 
                   className={`rejected ${activeTab === 'rejected' ? 'clicked' : ''}`}
                   onClick={() => setActiveTab('rejected')}
                 >
-                  <FaTimes className="tab-icon" /> Rejected
+                  <FaTimes className="tab-icon" /> {t("Rejected")}
                 </button>
               </div>
               {renderCards()}

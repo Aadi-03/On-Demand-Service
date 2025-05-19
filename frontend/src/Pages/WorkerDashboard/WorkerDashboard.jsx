@@ -9,7 +9,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import available from "../../assets/available.png";
 import unavailable from "../../assets/unavailable.png";
 
+import { useTranslation } from "react-i18next";
+
 const WorkerDashboard = () => {
+  const { t } = useTranslation();
+
   const [profileData, setProfileData] = useState({});
   const [seeDetail, setSeeDetail] = useState({});
   const [ClickedButton, setClickedButton] = useState({
@@ -27,11 +31,11 @@ const WorkerDashboard = () => {
 
   const handleSeeDetail = (taskId) => {
     setSeeDetail((prevState) => {
-        return {
-            [taskId]: !prevState[taskId] || false 
-        };
+      return {
+        [taskId]: !prevState[taskId] || false,
+      };
     });
-};
+  };
 
   const calculateAge = (date) => {
     const birthDate = new Date(date);
@@ -139,11 +143,14 @@ const WorkerDashboard = () => {
       <div className="WorkerDashboard">
         <div className="left-panel">
           <div className="profile">
-            <img src="https://randomuser.me/api/portraits/men/43.jpg" alt="profile not visible" />
+            <img
+              src="https://randomuser.me/api/portraits/men/43.jpg"
+              alt="profile not visible"
+            />
             <h3>
               {profileData.firstName} {profileData.lastName}
             </h3>
-            <p>Tradesman</p>
+            <p>{t("Tradesman")}</p>
           </div>
           <div className="options">
             <p
@@ -151,28 +158,28 @@ const WorkerDashboard = () => {
                 handleClickedButton("profile");
               }}
             >
-              Profile
+              {t("Profile")}
             </p>
             <p
               onClick={() => {
                 handleClickedButton("availableTask");
               }}
             >
-              Available Task
+              {t("Available Task")}
             </p>
             <p
               onClick={() => {
                 handleClickedButton("acceptedTask");
               }}
             >
-              Accepted Task
+              {t("Accepted Task")}
             </p>
             <p
               onClick={() => {
                 handleClickedButton("completedTask");
               }}
             >
-              Completed Task
+              {t("Completed Task")}
             </p>
           </div>
         </div>
@@ -180,17 +187,17 @@ const WorkerDashboard = () => {
           {ClickedButton["profile"] && (
             <div className="profile">
               <div className="status-container">
-                <h2>Hi {profileData.firstName} !</h2>
+                <h2>
+                  {t("Hi")} {profileData.firstName} !
+                </h2>
                 <select
                   className="status"
                   value={profileData.available ? "available" : "unavailable"}
                   onChange={(e) => {
                     const newStatus = e.target.value === "available";
 
-                    // Update local state immediately for better UX
                     setProfileData({ ...profileData, available: newStatus });
 
-                    // Prepare API request data
                     let data = JSON.stringify({
                       available: newStatus,
                     });
@@ -208,91 +215,89 @@ const WorkerDashboard = () => {
                       data: data,
                     };
 
-                    // Make the API request
                     axios
                       .request(config)
                       .then((response) => {
                         toast.success(
-                          `Status updated to ${
-                            newStatus ? "Available" : "Unavailable"
-                          }`
+                          t("Status updated to") +
+                            " " +
+                            (newStatus ? t("Available") : t("Unavailable"))
                         );
                         console.log(response.data);
                       })
                       .catch((error) => {
                         console.error(error);
-                        // Revert the UI change if the API call fails
                         setProfileData({
                           ...profileData,
                           available: !newStatus,
                         });
-                        toast.error("Failed to update status");
+                        toast.error(t("Failed to update status"));
                       });
                   }}
                 >
                   <option value="available" className="available">
-                    Available
+                    {t("Available")}
                   </option>
                   <option value="unavailable" className="unavailable">
-                    Unavailable
+                    {t("Unavailable")}
                   </option>
                 </select>
               </div>
-              <h3>Welcome to your profile section</h3>
+              <h3>{t("Welcome to your profile section")}</h3>
               <div className="worker-detail">
-                <b>Full Name</b>
+                <b>{t("Full Name")}</b>
                 <p>
                   {profileData.firstName} {profileData.lastName}
                 </p>
               </div>
               <div className="worker-detail">
-                <b>Email</b>
+                <b>{t("Email")}</b>
                 <p>{profileData.email}</p>
               </div>
               <div className="worker-detail">
-                <b>Phone Number</b>
+                <b>{t("Phone Number")}</b>
                 <p>{profileData.phoneNumber}</p>
               </div>
               <div className="worker-detail">
-                <b>Address</b>
+                <b>{t("Address")}</b>
                 <p>
                   {profileData.address
                     ? `${profileData.address.houseNumber}, ${profileData.address.streetName}, ${profileData.address.state}, ${profileData.address.country}, ${profileData.address.pincode}`
-                    : "Address loading..."}
+                    : t("Address loading...")}
                 </p>
               </div>
               <div className="worker-detail">
-                <b>Date of Birth</b>
+                <b>{t("Date of Birth")}</b>
                 <p>{profileData.dob ? formatDate(profileData.dob) : ""}</p>
               </div>
               <div className="worker-detail">
-                <b>Age</b>
+                <b>{t("Age")}</b>
                 <p>{calculateAge(profileData.dob)}</p>
               </div>
               <div className="worker-detail">
-                <b>Aadhar Card Number</b>
+                <b>{t("Aadhar Card Number")}</b>
                 <p>{maskAadharNumber(profileData.aadharNumber)}</p>
               </div>
               <div className="worker-detail">
-                <b>Experience</b>
-                <p>5 years</p>
+                <b>{t("Experience")}</b>
+                <p>5 {t("years")}</p>
               </div>
               <div className="worker-detail">
-                <b>Skills</b>
+                <b>{t("Skills")}</b>
                 <p>{profileData.workType}</p>
               </div>
               <div className="worker-detail">
-                <b>Rating</b>
+                <b>{t("Rating")}</b>
                 <p>{profileData.rating?.toFixed(2)} &#127775;</p>
               </div>
             </div>
           )}
           {ClickedButton["acceptedTask"] && (
             <div className="accepted-task">
-              <h2>Accepted Task</h2>
+              <h2>{t("Accepted Task")}</h2>
               {tasks?.acceptedTask?.map((task) => {
                 return (
-                  <div className="Task-Card">
+                  <div className="Task-Card" key={task.id}>
                     <div className="task-details">
                       <h3>
                         {task?.askedBy?.firstName} {task?.askedBy?.lastName}
@@ -311,9 +316,9 @@ const WorkerDashboard = () => {
                           handleSeeDetail(task.id);
                         }}
                       >
-                        {seeDetail[value] && value == task.id
-                          ? "Close Detail"
-                          : "See Detail"}
+                        {seeDetail[value] && value === task.id
+                          ? t("Close Detail")
+                          : t("See Detail")}
                       </button>
 
                       <button
@@ -338,14 +343,15 @@ const WorkerDashboard = () => {
                           async function makeRequest() {
                             try {
                               const response = await axios.request(config);
-                              // console.log(JSON.stringify(response.data));
                               if (response.data.error) {
                                 toast.error(response.data.error);
                               } else {
                                 toast.success(
-                                  "Task " +
+                                  t("Task") +
+                                    " " +
                                     task.taskName +
-                                    " Completed Successfully"
+                                    " " +
+                                    t("Completed Successfully")
                                 );
                                 setTasks((prevTasks) => ({
                                   ...prevTasks,
@@ -362,10 +368,10 @@ const WorkerDashboard = () => {
                           makeRequest();
                         }}
                       >
-                        Complete
+                        {t("Complete")}
                       </button>
                     </div>
-                    {seeDetail[value] && value == task.id && (
+                    {seeDetail[value] && value === task.id && (
                       <div className="Task-description">
                         {task?.description}
                       </div>
@@ -378,10 +384,10 @@ const WorkerDashboard = () => {
 
           {ClickedButton["availableTask"] && (
             <div className="available-task">
-              <h2>Available Task</h2>
+              <h2>{t("Available Task")}</h2>
               {tasks?.availableTask?.map((task) => {
                 return (
-                  <div className="Task-Card">
+                  <div className="Task-Card" key={task.id}>
                     <div className="task-details">
                       <h3>
                         {task?.askedBy?.firstName} {task?.askedBy?.lastName}
@@ -400,9 +406,9 @@ const WorkerDashboard = () => {
                           handleSeeDetail(task.id);
                         }}
                       >
-                        {seeDetail[value] && value == task.id
-                          ? "Close Detail"
-                          : "See Detail"}
+                        {seeDetail[value] && value === task.id
+                          ? t("Close Detail")
+                          : t("See Detail")}
                       </button>
                       <button
                         onClick={() => {
@@ -426,14 +432,15 @@ const WorkerDashboard = () => {
                           async function makeRequest() {
                             try {
                               const response = await axios.request(config);
-                              // console.log(JSON.stringify(response.data));
                               if (response.data.error) {
                                 toast.error(response.data.error);
                               } else {
                                 toast.success(
-                                  "Task " +
+                                  t("Task") +
+                                    " " +
                                     task.taskName +
-                                    " Accepted Successfully"
+                                    " " +
+                                    t("Accepted Successfully")
                                 );
                                 setTasks((prevTasks) => ({
                                   ...prevTasks,
@@ -450,7 +457,7 @@ const WorkerDashboard = () => {
                           makeRequest();
                         }}
                       >
-                        Accept
+                        {t("Accept")}
                       </button>
 
                       <button
@@ -475,14 +482,15 @@ const WorkerDashboard = () => {
                           async function makeRequest() {
                             try {
                               const response = await axios.request(config);
-                              // console.log(JSON.stringify(response.data));
                               if (response.data.error) {
                                 toast.error(response.data.error);
                               } else {
                                 toast.success(
-                                  "Task " +
+                                  t("Task") +
+                                    " " +
                                     task.taskName +
-                                    " Rejected Successfully"
+                                    " " +
+                                    t("Rejected Successfully")
                                 );
                                 setTasks((prevTasks) => ({
                                   ...prevTasks,
@@ -499,10 +507,10 @@ const WorkerDashboard = () => {
                           makeRequest();
                         }}
                       >
-                        Reject
+                        {t("Reject")}
                       </button>
                     </div>
-                    {seeDetail[value] && value == task?.id && (
+                    {seeDetail[value] && value === task?.id && (
                       <div className="Task-description">
                         {task?.description}
                       </div>
@@ -515,10 +523,10 @@ const WorkerDashboard = () => {
 
           {ClickedButton["completedTask"] && (
             <div className="completed-task">
-              <h2>Completed Task</h2>
+              <h2>{t("Completed Task")}</h2>
               {tasks?.completedTask?.map((task) => {
                 return (
-                  <div className="Task-Card">
+                  <div className="Task-Card" key={task.id}>
                     <div className="task-details">
                       <h3>
                         {task?.askedBy?.firstName} {task?.askedBy?.lastName}
@@ -532,61 +540,69 @@ const WorkerDashboard = () => {
                       <p>{task?.taskName}</p>
                       <p>{formatDate(task?.updatedAt)}</p>
                       {!task.completed && (
-  <button
-    onClick={()=>{
-      console.log(task);
-      
-      let data = JSON.stringify({
-        "orderId": task.id
-      });
-      
-      let config = {
-        method: 'patch',
-        maxBodyLength: Infinity,
-        url: 'http://localhost:5000/provider/auth/redoOrder',
-        headers: { 
-          'Authorization': 'bearer ' + localStorage.getItem("providerToken"),
-          'Content-Type': 'application/json'
-        },
-        data : data
-      };
-      
-      async function makeRequest() {
-        try {
-          const response = await axios.request(config);
-          // console.log(JSON.stringify(response.data));
-          if(response.data.error){
-            toast.error(response.data.error);
-          } else {
-            toast.success("Task " + task.taskName + " ReDo Successfully");
-            setTasks((prevTasks) => ({
-              ...prevTasks,
-              completedTask: prevTasks.completedTask.filter(t => t.id !== task.id)
-            }));
-          }
-        }
-        catch (error) {
-          console.log(error);
-        }
-      }
-      
-      makeRequest();
-    }}>
-      ReDo
-  </button>
-)}
+                        <button
+                          onClick={() => {
+                            let data = JSON.stringify({
+                              orderId: task.id,
+                            });
+
+                            let config = {
+                              method: "patch",
+                              maxBodyLength: Infinity,
+                              url: "http://localhost:5000/provider/auth/redoOrder",
+                              headers: {
+                                Authorization:
+                                  "bearer " +
+                                  localStorage.getItem("providerToken"),
+                                "Content-Type": "application/json",
+                              },
+                              data: data,
+                            };
+
+                            async function makeRequest() {
+                              try {
+                                const response = await axios.request(config);
+                                if (response.data.error) {
+                                  toast.error(response.data.error);
+                                } else {
+                                  toast.success(
+                                    t("Task") +
+                                      " " +
+                                      task.taskName +
+                                      " " +
+                                      t("ReDo Successfully")
+                                  );
+                                  setTasks((prevTasks) => ({
+                                    ...prevTasks,
+                                    completedTask:
+                                      prevTasks.completedTask.filter(
+                                        (t) => t.id !== task.id
+                                      ),
+                                  }));
+                                }
+                              } catch (error) {
+                                console.log(error);
+                              }
+                            }
+
+                            makeRequest();
+                          }}
+                        >
+                          {t("ReDo")}
+                        </button>
+                      )}
                       <button
                         onClick={() => {
                           setValue(task?.id);
                           handleSeeDetail(task?.id);
                         }}
                       >
-                        {seeDetail[value] && value == task?.id
-                          ? "Close Detail"
-                          : "See Detail"}
+                        {seeDetail[value] && value === task?.id
+                          ? t("Close Detail")
+                          : t("See Detail")}
                       </button>
                     </div>
-                    {seeDetail[value] && value == task?.id && (
+                    {seeDetail[value] && value === task?.id && (
                       <div className="Task-description">
                         {task?.description}
                       </div>
