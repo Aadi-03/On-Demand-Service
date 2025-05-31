@@ -1,17 +1,14 @@
-import React, { useEffect, useState, useRef } from 'react';
+import  { useEffect, useState, useRef } from 'react';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:5000'); // use your backend URL here
+const socket = io('http://localhost:5000');
 
 const ChatBox = ({ customerId, workerId }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-  const roomId = `${customerId}_${workerId}`;
-  const messageEndRef = useRef(null);
+
 
   useEffect(() => {
-    socket.emit('joinRoom', { roomId });
-
     socket.on('receiveMessage', (message) => {
       setMessages((prev) => [...prev, message]);
     });
@@ -19,11 +16,7 @@ const ChatBox = ({ customerId, workerId }) => {
     return () => {
       socket.off('receiveMessage');
     };
-  }, [roomId]);
-
-  useEffect(() => {
-    messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, []);
 
   const handleSend = () => {
     if (input.trim()) {
@@ -33,8 +26,8 @@ const ChatBox = ({ customerId, workerId }) => {
         timestamp: new Date().toISOString()
       };
 
-      socket.emit('sendMessage', { roomId, message });
-      setMessages((prev) => [...prev, message]);
+      socket.emit('sendMessage', { message });
+      // setMessages((prev) => [...prev, message]);
       setInput('');
     }
   };
@@ -47,7 +40,7 @@ const ChatBox = ({ customerId, workerId }) => {
             <span>{msg.text}</span>
           </div>
         ))}
-        <div ref={messageEndRef} />
+        <div  />
       </div>
       <div style={styles.inputBox}>
         <input
@@ -66,10 +59,10 @@ const styles = {
   chatContainer: {
     display: 'flex',
     flexDirection: 'column',
-    width: '800px',
+    width: '100%',
     height: '400px',
     border: '1px solid #ccc',
-    borderRadius: '8px',
+    borderRadius: '0px 0px 10px 10px',
     overflow: 'hidden'
   },
   chatBox: {
@@ -97,7 +90,7 @@ const styles = {
     borderRadius: '4px',
     backgroundColor: '#007bff',
     color: '#fff',
-    border: 'none'
+    border: 'none',
   },
   myMessage: {
     textAlign: 'right',
