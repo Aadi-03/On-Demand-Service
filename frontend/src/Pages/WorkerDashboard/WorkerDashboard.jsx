@@ -8,8 +8,9 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import available from "../../assets/available.png";
 import unavailable from "../../assets/unavailable.png";
-
+import {Link} from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import chat_icon from "../../assets/chat_icon.png";
 
 const WorkerDashboard = () => {
   const { t } = useTranslation();
@@ -28,6 +29,15 @@ const WorkerDashboard = () => {
   const [value, setValue] = useState();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleChatClickButton = (task) => {
+    console.log("Chat button clicked for task:", task);
+    navigate("/provider/dashboard/ChatWithCustomer", {
+      state: {
+        taskId: task.id
+      }
+    });
+  };
 
   const handleSeeDetail = (taskId) => {
     setSeeDetail((prevState) => {
@@ -64,7 +74,7 @@ const WorkerDashboard = () => {
     try {
       let result = await axios.request(config);
       setTasks(result.data);
-      // console.log(result.data);
+      // console.log(result.data["acceptedTask"]);
     } catch (err) {
       console.log(err);
     }
@@ -298,84 +308,91 @@ const WorkerDashboard = () => {
               {tasks?.acceptedTask?.map((task) => {
                 return (
                   <div className="Task-Card" key={task.id}>
-                    <div className="task-details">
-                      <h3>
-                        {task?.askedBy?.firstName} {task?.askedBy?.lastName}
-                      </h3>
-                      <p>
-                        {task?.askedBy?.address?.houseNumber}{" "}
-                        {task?.askedBy?.address?.streetName}{" "}
-                        {task?.askedBy?.address?.state}{" "}
-                        {task?.askedBy?.address?.country}
-                      </p>
-                      <p>{task?.taskName}</p>
-                      <p>{formatDate(task?.updatedAt)}</p>
-                      <button
-                        onClick={() => {
-                          setValue(task.id);
-                          handleSeeDetail(task.id);
-                        }}
-                      >
-                        {seeDetail[value] && value === task.id
-                          ? t("Close Detail")
-                          : t("See Detail")}
-                      </button>
+                  <div className="task-details">
+                    <h3>
+                    {task?.askedBy?.firstName} {task?.askedBy?.lastName}
+                    </h3>
+                    <p>
+                    {task?.askedBy?.address?.houseNumber}{" "}
+                    {task?.askedBy?.address?.streetName}{" "}
+                    {task?.askedBy?.address?.state}{" "}
+                    {task?.askedBy?.address?.country}
+                    </p>
+                    <p>{task?.taskName}</p>
+                    <p>{formatDate(task?.updatedAt)}</p>
+                    <button
+                    onClick={() => {
+                      setValue(task.id);
+                      handleSeeDetail(task.id);
+                    }}
+                    >
+                    {seeDetail[value] && value === task.id
+                      ? t("Close Detail")
+                      : t("See Detail")}
+                    </button>
 
-                      <button
-                        onClick={() => {
-                          let data = JSON.stringify({
-                            orderId: task.id,
-                          });
+                    <button
+                    onClick={() => {
+                      let data = JSON.stringify({
+                      orderId: task.id,
+                      });
 
-                          let config = {
-                            method: "patch",
-                            maxBodyLength: Infinity,
-                            url: "http://localhost:5000/provider/auth/completeOrder",
-                            headers: {
-                              Authorization:
-                                "bearer " +
-                                localStorage.getItem("providerToken"),
-                              "Content-Type": "application/json",
-                            },
-                            data: data,
-                          };
+                      let config = {
+                      method: "patch",
+                      maxBodyLength: Infinity,
+                      url: "http://localhost:5000/provider/auth/completeOrder",
+                      headers: {
+                        Authorization:
+                        "bearer " +
+                        localStorage.getItem("providerToken"),
+                        "Content-Type": "application/json",
+                      },
+                      data: data,
+                      };
 
-                          async function makeRequest() {
-                            try {
-                              const response = await axios.request(config);
-                              if (response.data.error) {
-                                toast.error(response.data.error);
-                              } else {
-                                toast.success(
-                                  t("Task") +
-                                    " " +
-                                    task.taskName +
-                                    " " +
-                                    t("Completed Successfully")
-                                );
-                                setTasks((prevTasks) => ({
-                                  ...prevTasks,
-                                  acceptedTask: prevTasks.acceptedTask.filter(
-                                    (t) => t.id !== task.id
-                                  ),
-                                }));
-                              }
-                            } catch (error) {
-                              console.log(error);
-                            }
-                          }
+                      async function makeRequest() {
+                      try {
+                        const response = await axios.request(config);
+                        if (response.data.error) {
+                        toast.error(response.data.error);
+                        } else {
+                        toast.success(
+                          t("Task") +
+                          " " +
+                          task.taskName +
+                          " " +
+                          t("Completed Successfully")
+                        );
+                        setTasks((prevTasks) => ({
+                          ...prevTasks,
+                          acceptedTask: prevTasks.acceptedTask.filter(
+                          (t) => t.id !== task.id
+                          ),
+                        }));
+                        }
+                      } catch (error) {
+                        console.log(error);
+                      }
+                      }
 
-                          makeRequest();
-                        }}
-                      >
-                        {t("Complete")}
-                      </button>
+                      makeRequest();
+                    }}
+                    >
+                    {t("Complete")}
+                    </button>
+                    <div id="WorkerChatButton">
+                      <img 
+                      src={chat_icon} 
+                      alt="chat" 
+                      onClick={() => handleChatClickButton(task)} 
+                      />
                     </div>
-                    {seeDetail[value] && value === task.id && (
-                      <div className="Task-description">
-                        {task?.description}
-                      </div>
-                    )}
+                  </div>
+                  {seeDetail[value] && value === task.id && (
+                    <div className="Task-description">
+                    {task?.description}
+                    </div>
+                  )}
                   </div>
                 );
               })}

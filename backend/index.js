@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import customerRoute from './routes/customer.js';
 import providerRoute from './routes/provider.js';
+import chatRoute from './routes/chat.js';
 import http from 'http';
 import { Server } from 'socket.io';
 
@@ -13,6 +14,7 @@ app.use(cors());
 
 app.use('/customer', customerRoute);
 app.use('/provider', providerRoute);
+app.use('/chat',chatRoute );
 
 app.get('/', (req, res) => {
   res.send('Hello World!');

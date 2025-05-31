@@ -31,18 +31,35 @@ export const acceptOrder = async (req, res) => {
         if (!orderId) {
             return res.status(200).json({ error: "All mandatory fields must be provided" });
         }
-        const order = await prisma.order.update({
-            where: {
-                id: orderId,
-                doneById: req.providerId,
-                state: OrderState.AVAILABLE,
-            },
-            data: {
-                state: OrderState.PENDING,
-            }
+        
+        // Use a transaction to ensure both the order update and chat creation succeed or fail together
+        const result = await prisma.$transaction(async (prismaClient) => {
+            // First update the order status
+            const order = await prismaClient.order.update({
+                where: {
+                    id: orderId,
+                    doneById: req.providerId,
+                    state: OrderState.AVAILABLE,
+                },
+                data: {
+                    state: OrderState.PENDING,
+                }
+            });
+            
+            // Then create a new chat for this order with empty messages
+            const chat = await prismaClient.chat.create({
+                data: {
+                    taskId: orderId,
+                    messages: [] // Empty array for messages
+                }
+            });
+            
+            return { order, chat };
         });
-        res.status(200).json({order});
+        
+        res.status(200).json(result);
     } catch (error) {
+        console.error("Error in acceptOrder:", error);
         res.status(200).json({ error: "Internal Server Error" });
     }
 }

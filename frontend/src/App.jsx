@@ -20,7 +20,7 @@ import Favorites from "./Pages/Favorites/Favorites.jsx";
 import CustomerProfile from "./Pages/Profile/Profile.jsx";
 
 import WorkerProfile from "./Pages/WorkerProfile/WorkerProfile.jsx"
-
+import WorkerChatPage from "./Pages/WorkerChatPage/WorkerChatPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -72,7 +72,11 @@ const router = createBrowserRouter([
   {
     path:"/provider/dashboard/updateprofile",
     element:<WorkerProfile/>
-  }
+  },
+  {
+    path : "/provider/dashboard/ChatWithCustomer",
+    element: <WorkerChatPage />
+  },
 ]);
 
 const App = () => {

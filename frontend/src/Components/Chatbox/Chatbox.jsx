@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 
 const socket = io('http://localhost:5000');
 
-const ChatBox = ({ customerId, workerId }) => {
+const ChatBox = ({ taskId}) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
 
@@ -21,10 +21,11 @@ const ChatBox = ({ customerId, workerId }) => {
   const handleSend = () => {
     if (input.trim()) {
       const message = {
-        senderId: customerId,
+        taskId : taskId,
         text: input,
         timestamp: new Date().toISOString()
       };
+
 
       socket.emit('sendMessage', { message });
       // setMessages((prev) => [...prev, message]);
@@ -36,7 +37,7 @@ const ChatBox = ({ customerId, workerId }) => {
     <div style={styles.chatContainer}>
       <div style={styles.chatBox}>
         {messages.map((msg, index) => (
-          <div key={index} style={msg.senderId === customerId ? styles.myMessage : styles.theirMessage}>
+          <div key={index} >
             <span>{msg.text}</span>
           </div>
         ))}

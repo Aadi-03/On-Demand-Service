@@ -69,6 +69,7 @@ model Order {
   askedBy     Customer   @relation("CustomerOrders", fields: [askedById], references: [id])
   askedById   String     @db.ObjectId
   completed   Boolean    @default(false)
+   chat        Chat?      @relation 
   feedback    Feedback?  @relation // Optional side of the relation
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
@@ -105,4 +106,13 @@ enum OrderState {
   PENDING
   COMPLETED
   REJECTED
+}
+
+model Chat {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  task      Order    @relation(fields: [taskId], references: [id])
+  taskId    String   @unique @db.ObjectId
+  messages  Json     // Array of message objects
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

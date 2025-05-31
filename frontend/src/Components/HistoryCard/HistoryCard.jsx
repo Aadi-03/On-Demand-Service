@@ -178,7 +178,7 @@ const HistoryCard = ({
       </div>
       {showChat && ['pending','partialcompleted'].includes(tab) &&  (
         <Chatwindow
-          setShowChat={setShowChat}
+          taskId={order.orderId}
         />
       )}
     </div>
@@ -291,14 +291,12 @@ const Feedback = ({
 };
 
 
-const Chatwindow = ({ setShowChat }) => {
+const Chatwindow = ({ taskId }) => {
   const {t}=useTranslation();
   return (
     <div className="chat-window">
       <h2>{t("Chat with worker")}</h2>
-      <ChatBox/>
-      
-
+      <ChatBox taskId={taskId}/>
     </div>
   );
 }
