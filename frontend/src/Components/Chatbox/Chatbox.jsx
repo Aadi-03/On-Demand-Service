@@ -1,15 +1,31 @@
 import  { useEffect, useState, useRef } from 'react';
 import io from 'socket.io-client';
+import axios from "axios";
+import './Chatbox.css';
 
 const socket = io('http://localhost:5000');
 
-const ChatBox = ({ taskId}) => {
+const ChatBox = ({ taskId }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
+
+     async function fetchMessages() {
+      try {
+        const response = await axios.get(`http://localhost:5000/chat/${taskId}`);
+         console.log(response?.data?.chat?.messages);
+        setMessages(response?.data?.chat?.messages);
+      }
+      catch(err)
+      {
+        console.error('Error fetching messages:', err);
+      }
+    }
+    fetchMessages();
     socket.on('receiveMessage', (message) => {
+
       setMessages((prev) => [...prev, message]);
     });
 
@@ -25,6 +41,38 @@ const ChatBox = ({ taskId}) => {
         text: input,
         timestamp: new Date().toISOString()
       };
+            
+
+      
+let data = JSON.stringify({
+  "taskId": taskId,
+  "message": {
+    "senderType": "Customer",
+    "text": message.text
+  }
+});
+
+let config = {
+  method: 'post',
+  maxBodyLength: Infinity,
+  url: 'http://localhost:5000/chat',
+  headers: { 
+    'Content-Type': 'application/json'
+  },
+  data : data
+};
+
+async function makeRequest() {
+  try {
+    const response = await axios.request(config);
+    console.log(JSON.stringify(response.data));
+  }
+  catch (error) {
+    console.log(error);
+  }
+}
+
+makeRequest();
 
 
       socket.emit('sendMessage', { message });
@@ -34,79 +82,33 @@ const ChatBox = ({ taskId}) => {
   };
 
   return (
-    <div style={styles.chatContainer}>
-      <div style={styles.chatBox}>
-        {messages.map((msg, index) => (
-          <div key={index} >
-            <span>{msg.text}</span>
+    <div className="chat-container">
+      <div className="chat-box">
+        {messages?.map((msg, index) => (
+          <div 
+            key={index} 
+            className="message-container"
+            style={{
+              justifyContent: msg.senderType === 'Customer' ? 'flex-end' : 'flex-start'
+            }}
+          >
+            <div className={msg.senderType === 'Customer' ? 'my-message' : 'their-message'}>
+              {msg.text}
+            </div>
           </div>
         ))}
-        <div  />
       </div>
-      <div style={styles.inputBox}>
+      <div className="input-box">
         <input
-          style={styles.input}
+          className="input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your message..."
         />
-        <button style={styles.button} onClick={handleSend}>Send</button>
+        <button className="button" onClick={handleSend}>Send</button>
       </div>
     </div>
   );
-};
-
-const styles = {
-  chatContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    height: '400px',
-    border: '1px solid #ccc',
-    borderRadius: '0px 0px 10px 10px',
-    overflow: 'hidden'
-  },
-  chatBox: {
-    flex: 1,
-    padding: '10px',
-    height: '300px',
-    overflowY: 'auto',
-    backgroundColor: '#f9f9f9'
-  },
-  inputBox: {
-    display: 'flex',
-    borderTop: '1px solid #ccc',
-    padding: '10px',
-    backgroundColor: '#fff'
-  },
-  input: {
-    flex: 1,
-    padding: '8px',
-    borderRadius: '4px',
-    border: '1px solid #ccc'
-  },
-  button: {
-    marginLeft: '8px',
-    padding: '8px 12px',
-    borderRadius: '4px',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    border: 'none',
-  },
-  myMessage: {
-    textAlign: 'right',
-    margin: '5px 0',
-    backgroundColor: '#d1e7dd',
-    padding: '5px 10px',
-    borderRadius: '10px'
-  },
-  theirMessage: {
-    textAlign: 'left',
-    margin: '5px 0',
-    backgroundColor: '#f8d7da',
-    padding: '5px 10px',
-    borderRadius: '10px'
-  }
 };
 
 export default ChatBox;
