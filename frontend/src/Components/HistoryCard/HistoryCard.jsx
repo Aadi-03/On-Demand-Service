@@ -78,7 +78,7 @@ const HistoryCard = ({
   };
 
   return (
-    <>
+    <div className ="history-card-container">
       <ToastContainer position="bottom-right" autoClose={3000} />
       <div className={`historycard ${tab}`}>
         {!showFeedback && (
@@ -155,11 +155,13 @@ const HistoryCard = ({
           )}
           {["pending", "partialcompleted"].includes(tab) && !showFeedback && (
             <button
-              className="Chat"
+            
+              className={showChat ? "Close" : "Chat"}
+              
               onClick={() =>
                 setShowChat(!showChat)
               }
-            ><IoIosChatbubbles className="btn-icon" />{t("Chat With Worker")}</button>
+            ><IoIosChatbubbles className="btn-icon" />{showChat == true ? t("Close Chat"):t("Chat With Worker")}</button>
           )}
         </div>
 
@@ -174,12 +176,12 @@ const HistoryCard = ({
           />
         )}
       </div>
-      {showChat && (
+      {showChat && ['pending','partialcompleted'].includes(tab) &&  (
         <Chatwindow
           setShowChat={setShowChat}
         />
       )}
-    </>
+    </div>
   );
 };
 
@@ -295,9 +297,7 @@ const Chatwindow = ({ setShowChat }) => {
     <div className="chat-window">
       <h2>{t("Chat with worker")}</h2>
       <ChatBox/>
-      <button className="Close" onClick={() => setShowChat(false)}>
-        <FaTimesCircle className="btn-icon" />
-      </button>
+      
 
     </div>
   );
