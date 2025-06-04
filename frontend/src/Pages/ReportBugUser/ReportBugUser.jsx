@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import emailjs from "@emailjs/browser";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./ReportBugUser.css";
 import NewNavbar from "../../Components/NewNavbar/NewCustomerNavbar.jsx";
 import Footer from "../../Components/Footer/Footer.jsx";
+
+// Icons for better UX
+import { FaBug, FaPaperPlane, FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 const ReportBugUser = () => {
   const [bugReport, setBugReport] = useState({
@@ -12,6 +18,8 @@ const ReportBugUser = () => {
     deviceInfo: "",
     email: "",
   });
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -21,8 +29,36 @@ const ReportBugUser = () => {
     }));
   };
 
+  // Auto-fill device info
+  const autoFillDeviceInfo = () => {
+    const userAgent = navigator.userAgent;
+    const platform = navigator.platform;
+    const deviceInfo = `${platform} - ${userAgent.split('(')[1]?.split(')')[0] || 'Unknown'} - ${userAgent.match(/Chrome\/[\d.]+|Firefox\/[\d.]+|Safari\/[\d.]+|Edge\/[\d.]+/)?.[0] || 'Unknown Browser'}`;
+    
+    setBugReport(prev => ({
+      ...prev,
+      deviceInfo: deviceInfo
+    }));
+    
+    toast.info("Device information auto-filled!", {
+      position: "bottom-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+
+    // Show loading toast
+    const loadingToast = toast.loading("Submitting your bug report...", {
+      position: "bottom-right",
+    });
+
     try {
       await emailjs.send(
         `${import.meta.env.VITE_APP_EMAIL_SERVER_ID}`,
@@ -33,12 +69,28 @@ const ReportBugUser = () => {
                         Description: ${bugReport.description}
                         Severity: ${bugReport.severity}
                         Device Info: ${bugReport.deviceInfo}
-                        Email: ${bugReport.email}`,
+                        Email: ${bugReport.email}
+                        Reported At: ${new Date().toLocaleString()}`,
         },
         `${import.meta.env.VITE_APP_EMAIL_PUBLIC_KEY}`
       );
 
-      alert("Bug report sent successfully!");
+      // Dismiss loading toast and show success
+      toast.dismiss(loadingToast);
+      toast.success("🐛 Bug report submitted successfully! We'll review it soon.", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        style: {
+          background: "linear-gradient(135deg, #48bb78 0%, #38a169 100%)",
+          color: "white",
+        },
+      });
+
+      // Reset form
       setBugReport({
         title: "",
         description: "",
@@ -46,9 +98,41 @@ const ReportBugUser = () => {
         deviceInfo: "",
         email: "",
       });
+
     } catch (error) {
       console.error("Error sending bug report:", error);
-      alert("Failed to send bug report. Please try again.");
+      
+      // Dismiss loading toast and show error
+      toast.dismiss(loadingToast);
+      toast.error("❌ Failed to submit bug report. Please try again or contact support.", {
+        position: "bottom-right",
+        autoClose: 7000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        style: {
+          background: "linear-gradient(135deg, #f56565 0%, #e53e3e 100%)",
+          color: "white",
+        },
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const getSeverityIcon = (severity) => {
+    switch (severity) {
+      case 'critical':
+        return <FaExclamationTriangle style={{ color: '#e53e3e' }} />;
+      case 'high':
+        return <FaExclamationTriangle style={{ color: '#f56565' }} />;
+      case 'medium':
+        return <FaExclamationTriangle style={{ color: '#ed8936' }} />;
+      case 'low':
+        return <FaCheckCircle style={{ color: '#48bb78' }} />;
+      default:
+        return <FaBug />;
     }
   };
 
@@ -58,14 +142,18 @@ const ReportBugUser = () => {
       <div className="bug-report">
         <div className="bug-report__wrapper">
           <div className="bug-report__container">
-            <h1 className="bug-report__title">Report a Bug</h1>
+            <div className="bug-report__header">
+              <FaBug className="bug-report__icon" />
+              <h1 className="bug-report__title">Report a Bug</h1>
+            </div>
             <p className="bug-report__subtitle">
-              Help us improve by reporting bugs you encounter
+              Help us improve by reporting bugs you encounter. Your feedback makes our platform better!
             </p>
+            
             <form onSubmit={handleSubmit} className="bug-report__form">
               <div className="bug-report__form-group">
                 <label htmlFor="title" className="bug-report__label">
-                  Bug Title
+                  Bug Title *
                 </label>
                 <input
                   type="text"
@@ -74,14 +162,18 @@ const ReportBugUser = () => {
                   value={bugReport.title}
                   onChange={handleInputChange}
                   className="bug-report__input"
-                  placeholder="Enter a short title"
+                  placeholder="Enter a short, descriptive title"
                   required
+                  maxLength="100"
                 />
+                <small className="bug-report__helper">
+                  {bugReport.title.length}/100 characters
+                </small>
               </div>
 
               <div className="bug-report__form-group">
                 <label htmlFor="description" className="bug-report__label">
-                  Description
+                  Description *
                 </label>
                 <textarea
                   id="description"
@@ -89,47 +181,68 @@ const ReportBugUser = () => {
                   value={bugReport.description}
                   onChange={handleInputChange}
                   className="bug-report__textarea"
-                  placeholder="Explain the issue you're experiencing"
+                  placeholder="Describe the bug in detail. Include steps to reproduce, expected behavior, and actual behavior."
                   required
+                  maxLength="1000"
+                  rows="6"
                 />
+                <small className="bug-report__helper">
+                  {bugReport.description.length}/1000 characters
+                </small>
               </div>
 
               <div className="bug-report__form-group">
                 <label htmlFor="severity" className="bug-report__label">
-                  Severity
+                  Severity Level
                 </label>
-                <select
-                  id="severity"
-                  name="severity"
-                  value={bugReport.severity}
-                  onChange={handleInputChange}
-                  className="bug-report__select"
-                >
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-                  <option value="critical">Critical</option>
-                </select>
+                <div className="bug-report__select-wrapper">
+                  {getSeverityIcon(bugReport.severity)}
+                  <select
+                    id="severity"
+                    name="severity"
+                    value={bugReport.severity}
+                    onChange={handleInputChange}
+                    className="bug-report__select"
+                  >
+                    <option value="low">🟢 Low - Minor cosmetic issues</option>
+                    <option value="medium">🟡 Medium - Affects functionality</option>
+                    <option value="high">🟠 High - Major feature broken</option>
+                    <option value="critical">🔴 Critical - System unusable</option>
+                  </select>
+                </div>
               </div>
 
               <div className="bug-report__form-group">
                 <label htmlFor="deviceInfo" className="bug-report__label">
-                  Device & Browser
+                  Device & Browser Information
                 </label>
-                <input
-                  type="text"
-                  id="deviceInfo"
-                  name="deviceInfo"
-                  value={bugReport.deviceInfo}
-                  onChange={handleInputChange}
-                  className="bug-report__input"
-                  placeholder="e.g., Android 13, Chrome 115"
-                />
+                <div className="bug-report__device-input">
+                  <input
+                    type="text"
+                    id="deviceInfo"
+                    name="deviceInfo"
+                    value={bugReport.deviceInfo}
+                    onChange={handleInputChange}
+                    className="bug-report__input"
+                    placeholder="e.g., Windows 11, Chrome 119, iPhone 14 Pro"
+                  />
+                  <button
+                    type="button"
+                    onClick={autoFillDeviceInfo}
+                    className="bug-report__auto-fill"
+                    title="Auto-fill device information"
+                  >
+                    Auto-fill
+                  </button>
+                </div>
+                <small className="bug-report__helper">
+                  This helps us reproduce and fix the issue faster
+                </small>
               </div>
 
               <div className="bug-report__form-group">
                 <label htmlFor="email" className="bug-report__label">
-                  Your Email
+                  Your Email Address *
                 </label>
                 <input
                   type="email"
@@ -138,18 +251,79 @@ const ReportBugUser = () => {
                   value={bugReport.email}
                   onChange={handleInputChange}
                   className="bug-report__input"
-                  placeholder="Enter your email address"
+                  placeholder="Enter your email for follow-up communication"
                   required
                 />
+                <small className="bug-report__helper">
+                  We'll contact you if we need more information
+                </small>
               </div>
 
-              <button type="submit" className="bug-report__submit">
-                Submit Report
-              </button>
+              <div className="bug-report__actions">
+                <button 
+                  type="submit" 
+                  className="bug-report__submit"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <AiOutlineLoading3Quarters className="bug-report__loading" />
+                      <span>Submitting...</span>
+                    </>
+                  ) : (
+                    <>
+                      <FaPaperPlane />
+                      <span>Submit Bug Report</span>
+                    </>
+                  )}
+                </button>
+                
+                <button
+                  type="button"
+                  onClick={() => {
+                    setBugReport({
+                      title: "",
+                      description: "",
+                      severity: "low",
+                      deviceInfo: "",
+                      email: "",
+                    });
+                    toast.info("Form cleared!", {
+                      position: "bottom-right",
+                      autoClose: 2000,
+                    });
+                  }}
+                  className="bug-report__clear"
+                  disabled={isSubmitting}
+                >
+                  Clear Form
+                </button>
+              </div>
             </form>
           </div>
         </div>
       </div>
+      
+      {/* Toast Container with custom styling */}
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        toastStyle={{
+          borderRadius: "12px",
+          fontFamily: "'Inter', sans-serif",
+          fontSize: "14px",
+          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.12)",
+        }}
+      />
+      
       <Footer />
     </>
   );
