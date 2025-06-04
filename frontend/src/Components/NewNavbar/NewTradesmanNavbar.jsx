@@ -79,6 +79,11 @@ export default function PrimarySearchAppBar() {
         const handleGoHome = () => {
                 navigate('/');
         }
+
+        const handleReportBug = () => {
+                navigate('/provider/dashboard/reportbug');
+        }
+
         const handleLogout = () => {
           localStorage.removeItem('providerToken');
           navigate('/',{state: {logout: true}});
@@ -125,7 +130,7 @@ export default function PrimarySearchAppBar() {
       <MenuItem onClick={updateProfile}>{t("Edit Profile")}</MenuItem>
       {/* <MenuItem onClick={handleHistory}>History</MenuItem> */}
       {/* <MenuItem >Bookmarks</MenuItem> */}
-      <MenuItem >{t("Report a Bug")}</MenuItem>
+      <MenuItem onClick={handleReportBug}>{t("Report a Bug")}</MenuItem>
       <MenuItem onClick={handleLogout} sx={{ color: 'red' }}>{t("LogOut")}</MenuItem>
     </Menu>
   );
