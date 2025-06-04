@@ -22,6 +22,10 @@ import CustomerProfile from "./Pages/Profile/Profile.jsx";
 import WorkerProfile from "./Pages/WorkerProfile/WorkerProfile.jsx"
 import WorkerChatPage from "./Pages/WorkerChatPage/WorkerChatPage.jsx";
 
+
+import ReportBugUser from "./Pages/ReportBugUser/ReportBugUser.jsx";
+import ReportBugWorker from "./Pages/ReportBugWorker/ReportBugWorker.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -76,6 +80,14 @@ const router = createBrowserRouter([
   {
     path : "/provider/dashboard/ChatWithCustomer",
     element: <WorkerChatPage />
+  },
+  {
+    path : "/customer/dashboard/reportbug",
+    element: <ReportBugUser />
+  },
+  {
+    path : "/provider/dashboard/reportbug",
+    element: <ReportBugWorker />
   },
 ]);
 

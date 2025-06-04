@@ -161,6 +161,10 @@ export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }
     navigate('/customer/dashboard');
   };
 
+  const handleReportBug=()=>{
+    navigate("/customer/dashboard/reportbug");
+  }
+
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -201,7 +205,7 @@ export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }
       <MenuItem onClick={handleProfile}>{t("Profile")}</MenuItem>
       <MenuItem onClick={handleHistory}>{t("History")}</MenuItem>
       <MenuItem onClick={handleFavorites}>{t("Favorites")}</MenuItem>
-      <MenuItem>Report a Bug</MenuItem>
+      <MenuItem onClick={handleReportBug}>{t("Report a Bug")}</MenuItem>
       <MenuItem onClick={handleLogout} sx={{ color: 'red' }}>{t("LogOut")}</MenuItem>
     </Menu>
   );
