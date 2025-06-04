@@ -2,6 +2,7 @@ import  { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import axios from "axios";
 import { useLocation, useNavigate } from 'react-router-dom';
+import './WorkerChatPage.css';
 
 const socket = io('http://localhost:5000');
 

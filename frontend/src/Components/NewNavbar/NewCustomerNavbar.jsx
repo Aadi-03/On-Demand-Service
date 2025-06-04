@@ -15,22 +15,20 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
 
 import { TbMessageChatbot } from "react-icons/tb";
-
-import dashboardIcon from "../../assets/dashboard4.png";
-
 import { LuLayoutDashboard } from "react-icons/lu";
 import { ToastContainer, toast } from 'react-toastify';
 
-
-
 import { useNavigate } from 'react-router-dom';
 import logo from "../../assets/LandingPageImages/Company-Logo.png";
-
-
 import { useTranslation } from 'react-i18next';
+
+// Import Chatbot component
+import Chatbot from '../Chatbot/Chatbot';
+import './NewCustomerNavbar.css';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -62,7 +60,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -73,30 +70,40 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }) {
-
-  const {t}=useTranslation();
-
+  const { t } = useTranslation();
+  
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  
+  // Chatbot state
+  const [isChatbotOpen, setIsChatbotOpen] = React.useState(false);
+  const [unreadMessages, setUnreadMessages] = React.useState(0);
 
+  let debounceTimeout;
 
-  let debounceTimeout; // Global timeout reference
+  // Chatbot functions
+  const toggleChatbot = () => {
+    setIsChatbotOpen(!isChatbotOpen);
+    if (!isChatbotOpen) {
+      setUnreadMessages(0); // Clear unread messages when opening chatbot
+    }
+  };
+
+  const handleNewMessage = () => {
+    if (!isChatbotOpen) {
+      setUnreadMessages(prev => prev + 1);
+    }
+  };
 
   const handleSearch = (event) => {
     const keyword = event.target.value;
-
-    // Clear previous timeout to prevent multiple requests
     clearTimeout(debounceTimeout);
 
-    // Set loading state to true when search begins
     if (setLoading) {
       setLoading(true);
     }
 
-    // Set a new timeout (500ms delay)
     debounceTimeout = setTimeout(() => {
-      // console.log("Search:", keyword);
-
       let config = {
         method: "get",
         maxBodyLength: Infinity,
@@ -117,7 +124,6 @@ export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }
         } catch (error) {
           console.log(error);
         } finally {
-          // Set loading state to false when search completes
           if (setLoading) {
             setLoading(false);
           }
@@ -125,31 +131,35 @@ export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }
       }
 
       makeRequest();
-    }, 500); // Adjust debounce delay as needed
+    }, 500);
   };
 
   const navigate = useNavigate();
 
   const handleHistory = () => {
     navigate('/customer/dashboard/history');
-  }
+  };
 
   const handleGoHome = () => {
     navigate('/');
-  }
+  };
+
   const handleFavorites = () => {
     navigate('/customer/dashboard/favorites');
-  }
+  };
+
   const handleProfile = () => {
     navigate('/customer/dashboard/profile');
-  }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('customerToken');
     navigate('/', { state: { logout: true } });
-  }
-  const handleDashboard=()=>{
+  };
+
+  const handleDashboard = () => {
     navigate('/customer/dashboard');
-  }
+  };
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -189,7 +199,6 @@ export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleProfile}>{t("Profile")}</MenuItem>
-      {/* <MenuItem >Edit Profile</MenuItem> */}
       <MenuItem onClick={handleHistory}>{t("History")}</MenuItem>
       <MenuItem onClick={handleFavorites}>{t("Favorites")}</MenuItem>
       <MenuItem>Report a Bug</MenuItem>
@@ -214,6 +223,14 @@ export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
+      <MenuItem onClick={toggleChatbot}>
+        <IconButton size="large" aria-label="chatbot support" color="inherit">
+          <Badge badgeContent={unreadMessages > 0 ? unreadMessages : null} color="error">
+            <TbMessageChatbot style={{ fontSize: "1.5rem" }} />
+          </Badge>
+        </IconButton>
+        <p>Chat Support</p>
+      </MenuItem>
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
@@ -268,7 +285,13 @@ export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            <img src={logo} alt="" className="logo" style={{ height: '3.5rem', cursor: "Pointer" }} onClick={handleGoHome} />
+            <img 
+              src={logo} 
+              alt="" 
+              className="logo" 
+              style={{ height: '3.5rem', cursor: "pointer" }} 
+              onClick={handleGoHome} 
+            />
           </Typography>
           <Search>
             <SearchIconWrapper>
@@ -282,24 +305,48 @@ export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <LuLayoutDashboard  onClick={handleDashboard} style={{cursor: "Pointer", position: "relative", top: "0.9rem", fontSize: "1.8rem" , marginRight : "1rem" }}/>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-            <TbMessageChatbot style={{ fontSize : "2rem" }}/>
+            <LuLayoutDashboard 
+              onClick={handleDashboard} 
+              style={{
+                cursor: "pointer", 
+                position: "relative", 
+                top: "0.9rem", 
+                fontSize: "1.8rem", 
+                marginRight: "1rem"
+              }}
+            />
+            <IconButton 
+              size="large" 
+              aria-label="chatbot support" 
+              color="inherit"
+              onClick={toggleChatbot}
+              sx={{
+                color: isChatbotOpen ? '#4CAF50' : 'inherit',
+                transition: 'color 0.3s ease'
+              }}
+            >
+              <Badge badgeContent={unreadMessages > 0 ? unreadMessages : null} color="error">
+                <TbMessageChatbot style={{ fontSize: "2rem" }} />
+              </Badge>
             </IconButton>
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={10} color="error" sx={{
-                '& .MuiBadge-badge': {
-                  top: 10,  // Adjust vertical alignment
-                  right: 10.5, // Adjust horizontal alignment
-                  fontSize: '0.6rem', // Optional: Adjust text size
-                  minWidth: '18px', // Adjust badge width
-                  height: '18px', // Adjust badge height
-                },
-              }}>
+              <Badge 
+                badgeContent={10} 
+                color="error" 
+                sx={{
+                  '& .MuiBadge-badge': {
+                    top: 10,
+                    right: 10.5,
+                    fontSize: '0.6rem',
+                    minWidth: '18px',
+                    height: '18px',
+                  },
+                }}
+              >
                 <NotificationsIcon sx={{ fontSize: 32 }} />
               </Badge>
             </IconButton>
@@ -331,6 +378,28 @@ export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      
+      {/* Floating Chatbot Widget */}
+      {isChatbotOpen && (
+        <div className="floating-chatbot">
+          <div className="chatbot-header">
+            <div className="chatbot-title">
+              <TbMessageChatbot style={{ fontSize: "1.2rem", marginRight: "8px" }} />
+              Chat Support
+            </div>
+            <IconButton 
+              onClick={toggleChatbot}
+              size="small"
+              sx={{ color: 'white' }}
+            >
+              <CloseIcon  onClick = {() => setIsChatbotOpen(!isChatbotOpen)}/>
+            </IconButton>
+          </div>
+          <div className="chatbot-content">
+            <Chatbot onNewMessage={handleNewMessage} />
+          </div>
+        </div>
+      )}
     </Box>
   );
 }
