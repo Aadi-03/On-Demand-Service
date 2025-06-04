@@ -25,8 +25,8 @@ const ReportBugUser = () => {
     e.preventDefault();
     try {
       await emailjs.send(
-        "",
-        "",
+        `${import.meta.env.VITE_APP_EMAIL_SERVER_ID}`,
+        `${import.meta.env.VITE_APP_EMAIL_TEMPLATE_ID}`,
         {
           message: `Bug Report Details
                         Title: ${bugReport.title}
@@ -35,7 +35,7 @@ const ReportBugUser = () => {
                         Device Info: ${bugReport.deviceInfo}
                         Email: ${bugReport.email}`,
         },
-        ""
+        `${import.meta.env.VITE_APP_EMAIL_PUBLIC_KEY}`
       );
 
       alert("Bug report sent successfully!");
