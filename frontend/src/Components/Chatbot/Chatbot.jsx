@@ -21,11 +21,9 @@ const Chatbot = () => {
                 topK: 64,
                 maxOutputTokens: 8192,
                 responseMimeType: "text/plain",
-        };
-
-        const run = async (userInput) => {
+        };        const run = async (userInput) => {
                 if (question === '') return;
-                const chatContainer = document.querySelector('.chats');
+                const chatContainer = document.querySelector('.chatbotchats');
                 const userMessage = document.createElement('div');
                 userMessage.classList.add('message', 'user');
                 userMessage.textContent = question;
@@ -53,10 +51,8 @@ const Chatbot = () => {
                 const result = await chatSession.sendMessage(userInput);
                 setAnswer(result.response.text());
                 typeEffect(result.response.text());
-        };
-
-        const typeEffect = (text) => {
-                const chatContainer = document.querySelector('.chats');
+        };        const typeEffect = (text) => {
+                const chatContainer = document.querySelector('.chatbotchats');
                 const botMessage = document.createElement('div');
                 botMessage.classList.add('message', 'bot');
                 chatContainer.appendChild(botMessage);
@@ -84,8 +80,8 @@ const Chatbot = () => {
 
         return (
                 <>
-                        <div className="chat-box">
-                                <div className="chats">
+                        <div className="chatbot-box">
+                                <div className="chatbotchats">
                                         <div className="message bot">
                                                 Hi There! How may I help you?
                                         </div>

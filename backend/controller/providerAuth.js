@@ -179,4 +179,45 @@ router.patch("/rejectOrder",rejectOrder);
 // this route will change the completed state order to pending
 router.patch("/redoOrder",reOpenOrder);
 
+// Route to delete a provider (admin only)
+router.delete("/deleteprovider/:providerId", async (req, res) => {
+  try {
+    const { providerId } = req.params;
+    console.log("Attempting to delete provider with ID:", providerId);
+    
+    if (!providerId || isNaN(providerId)) {
+      return res.status(400).json({ error: "Valid Provider ID is required" });
+    }
+
+    const providerIdInt = parseInt(providerId);
+
+    // Check if provider exists
+    const existingProvider = await prisma.provider.findUnique({
+      where: { id: providerIdInt },
+    });
+
+    if (!existingProvider) {
+      return res.status(404).json({ error: "Provider not found" });
+    }
+
+    // Delete the provider (assuming cascade delete is set up in your schema)
+    await prisma.provider.delete({
+      where: { id: providerIdInt },
+    });
+
+    console.log("Provider deleted successfully:", providerIdInt);
+    
+    res.status(200).json({
+      message: "Provider deleted successfully",
+      deletedProviderId: providerIdInt,
+    });
+  } catch (error) {
+    console.error("Error deleting provider:", error);
+    res.status(500).json({
+      error: "An error occurred while deleting the provider",
+      details: error.message,
+    });
+  }
+});
+
 export default router;

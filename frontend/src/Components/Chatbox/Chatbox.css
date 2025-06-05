@@ -2,7 +2,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 400px;
+  min-height: 300px;
+  max-height: 80vh;
   border: 1px solid #ccc;
   border-radius: 0 0 10px 10px;
   overflow: hidden; /* Changed from scroll to hidden */
@@ -12,8 +13,10 @@
   display: flex;
   flex-direction: column;
   padding: 10px;
-  overflow-y: scroll; /* Changed from scroll to auto */
+  overflow-y: auto; /* Changed from scroll to auto */
   flex: 1; /* Take up available space */
+  min-height: 200px;
+  max-height: calc(80vh - 80px); /* Account for input area */
 }
 
 .input-box {
@@ -50,6 +53,7 @@
   margin-bottom: 8px;
   padding: 0 5px;
   min-height: fit-content;
+  height: auto; /* Ensure natural height */
 }
 
 .my-message {
@@ -94,4 +98,33 @@
 
 .chat-box::-webkit-scrollbar-thumb:hover {
   background: #a1a1a1;
+}
+
+/* Responsive height adjustments */
+@media (max-height: 600px) {
+  .chat-container {
+    min-height: 250px;
+    max-height: 85vh;
+  }
+  
+  .chat-box {
+    min-height: 150px;
+    max-height: calc(85vh - 60px);
+  }
+}
+
+@media (max-height: 480px) {
+  .chat-container {
+    min-height: 200px;
+    max-height: 90vh;
+  }
+  
+  .chat-box {
+    min-height: 120px;
+    max-height: calc(90vh - 50px);
+  }
+  
+  .input-box {
+    padding: 8px;
+  }
 }

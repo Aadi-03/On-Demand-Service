@@ -385,24 +385,7 @@ export default function PrimarySearchAppBar({ setProviderData, fav, setLoading }
       
       {/* Floating Chatbot Widget */}
       {isChatbotOpen && (
-        <div className="floating-chatbot">
-          <div className="chatbot-header">
-            <div className="chatbot-title">
-              <TbMessageChatbot style={{ fontSize: "1.2rem", marginRight: "8px" }} />
-              Chat Support
-            </div>
-            <IconButton 
-              onClick={toggleChatbot}
-              size="small"
-              sx={{ color: 'white' }}
-            >
-              <CloseIcon  onClick = {() => setIsChatbotOpen(!isChatbotOpen)}/>
-            </IconButton>
-          </div>
-          <div className="chatbot-content">
             <Chatbot onNewMessage={handleNewMessage} />
-          </div>
-        </div>
       )}
     </Box>
   );

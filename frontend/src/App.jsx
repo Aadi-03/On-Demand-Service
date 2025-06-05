@@ -26,6 +26,8 @@ import WorkerChatPage from "./Pages/WorkerChatPage/WorkerChatPage.jsx";
 import ReportBugUser from "./Pages/ReportBugUser/ReportBugUser.jsx";
 import ReportBugWorker from "./Pages/ReportBugWorker/ReportBugWorker.jsx";
 
+import AdminPage from "./Admin/AdminPage.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -88,6 +90,10 @@ const router = createBrowserRouter([
   {
     path : "/provider/dashboard/reportbug",
     element: <ReportBugWorker />
+  },
+  {
+    path : "/admin",
+    element: <AdminPage />
   },
 ]);
 

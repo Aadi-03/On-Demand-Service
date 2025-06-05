@@ -8,6 +8,95 @@ const router = express.Router();
 
 router.use(verifyJwt);
 
+
+// Add this route after the existing routes
+
+// this route will provide all the customers in the database (for admin use)
+router.get("/bulkcustomer", async (req, res) => {
+  try {
+    const customers = await prisma.customer.findMany({
+      include: {
+        address: true,
+        feedbacks: true,
+        orders: {
+          include: {
+            doneBy: true,
+          },
+        },
+        favorites: {
+          include: {
+            provider: true,
+          },
+        },
+      },
+    });
+
+    const formattedCustomers = customers.map((customer) => {
+      // Format address
+      const { houseNumber, streetName, state, country, pincode } = customer.address || {};
+      const formattedAddress = customer.address 
+        ? `${houseNumber}, ${streetName}, ${state}, ${country} - ${pincode}`
+        : "No address provided";
+
+      // Calculate customer age
+      const customerAge = customer.dob 
+        ? new Date().getFullYear() - new Date(customer.dob).getFullYear()
+        : null;
+
+      // Calculate total orders and completed orders
+      const totalOrders = customer.orders.length;
+      const completedOrders = customer.orders.filter(order => order.completed).length;
+      const pendingOrders = customer.orders.filter(order => !order.completed).length;
+
+      // Get favorite providers count
+      const favoriteProvidersCount = customer.favorites.length;
+
+      // Calculate average feedback given by customer
+      let averageFeedbackGiven = 0;
+      if (customer.feedbacks.length > 0) {
+        averageFeedbackGiven = customer.feedbacks.reduce((acc, feedback) => acc + feedback.star, 0) / customer.feedbacks.length;
+        averageFeedbackGiven = Math.round(averageFeedbackGiven * 100) / 100;
+      }
+
+      return {
+        customerId: customer.id,
+        customerName: customer.firstName + " " + customer.lastName,
+        customerEmail: customer.email,
+        customerPhone: customer.phoneNumber,
+        customerAge: customerAge,
+        customerGender: customer.gender,
+        customerAddress: formattedAddress,
+        customerCreatedAt: customer.createdAt,
+        customerUpdatedAt: customer.updatedAt,
+        totalOrders: totalOrders,
+        completedOrders: completedOrders,
+        pendingOrders: pendingOrders,
+        favoriteProvidersCount: favoriteProvidersCount,
+        averageFeedbackGiven: averageFeedbackGiven,
+        photoLink: customer.photoLink,
+        isActive: customer.id ? true : false, // You can add an 'active' field to your schema if needed
+      };
+    });
+
+    // Sort customers by creation date (newest first)
+    formattedCustomers.sort((a, b) => new Date(b.customerCreatedAt) - new Date(a.customerCreatedAt));
+
+    res.status(200).json({
+      customers: formattedCustomers,
+      totalCount: formattedCustomers.length,
+    });
+  } catch (error) {
+    console.error("Error fetching customers:", error);
+    res.status(500).json({
+      error: "An error occurred while fetching customers.",
+      details: error.message,
+    });
+  }
+});
+
+
+
+
 // this route will provide the detail of a customer
 router.get("/profile", async (req, res) => {
   try {
@@ -497,5 +586,47 @@ router.patch("/markCompletedOrder",completedOrder);
 
 // this route will delete the order by the customer
 router.delete("/deleteOrder", deleteOrder); 
+
+// Make sure you have this route
+
+router.delete("/deletecustomer/:customerId", async (req, res) => {
+  try {
+    const { customerId } = req.params;
+    console.log("Attempting to delete customer with ID:", customerId);
+    
+    if (!customerId || isNaN(customerId)) {
+      return res.status(400).json({ error: "Valid Customer ID is required" });
+    }
+
+    const customerIdInt = parseInt(customerId);
+
+    // Check if customer exists
+    const existingCustomer = await prisma.customer.findUnique({
+      where: { id: customerIdInt },
+    });
+
+    if (!existingCustomer) {
+      return res.status(404).json({ error: "Customer not found" });
+    }
+
+    // Delete the customer (assuming cascade delete is set up in your schema)
+    await prisma.customer.delete({
+      where: { id: customerIdInt },
+    });
+
+    console.log("Customer deleted successfully:", customerIdInt);
+    
+    res.status(200).json({
+      message: "Customer deleted successfully",
+      deletedCustomerId: customerIdInt,
+    });
+  } catch (error) {
+    console.error("Error deleting customer:", error);
+    res.status(500).json({
+      error: "An error occurred while deleting the customer",
+      details: error.message,
+    });
+  }
+});
 
 export default router;
