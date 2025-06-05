@@ -138,7 +138,7 @@ const CustomerProfile = () => {
                                         </div>
                                         
                                         <div className="customer-profile-welcome">
-                                                <h2 className="customer-profile-welcome-name">{t(`Hi, ${user.firstName}!`)}</h2>
+                                                <h2 className="customer-profile-welcome-name">{t(`Hi, ${t(user.firstName)}!`)}</h2>
                                                 <p className="customer-profile-welcome-message">{t('Welcome to your profile dashboard')}</p>
                                         </div>
                                         
@@ -155,7 +155,7 @@ const CustomerProfile = () => {
                                                                         </div>
                                                                         <div className="customer-profile-item-content">
                                                                                 <div className="customer-profile-item-label">{t('Full Name')}</div>
-                                                                                <div className="customer-profile-item-value">{user.firstName} {user.lastName}</div>
+                                                                                <div className="customer-profile-item-value">{t(user.firstName)} {t(user.lastName)}</div>
                                                                         </div>
                                                                 </div>
                                                                 
@@ -185,7 +185,7 @@ const CustomerProfile = () => {
                                                                         </div>
                                                                         <div className="customer-profile-item-content">
                                                                                 <div className="customer-profile-item-label">{t('Gender')}</div>
-                                                                                <div className="customer-profile-item-value">{user.gender}</div>
+                                                                                <div className="customer-profile-item-value">{t(user.gender)}</div>
                                                                         </div>
                                                                 </div>
                                                                 

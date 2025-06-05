@@ -26,7 +26,7 @@ const Footer = () => {
         <div className="container">
           <h1>{t("For Customer")}</h1>
           <p>{t("Contact Us")}</p>
-          <p>{t("On Demad Service Reviews")}</p>
+          <p>{t("On Demand Service Reviews")}</p>
         </div>
         <div className="container">
           <h1>{t("For Professionals")}</h1>

@@ -10,6 +10,8 @@ import Footer from "../../Components/Footer/Footer";
 import { FaBug, FaPaperPlane, FaCheckCircle, FaExclamationTriangle, FaTools } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
+import { useTranslation } from "react-i18next";
+
 const ReportBugWorker = () => {
   const [bugReport, setBugReport] = useState({
     title: "",
@@ -18,6 +20,8 @@ const ReportBugWorker = () => {
     deviceInfo: "",
     email: "",
   });
+
+  const { t } = useTranslation();
   
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -145,11 +149,10 @@ const ReportBugWorker = () => {
           <div className="bug-report__container">
             <div className="bug-report__header">
               <FaTools className="bug-report__icon" />
-              <h1 className="bug-report__title">Report a Technical Issue</h1>
+              <h1 className="bug-report__title">{t("Report a Technical Issue")}</h1>
             </div>
             <p className="bug-report__subtitle">
-              As a service professional, your feedback helps us improve the platform for everyone. 
-              Report any technical issues you encounter while managing your work.
+              {t("As a service professional, your feedback helps us improve the platform for everyone. Report any technical issues you encounter while managing your work.")}
             </p>
             
             <form onSubmit={handleSubmit} className="bug-report__form">

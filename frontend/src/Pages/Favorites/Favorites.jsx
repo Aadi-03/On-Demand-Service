@@ -11,9 +11,13 @@ import axios from "axios";
 
 import { ToastContainer, toast } from "react-toastify";
 
+import { useTranslation } from "react-i18next";
+
 const Favorites = () => {
   const [providerData, setProviderData] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const { t } = useTranslation();
   
   useEffect(() => {
     // console.log(localStorage.getItem("customerToken"));
@@ -118,7 +122,7 @@ const Favorites = () => {
       />
       <ToastContainer position="bottom-right" autoClose={5000} theme="light" />
       <div className="favorites">
-        <div className="heading">Favorites</div>
+        <div className="heading">{t("Favorites")}</div>
         <div className="card-container">
           {loading ? (
             // Show skeleton cards while loading

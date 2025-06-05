@@ -10,6 +10,8 @@ import Footer from "../../Components/Footer/Footer.jsx";
 import { FaBug, FaPaperPlane, FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
+import {  useTranslation } from "react-i18next";
+
 const ReportBugUser = () => {
   const [bugReport, setBugReport] = useState({
     title: "",
@@ -18,6 +20,8 @@ const ReportBugUser = () => {
     deviceInfo: "",
     email: "",
   });
+
+  const { t } = useTranslation();
   
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -144,16 +148,16 @@ const ReportBugUser = () => {
           <div className="bug-report__container">
             <div className="bug-report__header">
               <FaBug className="bug-report__icon" />
-              <h1 className="bug-report__title">Report a Bug</h1>
+              <h1 className="bug-report__title">{t("Report a Bug")}</h1>
             </div>
             <p className="bug-report__subtitle">
-              Help us improve by reporting bugs you encounter. Your feedback makes our platform better!
+              {t("Help us improve by reporting bugs you encounter. Your feedback makes our platform better!")}
             </p>
             
             <form onSubmit={handleSubmit} className="bug-report__form">
               <div className="bug-report__form-group">
                 <label htmlFor="title" className="bug-report__label">
-                  Bug Title *
+                  {t("Bug Title")} *
                 </label>
                 <input
                   type="text"
@@ -162,18 +166,18 @@ const ReportBugUser = () => {
                   value={bugReport.title}
                   onChange={handleInputChange}
                   className="bug-report__input"
-                  placeholder="Enter a short, descriptive title"
+                  placeholder={t("Enter a short, descriptive title")}
                   required
                   maxLength="100"
                 />
                 <small className="bug-report__helper">
-                  {bugReport.title.length}/100 characters
+                  {bugReport.title.length}/100 {t("characters")}
                 </small>
               </div>
 
               <div className="bug-report__form-group">
                 <label htmlFor="description" className="bug-report__label">
-                  Description *
+                  {t("Description")} *
                 </label>
                 <textarea
                   id="description"
@@ -181,19 +185,19 @@ const ReportBugUser = () => {
                   value={bugReport.description}
                   onChange={handleInputChange}
                   className="bug-report__textarea"
-                  placeholder="Describe the bug in detail. Include steps to reproduce, expected behavior, and actual behavior."
+                  placeholder={t("Describe the bug in detail. Include steps to reproduce, expected behavior, and actual behavior.")}
                   required
                   maxLength="1000"
                   rows="6"
                 />
                 <small className="bug-report__helper">
-                  {bugReport.description.length}/1000 characters
+                  {bugReport.description.length}/1000 {t("characters")}
                 </small>
               </div>
 
               <div className="bug-report__form-group">
                 <label htmlFor="severity" className="bug-report__label">
-                  Severity Level
+                  {t("Severity Level")}
                 </label>
                 <div className="bug-report__select-wrapper">
                   {getSeverityIcon(bugReport.severity)}
@@ -204,17 +208,17 @@ const ReportBugUser = () => {
                     onChange={handleInputChange}
                     className="bug-report__select"
                   >
-                    <option value="low">🟢 Low - Minor cosmetic issues</option>
-                    <option value="medium">🟡 Medium - Affects functionality</option>
-                    <option value="high">🟠 High - Major feature broken</option>
-                    <option value="critical">🔴 Critical - System unusable</option>
+                    <option value="low">🟢 {t("Low - Minor cosmetic issues")}</option>
+                    <option value="medium">🟡 {t("Medium - Affects functionality")}</option>
+                    <option value="high">🟠 {t("High - Major feature broken")}</option>
+                    <option value="critical">🔴 {t("Critical - System unusable")}</option>
                   </select>
                 </div>
               </div>
 
               <div className="bug-report__form-group">
                 <label htmlFor="deviceInfo" className="bug-report__label">
-                  Device & Browser Information
+                  {t("Device & Browser Information")}
                 </label>
                 <div className="bug-report__device-input">
                   <input
@@ -224,25 +228,25 @@ const ReportBugUser = () => {
                     value={bugReport.deviceInfo}
                     onChange={handleInputChange}
                     className="bug-report__input"
-                    placeholder="e.g., Windows 11, Chrome 119, iPhone 14 Pro"
+                    placeholder={t("e.g., Windows 11, Chrome 119, iPhone 14 Pro")}
                   />
                   <button
                     type="button"
                     onClick={autoFillDeviceInfo}
                     className="bug-report__auto-fill"
-                    title="Auto-fill device information"
+                    title={t("Auto-fill device information")}
                   >
-                    Auto-fill
+                    {t("Auto-fill")}
                   </button>
                 </div>
                 <small className="bug-report__helper">
-                  This helps us reproduce and fix the issue faster
+                  {t("This helps us reproduce and fix the issue faster")}
                 </small>
               </div>
 
               <div className="bug-report__form-group">
                 <label htmlFor="email" className="bug-report__label">
-                  Your Email Address *
+                  {t("Your Email Address")} *
                 </label>
                 <input
                   type="email"
@@ -251,11 +255,11 @@ const ReportBugUser = () => {
                   value={bugReport.email}
                   onChange={handleInputChange}
                   className="bug-report__input"
-                  placeholder="Enter your email for follow-up communication"
+                  placeholder={t("Enter your email for follow-up communication")}
                   required
                 />
                 <small className="bug-report__helper">
-                  We'll contact you if we need more information
+                  {t("We'll contact you if we need more information")}
                 </small>
               </div>
 
@@ -268,12 +272,12 @@ const ReportBugUser = () => {
                   {isSubmitting ? (
                     <>
                       <AiOutlineLoading3Quarters className="bug-report__loading" />
-                      <span>Submitting...</span>
+                      <span>{t("Submitting...")}</span>
                     </>
                   ) : (
                     <>
                       <FaPaperPlane />
-                      <span>Submit Bug Report</span>
+                      <span>{t("Submit Bug Report")}</span>
                     </>
                   )}
                 </button>
@@ -288,7 +292,7 @@ const ReportBugUser = () => {
                       deviceInfo: "",
                       email: "",
                     });
-                    toast.info("Form cleared!", {
+                    toast.info(t("Form cleared!"), {
                       position: "bottom-right",
                       autoClose: 2000,
                     });
@@ -296,7 +300,7 @@ const ReportBugUser = () => {
                   className="bug-report__clear"
                   disabled={isSubmitting}
                 >
-                  Clear Form
+                  {t("Clear Form")}
                 </button>
               </div>
             </form>
@@ -304,7 +308,6 @@ const ReportBugUser = () => {
         </div>
       </div>
       
-      {/* Toast Container with custom styling */}
       <ToastContainer
         position="bottom-right"
         autoClose={5000}

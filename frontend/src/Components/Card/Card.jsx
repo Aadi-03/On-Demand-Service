@@ -29,12 +29,12 @@ const Card = ({ providerId,name, age, distance, workType, rating, phoneNo, statu
                         </div>
                         <div className="details">
                             <div className="name-age">
-                                <span className="name">{name}</span>
+                                <span className="name">{t(name)}</span>
                                 <span className="age">{age} {t("yrs")}</span>
                             </div>
                             {distance && <div className="distance">{distance} {t("km away")}</div>}
                             <div className="type">
-                                {workType}
+                                {t(workType)}
                                 <Rating name="half-rating-read" value={rating} precision={0.1} readOnly size="small" />
                             </div>
                         </div>
